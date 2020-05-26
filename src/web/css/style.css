@@ -12,22 +12,7 @@ body {
   width: 40vw;
 }
 
-#p1 {
+#head {
   font-size: 50px;
-  font-family: Comic Sans MS, Comic Sans, cursive;
-}
-
-#p2 {
-  font-size: 30px;
-  font-family: Comic Sans MS, Comic Sans, cursive;
-}
-
-#p3 {
-  font-size: 50px;
-  font-family: Comic Sans MS, Comic Sans, cursive;
-}
-
-#p4 {
-  font-size: 30px;
   font-family: Comic Sans MS, Comic Sans, cursive;
 }
