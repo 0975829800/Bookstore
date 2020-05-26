@@ -1,0 +1,33 @@
+body {
+  background-image: url(..//image/004.jpg);
+  background-color: rgb(170, 47, 47);
+}
+
+#map {
+  margin-top: 15%;
+  margin-left: 30%;
+  position: absolute;
+  left: 0;
+  height: 70%;
+  width: 40vw;
+}
+
+#p1 {
+  font-size: 50px;
+  font-family: Comic Sans MS, Comic Sans, cursive;
+}
+
+#p2 {
+  font-size: 30px;
+  font-family: Comic Sans MS, Comic Sans, cursive;
+}
+
+#p3 {
+  font-size: 50px;
+  font-family: Comic Sans MS, Comic Sans, cursive;
+}
+
+#p4 {
+  font-size: 30px;
+  font-family: Comic Sans MS, Comic Sans, cursive;
+}
