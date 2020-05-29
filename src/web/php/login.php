@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<title>login.php</title>
+   <meta charset="utf-8">
+    <title>書福</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
 <?php
@@ -35,19 +38,53 @@ if ($Email != "" && $password != "") {
       $_SESSION["login_session"] = true;
       header("Location: index.php");
    } else {  // 登入失敗
-      echo "<center><font color='red'>";
-      echo "使用者名稱或密碼錯誤!<br/>";
-      echo "</font>";
+      echo '<script language="javascript">';
+      echo 'alert("使用者帳號或密碼錯誤哦~~~");';
+      echo '</script>';
       $_SESSION["login_session"] = false;
    }
    mysqli_close($link);  // 關閉資料庫連接  
 }
 ?>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <div id="header" class="text-center">
+        <a class="col-6" href="index.html" style="color: rgb(199, 255, 125); font-size: 1.2cm; font-weight: 500;">書福</a>
+    </div>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li>
+                    <a class="nav-link" href="index.html">首頁 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="cart.html"> 購物車 <span class="sr-only">(current)</span></a>
+                </li>
+                <li>
+                    <form class="form-inline" action="/action_page.php">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                        <a class="btn btn-outline-success my-2 my-sm-0" href="product_list.html" role="button">
+                            搜尋</a>
+                    </form>
+                </li>
+            </ul>
+            
+            <form class="form-inline mt-2 mt-md-0">
+                <a class="btn btn-outline-success my-2 my-sm-0" href="login.html" role="button">
+                    登入</a>
+            </form>
+        </div>
+    </nav>
 <form action="login.php" method="post" >
-  <div align="center" style="background-color:#82FF82;padding:10px;margin-bottom:5px;">
+  <div align="center" style="padding:10px;margin-bottom:5px;">
     <br>
     <label for="Email">Email:</label>
-    <input type="text" name="Email" id="Email" required autofocus/>
+    <input type="email" name="Email" id="Email" required autofocus/>
     <br>  
     <br> 
     <label for="password">密碼:</label>
