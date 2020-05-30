@@ -1,53 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <meta charset="utf-8">
-    <title>login</title>
+<meta charset="utf-8">
+    <title>signup</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
 <?php
-session_start();  // 啟用交談期
-$Email = "";  $password = "";
-// 取得表單欄位值
-if ( isset($_POST["Email"]))
-   $Email = $_POST["Email"];
-if ( isset($_POST["password"]) )
-   $password = $_POST["password"];
-// 檢查是否輸入使用者名稱和密碼
-if ($Email != "" && $password != "") {
-   // 建立MySQL的資料庫連接 
-   $link = mysqli_connect("220.132.211.121","ZYS",
-                          "qwe12345","bookmarket")
+    $Email = "";
+    $password = "";
+    $address = "";
+
+    if ( isset($_POST["Email"]) )
+        $Email = $_POST["Email"];
+    if ( isset($_POST["password"]) )
+        $password = $_POST["password"];
+    if ( isset($_POST["address"]) )
+        $address = $_POST["address"];
+
+    if ($Email != "" && $password != "" && $address != "") {
+        $link = mysqli_connect("220.132.211.121","ZYS",
+                       "qwe12345","bookstore")
         or die("無法開啟MySQL資料庫連接!<br/>");
-   //送出UTF8編碼的MySQL指令
-   mysqli_query($link, 'SET NAMES utf8'); 
-   // 建立SQL指令字串
-   $sql = "SELECT * FROM users WHERE password='";
-   $sql.= $password."' AND Email='".$Email."'";
-//    echo $Email;
-//    echo $password;
-   // 執行SQL查詢
-   $result = mysqli_query($link, $sql);
-   $total_records = mysqli_num_rows($result);
-   // 是否有查詢到使用者記錄
-   if ( $total_records > 0 ) {
-      // 成功登入, 指定Session變數
-      echo '<script language="javascript">';
-      echo 'alert("登入成功");';
-      echo '</script>';
-      $_SESSION["login_session"] = true;
-      header("Location: index.php");
-   } else {  // 登入失敗
-      echo '<script language="javascript">';
-      echo 'alert("使用者帳號或密碼錯誤哦~~~");';
-      echo '</script>';
-      $_SESSION["login_session"] = false;
-   }
-   mysqli_close($link);  // 關閉資料庫連接  
-}
+
+        mysqli_query($link, 'SET NAMES utf8'); 
+        $sql = "INSERT INTO users(ID, Flag, Email, password, address) VALUES (354,1,\"$Email\",\"$password\",\"$address\")"; // 指定SQL字串
+        // echo "SQL字串: $sql <br/>";
+        // echo "資料庫bookstore開啟成功!<br/>";
+        //送出UTF8編碼的MySQL指令
+        
+        echo mysqli_query($link, $sql);
+    }
+
+   // 建立MySQL的資料庫連接 
+
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -86,9 +74,9 @@ if ($Email != "" && $password != "") {
             </form>
         </div>
     </nav>
-<form action="login.php" method="post" >
+<form action="signup.php" method="post" >
   <div align="center" style="padding:10px;margin-bottom:5px;">
-    <h1 style=font-weight:bold;> 登入 </h1>
+    <h1 style=font-weight:bold;> 註冊 </h1>
     <br>
     <label for="Email">Email:</label>
     <input type="email" name="Email" id="Email" required autofocus/>
@@ -98,7 +86,11 @@ if ($Email != "" && $password != "") {
     <input type="password" name="password" id="password" required/>
     <br>
     <br>
-    <input type="submit" value="登入"/>
+    <label for="address">地址:</label>
+    <input type="text"" name="address" id="address" required/>
+    <br>
+    <br>
+    <input type="submit" value="註冊"/>
   </div>
 </form>
 </body>

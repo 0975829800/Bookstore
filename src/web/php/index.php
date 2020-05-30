@@ -32,7 +32,7 @@
                     <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="../html/cart.html"> 購物車 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
                 </li>
                 <li>
                     <form class="form-inline" action="/action_page.php">
@@ -42,7 +42,10 @@
                     </form>
                 </li>
             </ul>
-            
+            <form class="form-inline mt-2 mt-md-0">
+                <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
+                    註冊</a>
+            </form>
             <form class="form-inline mt-2 mt-md-0">
                 <a class="btn btn-outline-success my-2 my-sm-0" href=".\login.php" role="button">
                     登入</a>

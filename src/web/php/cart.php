@@ -1,53 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <meta charset="utf-8">
-    <title>login</title>
+<meta charset="utf-8"/>
+    <title>書福</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
 <?php
-session_start();  // 啟用交談期
-$Email = "";  $password = "";
-// 取得表單欄位值
-if ( isset($_POST["Email"]))
-   $Email = $_POST["Email"];
-if ( isset($_POST["password"]) )
-   $password = $_POST["password"];
-// 檢查是否輸入使用者名稱和密碼
-if ($Email != "" && $password != "") {
-   // 建立MySQL的資料庫連接 
-   $link = mysqli_connect("220.132.211.121","ZYS",
-                          "qwe12345","bookmarket")
-        or die("無法開啟MySQL資料庫連接!<br/>");
-   //送出UTF8編碼的MySQL指令
-   mysqli_query($link, 'SET NAMES utf8'); 
-   // 建立SQL指令字串
-   $sql = "SELECT * FROM users WHERE password='";
-   $sql.= $password."' AND Email='".$Email."'";
-//    echo $Email;
-//    echo $password;
-   // 執行SQL查詢
-   $result = mysqli_query($link, $sql);
-   $total_records = mysqli_num_rows($result);
-   // 是否有查詢到使用者記錄
-   if ( $total_records > 0 ) {
-      // 成功登入, 指定Session變數
-      echo '<script language="javascript">';
-      echo 'alert("登入成功");';
-      echo '</script>';
-      $_SESSION["login_session"] = true;
-      header("Location: index.php");
-   } else {  // 登入失敗
-      echo '<script language="javascript">';
-      echo 'alert("使用者帳號或密碼錯誤哦~~~");';
-      echo '</script>';
-      $_SESSION["login_session"] = false;
-   }
-   mysqli_close($link);  // 關閉資料庫連接  
-}
+// session_start();  // 啟用交談期
+// // 檢查Session變數是否存在, 表示是否已成功登入
+// if ( $_SESSION["login_session"] != true ) 
+//    header("Location: login.php");
+// echo "歡迎使用者進入網站!<br/>";
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -62,11 +28,11 @@ if ($Email != "" && $password != "") {
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li>
+                <li class="nav-item active">
                     <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                <li >
+                    <a class="nav-link" href="../html/cart.html"> 購物車 <span class="sr-only">(current)</span></a>
                 </li>
                 <li>
                     <form class="form-inline" action="/action_page.php">
@@ -86,20 +52,5 @@ if ($Email != "" && $password != "") {
             </form>
         </div>
     </nav>
-<form action="login.php" method="post" >
-  <div align="center" style="padding:10px;margin-bottom:5px;">
-    <h1 style=font-weight:bold;> 登入 </h1>
-    <br>
-    <label for="Email">Email:</label>
-    <input type="email" name="Email" id="Email" required autofocus/>
-    <br>  
-    <br> 
-    <label for="password">密碼:</label>
-    <input type="password" name="password" id="password" required/>
-    <br>
-    <br>
-    <input type="submit" value="登入"/>
-  </div>
-</form>
 </body>
 </html>
