@@ -15,7 +15,7 @@
         $kw =  $_POST['kw'];
         if($kw != ""){  //Search
             // echo "<a href=""></a>";
-            $search = "search.php".$kw;
+            $search = "search.php?kw".$kw;
             header("Location: $search");
         }
         else{   //  useless
@@ -63,5 +63,11 @@
             </form>
         </div>
     </nav>
+    <br><br>
+    <h4 align="center" style=font-weight:bold;>推薦</h4>
+    
+    <?php
+
+    ?>
 </body>
 </html>
