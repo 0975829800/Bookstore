@@ -1,52 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-    <title>signup</title>
+<meta charset="utf-8"/>
+    <title>書福</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
 <?php
-    $Email = "";
-    $password = "";
-    $address = "";
-    $ID = -1;
-    if ( isset($_POST["Email"]) )
-        $Email = $_POST["Email"];
-    if ( isset($_POST["password"]) )
-        $password = $_POST["password"];
-    if ( isset($_POST["address"]) )
-        $address = $_POST["address"];
-    if ( isset($_POST["ID"]) )
-        $ID = $_POST["ID"];
-
-    if ($Email != "" && $password != "" && $address != ""&& $ID != -1) {
-        $link = mysqli_connect("220.132.211.121","ZYS",
-                       "qwe12345","bookstore")
-        or die("無法開啟MySQL資料庫連接!<br/>");
-
-        mysqli_query($link, 'SET NAMES utf8'); 
-        $sql = "INSERT INTO users(ID, Flag, Email, password, address) VALUES ($ID,1,\"$Email\",\"$password\",\"$address\")"; // 指定SQL字串
-        // echo "SQL字串: $sql <br/>";
-        // echo "資料庫bookstore開啟成功!<br/>";
-        //送出UTF8編碼的MySQL指令
-        
-        if(mysqli_query($link, $sql) == 1){
-            echo '<script language="javascript">';
-            echo 'alert("註冊成功，請再次登入");';
-            echo '</script>';
-        }
-        else{
-            echo '<script language="javascript">';
-            echo 'alert("註冊失敗，請檢查輸入有無錯誤\n或帳號、ID已被註冊");';
-            echo '</script>';
-        }
-    }
-
-   // 建立MySQL的資料庫連接 
-
+// session_start();  // 啟用交談期
+// // 檢查Session變數是否存在, 表示是否已成功登入
+// if ( $_SESSION["login_session"] != true ) 
+//    header("Location: login.php");
+// echo "歡迎使用者進入網站!<br/>";
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -61,10 +28,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li>
+                <li class="nav-item active">
                     <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
+                <li  class="nav-item active">
                     <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
                 </li>
                 <li>
@@ -85,27 +52,7 @@
             </form>
         </div>
     </nav>
-<form action="signup.php" method="post" >
-  <div align="center" style="padding:10px;margin-bottom:5px;">
-    <h1 style=font-weight:bold;> 註冊 </h1>
-    <br>
-    <label for="Email">Email:</label>
-    <input type="email" name="Email" id="Email" required autofocus/>
-    <br>  
-    <br> 
-    <label for="password">密碼:</label>
-    <input type="password" name="password" id="password" required/>
-    <br>
-    <br>
-    <label for="address">地址:</label>
-    <input type="text"" name="address" id="address" required/>
-    <br>
-    <br>
-    <label for="id"">輸入ID(數字0~9999999999) :</label>
-    <input onkeyup="value=value.replace(/[^\d]/g,'') " name="ID"  id="ID">
-    <br>
-    <input type="submit" value="註冊"/>
-  </div>
-</form>
+    <?php
+    ?>
 </body>
 </html>

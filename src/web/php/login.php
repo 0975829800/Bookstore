@@ -69,9 +69,9 @@ if ($Email != "" && $password != "") {
                     <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
                 </li>
                 <li>
-                    <form class="form-inline" action="/action_page.php">
+                    <form class="form-inline" action="/search.php">
                         <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                        <a class="btn btn-outline-success my-2 my-sm-0" href="product_list.html" role="button">
+                        <a class="btn btn-outline-success my-2 my-sm-0" href=".\search.php" role="button">
                             搜尋</a>
                     </form>
                 </li>

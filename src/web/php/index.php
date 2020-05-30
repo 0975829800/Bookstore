@@ -9,11 +9,22 @@
 </head>
 <body>
 <?php
-// session_start();  // 啟用交談期
-// // 檢查Session變數是否存在, 表示是否已成功登入
-// if ( $_SESSION["login_session"] != true ) 
-//    header("Location: login.php");
-// echo "歡迎使用者進入網站!<br/>";
+    session_start();  // 啟用交談期
+    $kw = "";
+    if( isset($_POST['kw'])){
+        $kw =  $_POST['kw'];
+        if($kw != ""){  //Search
+            // echo "<a href=""></a>";
+            $search = "search.php".$kw;
+            header("Location: $search");
+        }
+        else{   //  useless
+            echo '<script language="javascript">';
+            echo 'alert("請輸入關鍵字");';
+            echo '</script>';
+        }
+    }
+    
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -35,9 +46,9 @@
                     <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
                 </li>
                 <li>
-                    <form class="form-inline" action="/action_page.php">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                        <a class="btn btn-outline-success my-2 my-sm-0" href="product_list.html" role="button">
+                    <form class="form-inline" action=".\search.php">
+                        <input class="form-control mr-sm-2" type="text" id="kw" name="kw" placeholder="Search" required>
+                        <a class="btn btn-outline-success my-2 my-sm-0" href=".\search.php" role="button">
                             搜尋</a>
                     </form>
                 </li>
