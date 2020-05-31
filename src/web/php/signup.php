@@ -29,19 +29,19 @@
         // echo "資料庫bookstore開啟成功!<br/>";
         mysqli_query($link, 'SET NAMES utf8mb4_unicode_ci'); 
         $sql = "INSERT INTO users(ID,Flag,Email,Password,Address) VALUES ($ID,1,'$Email','$password','$address')"; // 指定SQL字串        echo "SQL字串: $sql <br/>";
-        echo $sql;
-        mysqli_query($link, $sql);
+        // echo $sql;
+        
         //送出UTF8編碼的MySQL指令
-        // if(){
-        //     echo '<script language="javascript">';
-        //     echo 'alert("註冊成功，請再次登入");';
-        //     echo '</script>';
-        // }
-        // else{
-        //     echo '<script language="javascript">';
-        //     echo 'alert("註冊失敗，請檢查輸入有無錯誤\n或帳號、ID已被註冊");';
-        //     echo '</script>';
-        // }
+        if(mysqli_query($link, $sql)){
+            echo '<script language="javascript">';
+            echo 'alert("註冊成功，請再次登入");';
+            echo '</script>';
+        }
+        else{
+            echo '<script language="javascript">';
+            echo 'alert("註冊失敗，請檢查輸入有無錯誤\n或帳號、ID已被註冊");';
+            echo '</script>';
+        }
     }
 
    // 建立MySQL的資料庫連接 
