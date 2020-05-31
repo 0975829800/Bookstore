@@ -19,7 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <div id="header" class="text-center">
-        <a class="col-6" href="index.html" style="color: rgb(199, 255, 125); font-size: 1.2cm; font-weight: 500;">書福</a>
+        <a class="col-6" href=".\index.php" style="color: rgb(199, 255, 125); font-size: 1.2cm; font-weight: 500;">書福</a>
     </div>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"

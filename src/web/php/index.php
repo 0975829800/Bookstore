@@ -15,8 +15,8 @@
         $kw =  $_POST['kw'];
         if($kw != ""){  //Search
             // echo "<a href=""></a>";
-            $search = "search.php?kw".$kw;
-            header("Location: $search");
+            // $search = "search.php?kw".$kw;
+            // header("Location: $search");
         }
         else{   //  useless
             echo '<script language="javascript">';
@@ -30,7 +30,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <div id="header" class="text-center">
-        <a class="col-6" href="index.html" style="color: rgb(199, 255, 125); font-size: 1.2cm; font-weight: 500;">書福</a>
+        <a class="col-6" href=".\index.php" style="color: rgb(199, 255, 125); font-size: 1.2cm; font-weight: 500;">書福</a>
     </div>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -65,9 +65,13 @@
     </nav>
     <br><br>
     <h4 align="center" style=font-weight:bold;>推薦</h4>
-    
+    <p align="center">
     <?php
-
+        for ($i=0; $i < 5; $i++) { 
+            $num = rand(1,20);
+            echo '<br><img href="" align="center" src="../product_img/'.$num.'.jpg" width = "255" height = "300">';
+        }
     ?>
+    </p>
 </body>
 </html>
