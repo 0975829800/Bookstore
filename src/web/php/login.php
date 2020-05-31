@@ -19,34 +19,66 @@ if ( isset($_POST["password"]) )
 // 檢查是否輸入使用者名稱和密碼
 if ($Email != "" && $password != "") {
    // 建立MySQL的資料庫連接 
-   $link = mysqli_connect("220.132.211.121","ZYS",
-                          "qwe12345","bookmarket")
-        or die("無法開啟MySQL資料庫連接!<br/>");
-   //送出UTF8編碼的MySQL指令
-   mysqli_query($link, 'SET NAMES utf8'); 
-   // 建立SQL指令字串
-   $sql = "SELECT * FROM users WHERE password='";
-   $sql.= $password."' AND Email='".$Email."'";
-//    echo $Email;
-//    echo $password;
-   // 執行SQL查詢
-   $result = mysqli_query($link, $sql);
-   $total_records = mysqli_num_rows($result);
-   // 是否有查詢到使用者記錄
-   if ( $total_records > 0 ) {
-      // 成功登入, 指定Session變數
-      echo '<script language="javascript">';
-      echo 'alert("登入成功");';
-      echo '</script>';
-      $_SESSION["login_session"] = true;
-      header("Location: index.php");
-   } else {  // 登入失敗
-      echo '<script language="javascript">';
-      echo 'alert("使用者帳號或密碼錯誤哦~~~");';
-      echo '</script>';
-      $_SESSION["login_session"] = false;
-   }
-   mysqli_close($link);  // 關閉資料庫連接  
+    $dsn = "mysql:dbname=bookstore;host=220.132.211.121;port=3306";
+    $username = "ZYS";
+    $pass = "qwe12345";
+    try {
+    // 建立MySQL伺服器連接和開啟資料庫 
+    $link = new PDO($dsn, $username, $pass);
+    // 指定PDO錯誤模式和錯誤處理
+    $link->setAttribute(PDO::ATTR_ERRMODE, 
+            PDO::ERRMODE_EXCEPTION);
+    $sql = "SELECT * FROM users WHERE Password = '$password' AND Email='$Email'";
+    // echo "SQL查詢字串: $sql <br/>";
+    // 送出UTF8編碼的MySQL指令
+    $link->query('SET NAMES utf8');
+    // 送出查詢的SQL指令
+    if ( $result = $link->query($sql) ) { 
+        // echo "<br/><b>帳戶資料:</b><hr/>";  // 顯示查詢結果
+        // // 取得記錄數
+        $total_records = $result->rowCount();
+        echo "資料筆數: $total_records 筆<br/>"; 
+        if($row = $result->fetch(PDO::FETCH_ASSOC)){
+            //成功登入, 指定Session變數
+            echo '<script language="javascript">';
+            echo 'alert("登入成功");';
+            echo '</script>';
+            $_SESSION["login_session"] = true;
+            header("Location: index.php");
+        }
+        else{
+            echo '<script language="javascript">';
+            echo 'alert("使用者帳號或密碼錯誤哦~~~");';
+            echo '</script>';
+            $_SESSION["login_session"] = false;
+        } 
+        
+    } 
+    } catch (PDOException $e) {
+       echo "連接失敗: " . $e->getMessage();
+    }
+    $link = null;
+//    $link = mysqli_connect("220.132.211.121","ZYS",
+//                           "qwe12345","bookmarket")
+//         or die("無法開啟MySQL資料庫連接!<br/>");
+//    //送出UTF8編碼的MySQL指令
+//    mysqli_query($link, 'SET NAMES utf8mb4_unicode_ci'); 
+//    // 建立SQL指令字串
+//    $sql = "SELECT * FROM users WHERE Password = '$password' AND Email='$Email'";
+// //    echo $sql;
+//    // 執行SQL查詢
+//    $result = mysqli_query($link, $sql);
+//    $total_records = mysqli_num_rows($result);
+//    // 是否有查詢到使用者記錄
+//    if ( $total_records > 0 ) {
+//       
+//    } else {  // 登入失敗
+//       echo '<script language="javascript">';
+//       echo 'alert("使用者帳號或密碼錯誤哦~~~");';
+//       echo '</script>';
+//       $_SESSION["login_session"] = false;
+//    }
+//    mysqli_close($link);  // 關閉資料庫連接  
 }
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

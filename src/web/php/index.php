@@ -67,9 +67,15 @@
     <h4 align="center" style=font-weight:bold;>推薦</h4>
     <p align="center">
     <?php
+        $numbers = range (1,20);
+        //shuffle 將陣列順序隨即打亂
+        shuffle ($numbers);
+        //array_slice 取該陣列中的某一段
+        $num=6;
+         $result = array_slice($numbers,0,$num);
         for ($i=0; $i < 5; $i++) { 
-            $num = rand(1,20);
-            echo '<br><img href="" align="center" src="../product_img/'.$num.'.jpg" width = "255" height = "300">';
+            $pid = $result[$i];
+            echo '<br><a href=".\product.php?pid='.$pid.'"><img align="center" src="../product_img/'.$pid.'.jpg" width = "255" height = "300"></a>';
         }
     ?>
     </p>
