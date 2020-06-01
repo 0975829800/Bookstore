@@ -76,28 +76,47 @@
         <div class="col-8">
             <table class="table" style="text-align:center;">
                 <?php
+                $servername = "220.132.211.121";
+                $username = "ZYS";
+                $pass = "qwe12345";
+                $dbname = "bookstore";
+                $conn = mysqli_connect($servername, $username, $pass);
+                if (empty($conn)) {
+                    print mysqli_error($conn);
+                    die("無法連結資料庫");
+                    exit;
+                }
+                if (!mysqli_select_db($conn, $dbname)) {
+                    die("無法選擇資料庫");
+                }
+                // 設定連線編碼
+                mysqli_query($conn, "SET NAMES 'utf8'");
                 $numbers = range(1, 20);
                 //shuffle 將陣列順序隨即打亂
                 shuffle($numbers);
                 //array_slice 取該陣列中的某一段
                 $num = 6;
-                $result = array_slice($numbers, 0, $num);
+                $arr = array_slice($numbers, 0, $num);
                 for ($i = 0; $i < 5; $i++) {
-                    $pid = $result[$i];
-                    echo '<tr>
-                            <td>
-                                <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
-                            </td>
-                            <td>
-                                <a href=".\product.php?pid=' . $pid . '">text</a>
-                            </td>
-                            <td>
-                                <p>price</p>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary">加入購物車</button>
-                            </td>
-                        </tr>';
+                    $pid = $arr[$i];
+                    $sql = "SELECT * FROM product WHERE ID = $pid";
+                    $result = mysqli_query($conn, $sql);
+                    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        echo '<tr>
+                                    <td>
+                                        <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                    </td>
+                                    <td>
+                                        <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                    </td>
+                                    <td>
+                                        <p>' . $row['Price'] . '</p>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary">加入購物車</button>
+                                    </td>
+                                </tr>';
+                    }
                 }
                 ?>
             </table>

@@ -47,12 +47,6 @@
     </nav>
     <br><br>
     <div class="container pt-4">
-        <div id="sitebody">
-            　<div id="header">header</div>
-            　<div id="sidebar_left">sidebar_left</div>
-            　<div id="content">content</div>
-            　<div id="footer">footer</div>
-        </div>
         <?php
         session_start();  // 啟用交談期
         // 建立MySQL的資料庫連接 
@@ -77,7 +71,7 @@
                 // 取得記錄數
                 $total_records = $result->rowCount();
                 $row = $result->fetch(PDO::FETCH_ASSOC);
-                echo '<img align="center" src="../product_img/'.$PID.'.jpg" width = "255" height = "300"></a>';
+                echo '<img align="center" src="../product_img/'.$PID.'.jpg" height = "300"></a>';
                 echo "名稱 : ".$row['Name']."<br>";
                 echo "價格 : ".$row['Price']."<br>";
                 echo "<br/><b>產品介紹 : </b><hr/>";  // 顯示查詢結果
