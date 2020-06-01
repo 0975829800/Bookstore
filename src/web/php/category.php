@@ -11,7 +11,10 @@
 
 <body>
     <?php
-    session_start();  // 啟用交談期
+
+use function PHPSTORM_META\type;
+
+session_start();  // 啟用交談期
     $kw = "";
     if (isset($_POST['kw'])) {
         $kw =  $_POST['kw'];
@@ -76,26 +79,32 @@
         <div class="col-8">
             <table class="table">
                 <?php
-                $numbers = range(1, 20);
-                //shuffle 將陣列順序隨即打亂
-                shuffle($numbers);
-                //array_slice 取該陣列中的某一段
-                $num = 6;
-                $result = array_slice($numbers, 0, $num);
-                for ($i = 0; $i < 5; $i++) {
-                    $pid = $result[$i];
-                    echo '<tr>
-                            <td>
-                                <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
-                            </td>
-                            <td>
-                                <a href=".\product.php?pid=' . $pid . '">text</a>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary">加入購物車</button>
-                            </td>
-                        </tr>';
+                $type = $_GET['type'];
+                switch($type){
+                    case 0:
+                        $numbers = range(1, 20);
+                        //shuffle 將陣列順序隨即打亂
+                        shuffle($numbers);
+                        //array_slice 取該陣列中的某一段
+                        $num = 6;
+                        $result = array_slice($numbers, 0, $num);
+                        for ($i = 0; $i < 5; $i++) {
+                            $pid = $result[$i];
+                            echo '<tr>
+                                    <td>
+                                        <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                    </td>
+                                    <td>
+                                        <a href=".\product.php?pid=' . $pid . '">text</a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary">加入購物車</button>
+                                    </td>
+                                </tr>';
+                        }
+                        break;
                 }
+                
                 ?>
             </table>
         </div>

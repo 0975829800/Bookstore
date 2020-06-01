@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>書福</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
+
 <body>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <div id="header" class="text-center">
-        <a class="col-6" href=".\index.php" style="color: rgb(199, 255, 125); font-size: 1.2cm; font-weight: 500;">書福</a>
+        <a class="col-6" href=".\index.php" style="color: rgb(203, 212, 209); font-size: 1.2cm; font-weight: 500;">書福</a>
     </div>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -46,23 +46,50 @@
         </div>
     </nav>
     <br><br>
-    <?php
-    session_start();  // 啟用交談期
-    $kw = "";
-    if( isset($_POST['kw'])){
-        $kw =  $_POST['kw'];
-        if($kw != ""){  //Search
-            // echo "<a href=""></a>";
-            // $search = "search.php?kw".$kw;
-            header("Location: search.php");
+    <div class="container pt-4">
+        <div id="sitebody">
+            　<div id="header">header</div>
+            　<div id="sidebar_left">sidebar_left</div>
+            　<div id="content">content</div>
+            　<div id="footer">footer</div>
+        </div>
+        <?php
+        session_start();  // 啟用交談期
+        // 建立MySQL的資料庫連接 
+        $dsn = "mysql:dbname=bookstore;host=220.132.211.121;port=3306";
+        $username = "ZYS";
+        $pass = "qwe12345";
+        $PID = $_GET['pid'];
+        try {
+            // 建立MySQL伺服器連接和開啟資料庫 
+            $link = new PDO($dsn, $username, $pass);
+            // 指定PDO錯誤模式和錯誤處理
+            $link->setAttribute(
+                PDO::ATTR_ERRMODE,
+                PDO::ERRMODE_EXCEPTION
+            );
+            $sql = "SELECT * FROM product WHERE ID = $PID";
+            // echo "SQL查詢字串: $sql <br/>";
+            // 送出UTF8編碼的MySQL指令
+            $link->query('SET NAMES utf8');
+            // 送出查詢的SQL指令
+            if ($result = $link->query($sql)) {
+                // 取得記錄數
+                $total_records = $result->rowCount();
+                $row = $result->fetch(PDO::FETCH_ASSOC);
+                echo '<img align="center" src="../product_img/'.$PID.'.jpg" width = "255" height = "300"></a>';
+                echo "名稱 : ".$row['Name']."<br>";
+                echo "價格 : ".$row['Price']."<br>";
+                echo "<br/><b>產品介紹 : </b><hr/>";  // 顯示查詢結果
+                echo $row['Introduction']."<br>";
+            }
+        } catch (PDOException $e) {
+            echo "連接失敗: " . $e->getMessage();
         }
-        else{   //  useless
-            echo '<script language="javascript">';
-            echo 'alert("請輸入關鍵字");';
-            echo '</script>';
-        }
-    }
-    
-?>
+        $link = null;
+        ?>
+    </div>
+
 </body>
+
 </html>
