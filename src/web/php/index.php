@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
                     註冊</a>
             </form>
-            <form class="form-inline mt-2 mt-md-0" >
+            <form class="form-inline mt-2 mt-md-0">
                 <a class="btn btn-outline-success my-2 my-sm-0" href=".\login.php" role="button">
                     登入</a>
             </form>
@@ -74,7 +74,7 @@
             <a href="category.php?type=4">歐美科幻</a><br>
         </div>
         <div class="col-8">
-            <table class="table">
+            <table class="table" style="text-align:center;">
                 <?php
                 $numbers = range(1, 20);
                 //shuffle 將陣列順序隨即打亂
@@ -90,6 +90,9 @@
                             </td>
                             <td>
                                 <a href=".\product.php?pid=' . $pid . '">text</a>
+                            </td>
+                            <td>
+                                <p>price</p>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-primary">加入購物車</button>
