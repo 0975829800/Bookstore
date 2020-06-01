@@ -33,7 +33,7 @@
     <div id="header" class="text-center">
         <a class="col-6" href=".\index.php" style="color: rgb(199, 255, 125); font-size: 1.2cm; font-weight: 500;">書福</a>
     </div>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -55,11 +55,13 @@
             </ul>
             <?php
             if($_SESSION["login_session"]){
-                echo '<p style="color: rgb(255,255,255)">'. $_SESSION["email"] .'</p>';
+                echo '<span class="navbar-text">
+                        '. $_SESSION["email"] .'
+                    </span>';
                 echo'<form class="form-inline mt-2 mt-md-0">
                     <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
                         登出</a>
-                </form>';
+                    </form>';
             }
             else{
                 echo'<form class="form-inline mt-2 mt-md-0">
