@@ -49,6 +49,7 @@
                     echo 'alert("登入成功");';
                     echo '</script>';
                     $_SESSION["login_session"] = true;
+                    $_SESSION["email"] = $Email;
                     header("Location: index.php");
                 } else {
                     echo '<script language="javascript">';

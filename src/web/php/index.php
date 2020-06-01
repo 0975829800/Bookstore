@@ -40,7 +40,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li>
-                    <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href=".\index.php" >首頁 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
@@ -52,14 +52,21 @@
                     </form>
                 </li>
             </ul>
-            <form class="form-inline mt-2 mt-md-0">
-                <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
-                    註冊</a>
-            </form>
-            <form class="form-inline mt-2 mt-md-0">
-                <a class="btn btn-outline-success my-2 my-sm-0" href=".\login.php" role="button">
-                    登入</a>
-            </form>
+            <?php
+            if($_SESSION["login_session"]){
+                echo '<p style="color: rgb(255,255,255)">'. $_SESSION["email"] . '</p>';
+            }
+            else{
+                echo'<form class="form-inline mt-2 mt-md-0">
+                    <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
+                        註冊</a>
+                </form>
+                <form class="form-inline mt-2 mt-md-0">
+                    <a class="btn btn-outline-success my-2 my-sm-0" href=".\login.php" role="button">
+                        登入</a>
+                </form>';
+            }
+            ?>
         </div>
     </nav>
     <br><br>
@@ -118,6 +125,12 @@
                                     </td>
                                 </tr>';
                     }
+                }
+                if (isset($_SESSION["login_session"])) {
+                    echo ("有設置變數");
+                    echo ($_SESSION["email"]);
+                } else {
+                    echo ("未設置變數");
                 }
                 ?>
             </table>
