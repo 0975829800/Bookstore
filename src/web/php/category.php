@@ -49,10 +49,9 @@
                     <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
                 </li>
                 <li>
-                    <form class="form-inline" action=".\search.php">
+                    <form class="form-inline" action="search.php" method="POST">
                         <input class="form-control mr-sm-2" type="text" id="kw" name="kw" placeholder="Search" required>
-                        <a class="btn btn-outline-success my-2 my-sm-0" href=".\search.php" role="button">
-                            搜尋</a>
+                        <input type="submit" value="搜尋" class="btn btn-outline-success my-2 my-sm-0">
                     </form>
                 </li>
             </ul>
