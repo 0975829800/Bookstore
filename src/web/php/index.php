@@ -40,7 +40,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li>
-                    <a class="nav-link" href=".\index.php" >首頁 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
@@ -51,18 +51,37 @@
                         <input type="submit" value="搜尋" class="btn btn-outline-success my-2 my-sm-0">
                     </form>
                 </li>
-                
+
             </ul>
             <?php
-            if($_SESSION["login_session"]){
-                echo '<p style="color: rgb(255,255,255)">'. $_SESSION["email"] .'</p>';
-                echo'<form class="form-inline mt-2 mt-md-0">
-                    <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
-                        登出</a>
-                </form>';
+            function logout()
+            {
+                unset($_SESSION["login_session"]);
             }
-            else{
-                echo'<form class="form-inline mt-2 mt-md-0">
+
+            if (isset($_GET['logout'])) {
+                logout();
+            }
+            if(isset($_SESSION["login_session"])){
+                if ($_SESSION["login_session"]) {
+                    echo '<p style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</p>';
+                    echo '<form class="form-inline mt-2 mt-md-0">
+                        <a class="btn btn-outline-success my-2 my-sm-0" href="index.php?logout=true" role="button">
+                            登出</a>
+                    </form>';
+                } else {
+                    echo '<form class="form-inline mt-2 mt-md-0">
+                        <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
+                            註冊</a>
+                    </form>
+                    <form class="form-inline mt-2 mt-md-0">
+                        <a class="btn btn-outline-success my-2 my-sm-0" href=".\login.php" role="button">
+                            登入</a>
+                    </form>';
+                }
+                
+            } else {
+                echo '<form class="form-inline mt-2 mt-md-0">
                     <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
                         註冊</a>
                 </form>
@@ -78,13 +97,13 @@
     <div class="row">
         <div class="col-1" style="margin-left: 80px; background-color: rgb(161, 161, 161); height: 500px;">
             <h3>類別</h3><br>
-            <a class = "link" href="category.php?type=0">推薦</a><br>
-            <a class = "link" href="category.php?type=1">輕小說</a><br>
-            <a class = "link" href="category.php?type=2">歐美文學</a><br>
-            <a class = "link" class = "link" href="category.php?type=3">青春幻想</a><br>
-            <a class = "link" href="category.php?type=4">歐美科幻</a><br>
-            <a class = "link" href="category.php?type=5">人文史地</a><br>
-            <a class = "link" href="category.php?type=5">健康</a><br>
+            <a class="link" href="category.php?type=0">推薦</a><br>
+            <a class="link" href="category.php?type=1">輕小說</a><br>
+            <a class="link" href="category.php?type=2">歐美文學</a><br>
+            <a class="link" class="link" href="category.php?type=3">青春幻想</a><br>
+            <a class="link" href="category.php?type=4">歐美科幻</a><br>
+            <a class="link" href="category.php?type=5">人文史地</a><br>
+            <a class="link" href="category.php?type=5">健康</a><br>
         </div>
         <div class="col-8">
             <table class="table" style="text-align:center;">
@@ -123,19 +142,13 @@
                                         <a class = "link" href=".\product.php?pid=' . $pid . ' style = "color : black>' . $row['Name'] . '</a>
                                     </td>
                                     <td>
-                                        <p>' . $row['Price'] .'NT</p>
+                                        <p>' . $row['Price'] . 'NT</p>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary">加入購物車</button>
                                     </td>
                                 </tr>';
                     }
-                }
-                if (isset($_SESSION["login_session"])) {
-                    echo ("有設置變數");
-                    echo ($_SESSION["email"]);
-                } else {
-                    echo ("未設置變數");
                 }
                 ?>
             </table>
