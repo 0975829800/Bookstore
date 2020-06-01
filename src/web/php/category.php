@@ -75,6 +75,8 @@
             <a href="category.php?type=2">歐美文學</a><br>
             <a href="category.php?type=3">青春幻想</a><br>
             <a href="category.php?type=4">歐美科幻</a><br>
+            <a href="category.php?type=5">人文史地</a><br>
+            <a href="category.php?type=6">健康</a><br>
         </div>
         <div class="col-8">
             <table class="table" style="text-align:center;">
@@ -84,7 +86,7 @@
                 $username = "ZYS";
                 $pass = "qwe12345";
                 $dbname = "bookstore";
-                $conn = mysqli_connect($servername,$username,$pass);
+                $conn = mysqli_connect($servername, $username, $pass);
                 if (empty($conn)) {
                     print mysqli_error($conn);
                     die("無法連結資料庫");
@@ -113,10 +115,10 @@
                                             <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                         </td>
                                         <td>
-                                            <a href=".\product.php?pid=' . $pid . '">'. $row['Name'] .'</a>
+                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
                                         </td>
                                         <td>
-                                            <p>'. $row['Price'] .'</p>
+                                            <p>' . $row['Price'] . '</p>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-primary">加入購物車</button>
@@ -124,14 +126,133 @@
                                     </tr>';
                             }
                         }
+                        mysqli_free_result($result);
                         break;
                     case 1:
+                        $sql = "SELECT Name, PID, Price FROM book, product WHERE Category = '輕小說' AND PID = ID";
+                        $result = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                            $pid = intval($row['PID']);
+                            echo '<tr>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                        </td>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                        </td>
+                                        <td>
+                                            <p>' . $row['Price'] . '</p>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary">加入購物車</button>
+                                        </td>
+                                    </tr>';
+                        }
                         break;
                     case 2:
+                        $sql = "SELECT Name, PID, Price FROM book, product WHERE Category = '歐美經典文學' AND PID = ID";
+                        $result = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                            $pid = intval($row['PID']);
+                            echo '<tr>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                        </td>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                        </td>
+                                        <td>
+                                            <p>' . $row['Price'] . '</p>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary">加入購物車</button>
+                                        </td>
+                                    </tr>';
+                        }
                         break;
                     case 3:
+                        $sql = "SELECT Name, PID, Price FROM book, product WHERE Category = '青春幻想' AND PID = ID";
+                        $result = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                            $pid = intval($row['PID']);
+                            echo '<tr>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                        </td>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                        </td>
+                                        <td>
+                                            <p>' . $row['Price'] . '</p>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary">加入購物車</button>
+                                        </td>
+                                    </tr>';
+                        }
                         break;
                     case 4:
+                        $sql = "SELECT Name, PID, Price FROM book, product WHERE Category = '歐美科幻/奇幻小說' AND PID = ID";
+                        $result = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                            $pid = intval($row['PID']);
+                            echo '<tr>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                        </td>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                        </td>
+                                        <td>
+                                            <p>' . $row['Price'] . '</p>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary">加入購物車</button>
+                                        </td>
+                                    </tr>';
+                        }
+                        break;
+                    case 5:
+                        $sql = "SELECT Name, PID, Price FROM book, product WHERE Category = '人文史地' AND PID = ID";
+                        $result = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                            $pid = intval($row['PID']);
+                            echo '<tr>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                        </td>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                        </td>
+                                        <td>
+                                            <p>' . $row['Price'] . '</p>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary">加入購物車</button>
+                                        </td>
+                                    </tr>';
+                        }
+                        break;
+                    case 6:
+                        $sql = "SELECT Name, PID, Price FROM book, product WHERE Category = '健康' AND PID = ID";
+                        $result = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                            $pid = intval($row['PID']);
+                            echo '<tr>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                        </td>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                        </td>
+                                        <td>
+                                            <p>' . $row['Price'] . '</p>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary">加入購物車</button>
+                                        </td>
+                                    </tr>';
+                        }
                         break;
                 }
 
