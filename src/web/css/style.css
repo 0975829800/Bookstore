@@ -38,10 +38,10 @@ body {
   line-height: 100px;
 }
     
-#footer {
-  clear: both;
-  background-color: #FFD4D4;
-  height: 80px;
-  text-align: center;
-  line-height: 80px;
+
+
+.link{
+  color: rgb(63, 65, 63);
+  background-color: transparent;
+  text-decoration: none;
 }
