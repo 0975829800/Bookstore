@@ -1,18 +1,47 @@
 body {
-  
   background-image: url("../image/004.jpg");
 }
 
-#map {
-  margin-top: 15%;
-  margin-left: 30%;
-  position: absolute;
-  left: 0;
-  height: 70%;
-  width: 40vw;
-}
 
 .head {
   font-size: 50px;
   font-family: Comic Sans MS, Comic Sans, cursive;
+}
+
+#sitebody {
+  width: 1000px;
+  margin: 0 auto;
+}
+    
+#header {
+  background-color: rgb(88, 95, 92);
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
+}
+    
+#sidebar_left {
+  /* background-color: rgb(173, 155, 155); */
+  width: 350px;
+  height: 400px;
+  text-align: center;
+  line-height: 400px;
+  float: left;
+}
+    
+#content {
+  margin-left: 350px;
+  margin-right: 0px;
+  height: 400px;
+  /* background-color: rgb(211, 219, 211); */
+  text-align: center;
+  line-height: 100px;
+}
+    
+#footer {
+  clear: both;
+  background-color: #FFD4D4;
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
 }
