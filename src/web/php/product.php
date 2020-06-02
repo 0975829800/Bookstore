@@ -70,45 +70,47 @@
     <div class="container pt-4">
         <div id="sitebody">
             <?php
-            session_start();  // 啟用交談期
             // 建立MySQL的資料庫連接 
-            $dsn = "mysql:dbname=bookstore;host=220.132.211.121;port=3306";
+            $servername = "220.132.211.121";
             $username = "ZYS";
             $pass = "qwe12345";
-            $PID = $_GET['pid'];
-            try {
-                // 建立MySQL伺服器連接和開啟資料庫 
-                $link = new PDO($dsn, $username, $pass);
-                // 指定PDO錯誤模式和錯誤處理
-                $link->setAttribute(
-                    PDO::ATTR_ERRMODE,
-                    PDO::ERRMODE_EXCEPTION
-                );
-                $sql = "SELECT * FROM product WHERE ID = $PID";
-                // echo "SQL查詢字串: $sql <br/>";
-                // 送出UTF8編碼的MySQL指令
-                $link->query('SET NAMES utf8');
-                // 送出查詢的SQL指令
-                if ($result = $link->query($sql)) {
-                    // 取得記錄數
-                    $total_records = $result->rowCount();
-                    $row = $result->fetch(PDO::FETCH_ASSOC);
-                    // if(){
-                    echo '<div id="sidebar_left">';
-                    echo '<img align="center" src="../product_img/' . $PID . '.jpg" height = "300"></a>';
-                    echo '</div>';
-                    echo '<div id="content">';
-                    echo "名稱 : " . $row['Name'] . "<br>";
-                    echo "價格 : " . $row['Price'] . "<br>";
-                    echo '</div>';
-                    echo "<br/><b>產品介紹 : </b><hr/>";  // 顯示查詢結果
-                    echo $row['Introduction'] . "<br>";
-                    // }
-                }
-            } catch (PDOException $e) {
-                echo "連接失敗: " . $e->getMessage();
+            $dbname = "bookstore";
+            $conn = mysqli_connect($servername, $username, $pass);
+            if (empty($conn)) {
+                print mysqli_error($conn);
+                die("無法連結資料庫");
+                exit;
             }
-            $link = null;
+            if (!mysqli_select_db($conn, $dbname)) {
+                die("無法選擇資料庫");
+            }
+            mysqli_query($conn, "SET NAMES 'utf8'");
+            $PID = $_GET['pid'];
+            $sql = "SELECT * FROM pruduct WHERE ID = $PID";
+            $result = mysqli_query($conn, $sql);
+            if (!$result) {
+                echo ("Error: " . mysqli_error($connect));
+                exit();
+            }
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $bookname = $row['Name'];
+                $bookprice = $row['Price'];
+                $introduction = $row['Introduction'];
+            }
+            $sql = "SELECT * FROM book WHERE PID = $PID";
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $ISBN = $row['ISBN'];
+                $P_house = $row['P_house'];
+                $P_date = $row['P_date'];
+                $Category = $row['Category'];
+            }
+            $sql = "SELECT * FROM author WHERE ISBN = $ISBN";
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $auther = $row['Author'];
+            }
+            
             ?>
         </div>
     </div>
