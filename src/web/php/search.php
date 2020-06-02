@@ -38,7 +38,7 @@
                     <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
                 </li>
                 <li>
-                    <form class="form-inline" action="search.php" method="POST">
+                    <form class="form-inline" action="search.php" method="GET">
                         <input class="form-control mr-sm-2" type="text" id="kw" name="kw" placeholder="Search" required>
                         <input type="submit" value="搜尋" class="btn btn-outline-success my-2 my-sm-0">
                     </form>
@@ -69,7 +69,7 @@
         <div class="col-8">
             <table class="table" style="text-align:center;">
                 <?php
-                $search = $_POST['kw'];
+                $search = $_GET['kw'];
                 $servername = "220.132.211.121";
                 $username = "ZYS";
                 $pass = "qwe12345";
@@ -94,6 +94,7 @@
                 }
                 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                     $pid = intval($row['PID']);
+                    //$destination = '?'.
                     echo '<tr>
                                 <td>
                                     <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
