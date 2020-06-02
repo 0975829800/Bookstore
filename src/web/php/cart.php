@@ -10,13 +10,6 @@
 </head>
 
 <body>
-    <?php
-    // session_start();  // 啟用交談期
-    // // 檢查Session變數是否存在, 表示是否已成功登入
-    // if ( $_SESSION["login_session"] != true ) 
-    //    header("Location: login.php");
-    // echo "歡迎使用者進入網站!<br/>";
-    ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -60,6 +53,7 @@
         <div class="col-8">
             <table class="table" style="text-align:center;">
                 <?php
+                session_start();  // 啟用交談期
                 $servername = "220.132.211.121";
                 $username = "ZYS";
                 $pass = "qwe12345";
@@ -98,11 +92,14 @@
                             <p>變更</p>
                         </td>
                     </tr>';
-                for ($i = 0; $i < 5; $i++) {
-                    $pid = $arr[$i];
-                    $sql = "SELECT * FROM product WHERE ID = $pid";
-                    $result = mysqli_query($conn, $sql);
+                    if(isset($_SESSION["login_session"])){
+                        echo '<br><p style="color: rgb(255,255,255)">' . $_SESSION["email"] .'的購物車</p>';
+                        $sql = 'SELECT PID, Name,Price FROM cart,users u,product p WHERE MID = u.ID AND p.ID = PID  AND Email = "'.$_SESSION['email'].'" ';
+                        echo $sql;
+                        $result = mysqli_query($conn, $sql);
                     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        $pid = 1;
+                        $pid = $row['PID'];
                         echo '<tr>
                                     <td>
                                         <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
@@ -128,13 +125,6 @@
             </table>
         </div>
     </div>
-    <div style="width:200px; 
-　　　　　　　　　　　　　white-space:nowrap;
-            　　　　　　overflow:hidden;
-            　　　　　　text-overflow:ellipsis;
-            　　　　　　border:1px solid red">
-　　　　 　　　　　　試試看試試看試試看試試看試試看試試看試試看試試看試試看試試看試試看
-　　　　</div>
 </body>
 
 </html>
