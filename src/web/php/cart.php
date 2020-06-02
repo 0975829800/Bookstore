@@ -39,7 +39,7 @@
             session_start();
             if (isset($_SESSION["login_session"])) {
                 if ($_SESSION["login_session"]) {
-                    echo '<p style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</p>';
+                    echo '<a href="member.php" style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</a>';
                     echo '<form class="form-inline mt-2 mt-md-0">
                         <a class="btn btn-outline-success my-2 my-sm-0" href="index.php?logout=true" role="button">
                             登出</a>
@@ -90,12 +90,6 @@
                 }
                 // 設定連線編碼
                 mysqli_query($conn, "SET NAMES 'utf8'");
-                $numbers = range(1, 20);
-                //shuffle 將陣列順序隨即打亂
-                shuffle($numbers);
-                //array_slice 取該陣列中的某一段
-                $num = 6;
-                $arr = array_slice($numbers, 0, $num);
                 echo '<tr>
                         <td>
                             <p>商品圖</p>
@@ -114,13 +108,13 @@
                         </td>
                     </tr>';
                 if (isset($_SESSION["login_session"])) {
-                    echo '<br><p style="color: rgb(255,255,255)">' . $_SESSION["email"] . '的購物車</p>';
+                    echo '<br><p style="color: rgb(255,255,255)">你的購物車</p>';
                     $sql = 'SELECT PID, Name,Price FROM cart,users u,product p WHERE MID = u.ID AND p.ID = PID  AND Email = "' . $_SESSION['email'] . '" ';
-                    echo $sql;
+                    // echo $sql;
                     $result = mysqli_query($conn, $sql);
                     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                         $pid = 1;
-                        echo $pid = $row['PID'] / 1; //被0補滿會找不到圖片
+                        $pid = $row['PID'] / 1; //被0補滿會找不到圖片
                         echo '<tr>
                                     <td>
                                         <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
@@ -134,7 +128,7 @@
                                         <p>' . $row['Price'] . 'NT</p>
                                     </td>
                                     <td>
-                                        <input type="text" value="1" maxlength="3" style="width:27px;"></p>
+                                        <input type="text" value="1" maxlength="3" style="width:50px;"></p>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary">我沒錢</button>
