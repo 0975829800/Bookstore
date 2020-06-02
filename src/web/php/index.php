@@ -38,9 +38,11 @@
 
             </ul>
             <?php
+            session_start();
             function logout()
             {
                 unset($_SESSION["login_session"]);
+                unset($_SESSION["email"]);
             }
 
             if (isset($_GET['logout'])) {
@@ -131,7 +133,9 @@
                                         <p>' . $row['Price'] . 'NT</p>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary">加入購物車</button>
+                                        <form action="?cartid=' . $pid . '" method = "post">
+                                            <input type="submit" value="加入購物車" class="btn btn-primary">
+                                        </form>
                                     </td>
                                 </tr>';
                     }

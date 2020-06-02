@@ -35,14 +35,36 @@
                     </form>
                 </li>
             </ul>
-            <form class="form-inline mt-2 mt-md-0">
-                <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
-                    註冊</a>
-            </form>
-            <form class="form-inline mt-2 mt-md-0">
-                <a class="btn btn-outline-success my-2 my-sm-0" href=".\login.php" role="button">
-                    登入</a>
-            </form>
+            <?php
+            session_start();
+            if (isset($_SESSION["login_session"])) {
+                if ($_SESSION["login_session"]) {
+                    echo '<p style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</p>';
+                    echo '<form class="form-inline mt-2 mt-md-0">
+                        <a class="btn btn-outline-success my-2 my-sm-0" href="index.php?logout=true" role="button">
+                            登出</a>
+                    </form>';
+                } else {
+                    echo '<form class="form-inline mt-2 mt-md-0">
+                        <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
+                            註冊</a>
+                    </form>
+                    <form class="form-inline mt-2 mt-md-0">
+                        <a class="btn btn-outline-success my-2 my-sm-0" href=".\login.php" role="button">
+                            登入</a>
+                    </form>';
+                }
+            } else {
+                echo '<form class="form-inline mt-2 mt-md-0">
+                    <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
+                        註冊</a>
+                </form>
+                <form class="form-inline mt-2 mt-md-0">
+                    <a class="btn btn-outline-success my-2 my-sm-0" href=".\login.php" role="button">
+                        登入</a>
+                </form>';
+            }
+            ?>
         </div>
     </nav>
 
@@ -53,7 +75,6 @@
         <div class="col-8">
             <table class="table" style="text-align:center;">
                 <?php
-                session_start();  // 啟用交談期
                 $servername = "220.132.211.121";
                 $username = "ZYS";
                 $pass = "qwe12345";
@@ -92,14 +113,14 @@
                             <p>變更</p>
                         </td>
                     </tr>';
-                    if(isset($_SESSION["login_session"])){
-                        echo '<br><p style="color: rgb(255,255,255)">' . $_SESSION["email"] .'的購物車</p>';
-                        $sql = 'SELECT PID, Name,Price FROM cart,users u,product p WHERE MID = u.ID AND p.ID = PID  AND Email = "'.$_SESSION['email'].'" ';
-                        echo $sql;
-                        $result = mysqli_query($conn, $sql);
+                if (isset($_SESSION["login_session"])) {
+                    echo '<br><p style="color: rgb(255,255,255)">' . $_SESSION["email"] . '的購物車</p>';
+                    $sql = 'SELECT PID, Name,Price FROM cart,users u,product p WHERE MID = u.ID AND p.ID = PID  AND Email = "' . $_SESSION['email'] . '" ';
+                    echo $sql;
+                    $result = mysqli_query($conn, $sql);
                     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                         $pid = 1;
-                        echo $pid = $row['PID']/1; //被0補滿會找不到圖片
+                        echo $pid = $row['PID'] / 1; //被0補滿會找不到圖片
                         echo '<tr>
                                     <td>
                                         <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
