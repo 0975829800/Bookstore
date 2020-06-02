@@ -99,7 +99,7 @@
                         $result = mysqli_query($conn, $sql);
                     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                         $pid = 1;
-                        $pid = $row['PID'];
+                        echo $pid = $row['PID']/1; //被0補滿會找不到圖片
                         echo '<tr>
                                     <td>
                                         <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
