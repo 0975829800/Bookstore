@@ -123,7 +123,9 @@
                                         <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                     </td>
                                     <td>
-                                        <a class = "link" href=".\product.php?pid=' . $pid . ' ">' . $row['Name'] . '</a>
+                                        <div style="width: 350px">
+                                            <a class = "link" href=".\product.php?pid=' . $pid . ' ">' . $row['Name'] . '</a>
+                                        </div>
                                     </td>
                                     <td>
                                         <p>' . $row['Price'] . 'NT</p>

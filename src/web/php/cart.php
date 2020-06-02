@@ -10,13 +10,6 @@
 </head>
 
 <body>
-    <?php
-    // session_start();  // 啟用交談期
-    // // 檢查Session變數是否存在, 表示是否已成功登入
-    // if ( $_SESSION["login_session"] != true ) 
-    //    header("Location: login.php");
-    // echo "歡迎使用者進入網站!<br/>";
-    ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -52,6 +45,86 @@
             </form>
         </div>
     </nav>
+
+    <div class="row">
+        <div class="col-1" style="margin-left: 80px; height: 500px;">
+
+        </div>
+        <div class="col-8">
+            <table class="table" style="text-align:center;">
+                <?php
+                session_start();  // 啟用交談期
+                $servername = "220.132.211.121";
+                $username = "ZYS";
+                $pass = "qwe12345";
+                $dbname = "bookstore";
+                $conn = mysqli_connect($servername, $username, $pass);
+                if (empty($conn)) {
+                    print mysqli_error($conn);
+                    die("無法連結資料庫");
+                    exit;
+                }
+                if (!mysqli_select_db($conn, $dbname)) {
+                    die("無法選擇資料庫");
+                }
+                // 設定連線編碼
+                mysqli_query($conn, "SET NAMES 'utf8'");
+                $numbers = range(1, 20);
+                //shuffle 將陣列順序隨即打亂
+                shuffle($numbers);
+                //array_slice 取該陣列中的某一段
+                $num = 6;
+                $arr = array_slice($numbers, 0, $num);
+                echo '<tr>
+                        <td>
+                            <p>商品圖</p>
+                        </td>
+                        <td>
+                            <p>商品名稱</p>                        
+                        </td>
+                        <td>
+                            <p>售價</p>
+                        </td>
+                        <td>
+                            <p>購買數量</p>
+                        </td>
+                        <td>
+                            <p>變更</p>
+                        </td>
+                    </tr>';
+                    if(isset($_SESSION["login_session"])){
+                        echo '<br><p style="color: rgb(255,255,255)">' . $_SESSION["email"] .'的購物車</p>';
+                        $sql = 'SELECT PID, Name,Price FROM cart,users u,product p WHERE MID = u.ID AND p.ID = PID  AND Email = "'.$_SESSION['email'].'" ';
+                        echo $sql;
+                        $result = mysqli_query($conn, $sql);
+                    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        $pid = 1;
+                        $pid = $row['PID'];
+                        echo '<tr>
+                                    <td>
+                                        <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                    </td>
+                                    <td>
+                                        <div style="width: 350px">
+                                            <a class = "link" href=".\product.php?pid=' . $pid . ' ">' . $row['Name'] . '</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p>' . $row['Price'] . 'NT</p>
+                                    </td>
+                                    <td>
+                                        <input type="text" value="1" maxlength="3" style="width:27px;"></p>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary">我沒錢</button>
+                                    </td>
+                                </tr>';
+                    }
+                }
+                ?>
+            </table>
+        </div>
+    </div>
 </body>
 
 </html>
