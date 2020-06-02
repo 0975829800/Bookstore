@@ -35,6 +35,16 @@
                 </li>
             </ul>
             <?php
+            session_start();
+            function logout()
+            {
+                unset($_SESSION["login_session"]);
+                unset($_SESSION["email"]);
+            }
+
+            if (isset($_GET['logout'])) {
+                logout();
+            }
             if (isset($_SESSION["login_session"])) {
                 if ($_SESSION["login_session"]) {
                     echo '<a href="member.php" style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</a>';
@@ -99,13 +109,17 @@
             $auther = NULL;
             $sql = "SELECT * FROM book WHERE PID = $PID";
             $result = mysqli_query($conn, $sql);
+            if (!$result) {
+                echo ("Error: " . mysqli_error($connect));
+                exit();
+            }
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $ISBN = $row['ISBN'];
                 $P_house = $row['P_house'];
                 $P_date = $row['P_date'];
                 $Category = $row['Category'];
             }
-            if($ISBN){
+            if ($ISBN) {
                 $sql = "SELECT * FROM author WHERE ISBN = $ISBN";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -116,14 +130,14 @@
                     <img align="center" src="../product_img/' . $PID . '.jpg" height = "300"></a>
                 </div>';
             echo '<div id="content" class="col-7">
-                    <p>名稱 :  '. $bookname .'</p>
-                    <p>價格 :  '. $bookprice . '</p>';
-            if($auther != NULL){
-                echo '<p>作者:  '. $auther . '</p>';
+                    <p>名稱 :  ' . $bookname . '</p>
+                    <p>價格 :  ' . $bookprice . '</p>';
+            if ($auther != NULL) {
+                echo '<p>作者:  ' . $auther . '</p>';
             }
-            if($ISBN != NULL){
-                echo '<p>類別:  '. $Category . '</p>';
-                echo "<p>出版社: ". $P_house . "</p>";
+            if ($ISBN != NULL) {
+                echo '<p>類別:  ' . $Category . '</p>';
+                echo "<p>出版社: " . $P_house . "</p>";
                 echo "<p>出版日期: " . $P_date . "</p>";
                 echo "<p>ISBN: " . $ISBN . "</p>";
             }

@@ -11,13 +11,55 @@
 
 <body>
     <?php
-        function addcart()
-        {
-            
+    session_start();
+    function addcart()
+    {
+        if (isset($_SESSION["login_session"])) {
+            $servername = "220.132.211.121";
+            $username = "ZYS";
+            $pass = "qwe12345";
+            $dbname = "bookstore";
+            $conn = mysqli_connect($servername, $username, $pass);
+            if (empty($conn)) {
+                print mysqli_error($conn);
+                die("無法連結資料庫");
+                exit;
+            }
+            if (!mysqli_select_db($conn, $dbname)) {
+                die("無法選擇資料庫");
+            }
+            // 設定連線編碼
+            mysqli_query($conn, "SET NAMES 'utf8'");
+            // 检测连接
+            if ($conn->connect_error) {
+                die("連接失敗: " . $conn->connect_error);
+            }
+            $cartid = $_GET['cartid'];
+            $email = $_SESSION['email'];
+            $sql = "SELECT * FROM users WHERE Email='$email'";
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $mid = $row['ID'];
+            }
+            $sql = "INSERT INTO cart (MID,PID) VALUES ($mid,$cartid)";
+            if ($conn->query($sql) === TRUE) {
+                echo '<script language="javascript">';
+                echo 'alert("加入購物車");';
+                echo '</script>';
+            } else {
+                echo '<script language="javascript">';
+                echo 'alert("已經加入購物車");';
+                echo '</script>';
+            }
+        } else {
+            echo '<script language="javascript">';
+            echo 'alert("請登入後再點擊");';
+            echo '</script>';
         }
-        if (isset($_GET['cartid'])) {
-            addcart();            
-        }
+    }
+    if (isset($_GET['cartid'])) {
+        addcart();
+    }
     ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -45,7 +87,6 @@
                 </li>
             </ul>
             <?php
-            session_start();
             if (isset($_SESSION["login_session"])) {
                 if ($_SESSION["login_session"]) {
                     echo '<a href="member.php" style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</a>';
@@ -128,7 +169,7 @@
                                     <p>' . $row['Price'] . '</p>
                                 </td>
                                 <td>
-                                    <form action="'. $destination .'" method = "post">
+                                    <form action="' . $destination . '" method = "post">
                                         <input type="submit" value="加入購物車" class="btn btn-primary">
                                     </form>
                                 </td>
