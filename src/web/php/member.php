@@ -91,7 +91,7 @@
             <h1 style=font-weight:bold;> 會員專區 </h1>
             <br>
             <label for="Email">Email:</label>
-            <input type="email" name="Email" id="Email" value="'.$row['Email'].'" required autofocus />
+            <a>'.$row['Email'].'</a>
             <br>
             <br>
             <label for="password">密碼:</label>
@@ -102,10 +102,11 @@
             <input type="text"" name=" address" id="address" value="'.$row['Address'].'" required />
             <br>
             <br>
-            <label for="id"">輸入ID(數字0~9999999999) :</label>
-            <input type=" value" name="ID" value="'.$row['ID'].'" id="ID">
+            <label for="id"">ID :</label>
+            <a>'.$row['ID'].'</a>
             <br>
             <input type="submit" value="更新會員帳戶" />
+            <input type="submit" value="刪除帳戶" />
         </div>';
 
     ?>
