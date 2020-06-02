@@ -103,7 +103,7 @@
             <a class="link" class="link" href="category.php?type=3">青春幻想</a><br>
             <a class="link" href="category.php?type=4">歐美科幻</a><br>
             <a class="link" href="category.php?type=5">人文史地</a><br>
-            <a class="link" href="category.php?type=5">健康</a><br>
+            <a class="link" href="category.php?type=6">健康</a><br>
         </div>
         <div class="col-8">
             <table class="table" style="text-align:center;">
@@ -139,7 +139,7 @@
                                         <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                     </td>
                                     <td>
-                                        <a class = "link" href=".\product.php?pid=' . $pid . ' style = "color : black>' . $row['Name'] . '</a>
+                                        <a class = "link" href=".\product.php?pid=' . $pid . ' ">' . $row['Name'] . '</a>
                                     </td>
                                     <td>
                                         <p>' . $row['Price'] . 'NT</p>

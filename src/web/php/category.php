@@ -137,7 +137,7 @@
                                             <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                         </td>
                                         <td>
-                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                            <a class = "link" href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
                                         </td>
                                         <td>
                                             <p>' . $row['Price'] . '</p>
@@ -158,7 +158,7 @@
                                             <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                         </td>
                                         <td>
-                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                            <a class = "link" href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
                                         </td>
                                         <td>
                                             <p>' . $row['Price'] . '</p>
@@ -179,7 +179,7 @@
                                             <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                         </td>
                                         <td>
-                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                            <a class = "link" href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
                                         </td>
                                         <td>
                                             <p>' . $row['Price'] . '</p>
@@ -200,7 +200,7 @@
                                             <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                         </td>
                                         <td>
-                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                            <a class = "link" href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
                                         </td>
                                         <td>
                                             <p>' . $row['Price'] . '</p>
@@ -221,7 +221,7 @@
                                             <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                         </td>
                                         <td>
-                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                            <a class = "link" href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
                                         </td>
                                         <td>
                                             <p>' . $row['Price'] . '</p>
@@ -242,7 +242,7 @@
                                             <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                         </td>
                                         <td>
-                                            <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                            <a class = "link" href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
                                         </td>
                                         <td>
                                             <p>' . $row['Price'] . '</p>

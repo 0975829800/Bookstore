@@ -73,7 +73,7 @@
                     $row = $result->fetch(PDO::FETCH_ASSOC);
                     // if(){
                     echo '<div id="sidebar_left">';
-                    echo '<img align="center" src="../product_img/' . $PID . '.jpg" width = "255" height = "300"></a>';
+                    echo '<img align="center" src="../product_img/' . $PID . '.jpg" height = "300"></a>';
                     echo '</div>';
                     echo '<div id="content">';
                     echo "名稱 : " . $row['Name'] . "<br>";
