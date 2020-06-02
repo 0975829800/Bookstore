@@ -48,7 +48,7 @@
             session_start();
             if (isset($_SESSION["login_session"])) {
                 if ($_SESSION["login_session"]) {
-                    echo '<p style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</p>';
+                    echo '<a href="member.php" style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</a>';
                     echo '<form class="form-inline mt-2 mt-md-0">
                         <a class="btn btn-outline-success my-2 my-sm-0" href="index.php?logout=true" role="button">
                             登出</a>
