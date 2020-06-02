@@ -11,21 +11,13 @@
 
 <body>
     <?php
-    session_start();  // 啟用交談期
-    $kw = "";
-    if (isset($_POST['kw'])) {
-        $kw =  $_POST['kw'];
-        if ($kw != "") {  //Search
-            // echo "<a href=""></a>";
-            // $search = "search.php?kw".$kw;
-            // header("Location: $search");
-        } else {   //  useless
-            echo '<script language="javascript">';
-            echo 'alert("請輸入關鍵字");';
-            echo '</script>';
+        function addcart()
+        {
+            
         }
-    }
-
+        if (isset($_GET['cartid'])) {
+            addcart();            
+        }
     ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -65,14 +57,14 @@
     <br><br>
     <div class="row">
         <div class="col-1" style="margin-left: 80px; background-color: rgb(161, 161, 161); height: 500px;">
-            <h2>類別</h2><br>
-            <a href="category.php?type=0">推薦</a><br>
-            <a href="category.php?type=1">輕小說</a><br>
-            <a href="category.php?type=2">歐美文學</a><br>
-            <a href="category.php?type=3">青春幻想</a><br>
-            <a href="category.php?type=4">歐美科幻</a><br>
-            <a href="category.php?type=5">人文史地</a><br>
-            <a href="category.php?type=6">健康</a><br>
+            <h3>類別</h3><br>
+            <a class="link" href="category.php?type=0">推薦</a><br>
+            <a class="link" href="category.php?type=1">輕小說</a><br>
+            <a class="link" href="category.php?type=2">歐美文學</a><br>
+            <a class="link" href="category.php?type=3">青春幻想</a><br>
+            <a class="link" href="category.php?type=4">歐美科幻</a><br>
+            <a class="link" href="category.php?type=5">人文史地</a><br>
+            <a class="link" href="category.php?type=6">健康</a><br>
         </div>
         <div class="col-8">
             <table class="table" style="text-align:center;">
@@ -107,13 +99,15 @@
                                     <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                 </td>
                                 <td>
-                                    <a href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
+                                    <a class = "link" href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
                                 </td>
                                 <td>
                                     <p>' . $row['Price'] . '</p>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-primary">加入購物車</button>
+                                    <form action="?cartid='. $pid .'" method = "post">
+                                        <input type="submit" value="加入購物車" class="btn btn-primary">
+                                    </form>
                                 </td>
                             </tr>';
                 }

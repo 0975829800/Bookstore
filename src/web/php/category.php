@@ -10,26 +10,6 @@
 </head>
 
 <body>
-    <?php
-
-    use function PHPSTORM_META\type;
-
-    session_start();  // 啟用交談期
-    $kw = "";
-    if (isset($_POST['kw'])) {
-        $kw =  $_POST['kw'];
-        if ($kw != "") {  //Search
-            // echo "<a href=""></a>";
-            // $search = "search.php?kw".$kw;
-            // header("Location: $search");
-        } else {   //  useless
-            echo '<script language="javascript">';
-            echo 'alert("請輸入關鍵字");';
-            echo '</script>';
-        }
-    }
-
-    ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
