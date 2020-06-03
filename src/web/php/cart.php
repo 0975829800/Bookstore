@@ -51,8 +51,106 @@
             echo '</script>';
         }
     }
+    function buy(){
+        if (isset($_SESSION["login_session"])) {
+            $servername = "220.132.211.121";
+            $username = "ZYS";
+            $pass = "qwe12345";
+            $dbname = "bookstore";
+            $conn = mysqli_connect($servername, $username, $pass);
+            if (empty($conn)) {
+                print mysqli_error($conn);
+                die("無法連結資料庫");
+                exit;
+            }
+            if (!mysqli_select_db($conn, $dbname)) {
+                die("無法選擇資料庫");
+            }
+            // 設定連線編碼
+            mysqli_query($conn, "SET NAMES 'utf8'");
+            // 检测连接
+            if ($conn->connect_error) {
+                die("連接失敗: " . $conn->connect_error);
+            }
+            $email = $_SESSION['email'];
+            $sql = "SELECT * FROM users WHERE Email='$email'";
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $mid = $row['ID'];
+            }
+            $sum = 0;
+            for($i=1;$i<=20;$i++) {
+                if (isset($_POST[$i . '_amount'])) {
+                    $amount = $_POST[$i.'_amount'];
+                } else {
+                    $amount = 0;
+                }
+                $sql = "SELECT Price FROM product WHERE ID=$i";
+                $result = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    $sum += $amount * $row['Price'];
+                }
+            }
+            echo '<script language="javascript">';
+            echo 'var check = confirm("總共為'. $sum .'元\n是否確認購買?");';
+            echo 'if (check){
+                        location.href = "http://localhost/bookstore/src/web/php/cart.php?confirm=true"
+                    }';
+            echo '</script>';
+        } else {
+            echo '<script language="javascript">';
+            echo 'alert("請登入後再點擊");';
+            echo '</script>';
+        }
+    }
+    function confirm(){
+        if (isset($_SESSION["login_session"])) {
+            $servername = "220.132.211.121";
+            $username = "ZYS";
+            $pass = "qwe12345";
+            $dbname = "bookstore";
+            $conn = mysqli_connect($servername, $username, $pass);
+            if (empty($conn)) {
+                print mysqli_error($conn);
+                die("無法連結資料庫");
+                exit;
+            }
+            if (!mysqli_select_db($conn, $dbname)) {
+                die("無法選擇資料庫");
+            }
+            // 設定連線編碼
+            mysqli_query($conn, "SET NAMES 'utf8'");
+            // 检测连接
+            if ($conn->connect_error) {
+                die("連接失敗: " . $conn->connect_error);
+            }
+            $email = $_SESSION['email'];
+            $sql = "SELECT * FROM users WHERE Email='$email'";
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $mid = $row['ID'];
+            }
+            $sql = "DELETE FROM cart WHERE MID=$mid";
+            if ($conn->query($sql) === TRUE) {
+                echo '<script language="javascript">';
+                echo 'alert("購買成功");';
+                echo '</script>';
+            } else {
+            }
+        } else {
+            echo '<script language="javascript">';
+            echo 'alert("請登入後再點擊");';
+            echo '</script>';
+        }
+    }
     if (isset($_GET['delid'])) {
         delcart();
+    }
+    if(isset($_GET['buy'])){
+        buy();
+    }
+    if (isset($_GET['confirm'])) {
+        confirm();
     }
     ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -117,77 +215,82 @@
 
         </div>
         <div class="col-8">
-            <table class="table" style="text-align:center;">
-                <?php
-                $servername = "220.132.211.121";
-                $username = "ZYS";
-                $pass = "qwe12345";
-                $dbname = "bookstore";
-                $conn = mysqli_connect($servername, $username, $pass);
-                if (empty($conn)) {
-                    print mysqli_error($conn);
-                    die("無法連結資料庫");
-                    exit;
-                }
-                if (!mysqli_select_db($conn, $dbname)) {
-                    die("無法選擇資料庫");
-                }
-                // 設定連線編碼
-                mysqli_query($conn, "SET NAMES 'utf8'");
-                if (isset($_SESSION["login_session"])) {
-                    echo '<tr>
-                        <td>
-                            <p>商品圖</p>
-                        </td>
-                        <td>
-                            <p>商品名稱</p>                        
-                        </td>
-                        <td>
-                            <p>售價</p>
-                        </td>
-                        <td>
-                            <p>購買數量</p>
-                        </td>
-                        <td>
-                            <p>變更</p>
-                        </td>
-                    </tr>';
-                    echo '<br><p style="color: rgb(0,0,0)">你的購物車</p>';
-                    $sql = 'SELECT PID, Name,Price FROM cart,users u,product p WHERE MID = u.ID AND p.ID = PID  AND Email = "' . $_SESSION['email'] . '" ';
-                    // echo $sql;
-                    $result = mysqli_query($conn, $sql);
-                    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                        $pid = 1;
-                        $pid = $row['PID'] / 1; //被0補滿會找不到圖片
-                        echo '<tr>
-                                    <td>
-                                        <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
-                                    </td>
-                                    <td>
-                                        <div style="width: 350px">
-                                            <a class = "link" href=".\product.php?pid=' . $pid . ' ">' . $row['Name'] . '</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p>' . $row['Price'] . 'NT</p>
-                                    </td>
-                                    <td>
-                                        <input type="text" value="1" maxlength="3" style="width:50px;"></p>
-                                    </td>
-                                    <td>
-                                        <form action="?delid=' . $pid . '" method = "post">
-                                            <input type="submit" value="清除商品" class="btn btn-primary">
-                                        </form>
-                                    </td>
-                                </tr>';
+            <form action="?buy=true" method="post">
+                <table class="table" style="text-align:center;">
+                    <?php
+                    $servername = "220.132.211.121";
+                    $username = "ZYS";
+                    $pass = "qwe12345";
+                    $dbname = "bookstore";
+                    $conn = mysqli_connect($servername, $username, $pass);
+                    if (empty($conn)) {
+                        print mysqli_error($conn);
+                        die("無法連結資料庫");
+                        exit;
                     }
-                } else {
-                    echo '<script language="javascript">';
-                    echo 'alert("請先登入");';
-                    echo '</script>';
-                }
-                ?>
-            </table>
+                    if (!mysqli_select_db($conn, $dbname)) {
+                        die("無法選擇資料庫");
+                    }
+                    // 設定連線編碼
+                    mysqli_query($conn, "SET NAMES 'utf8'");
+                    if (isset($_SESSION["login_session"])) {
+                        echo '<tr>
+                            <td>
+                                <p>商品圖</p>
+                            </td>
+                            <td>
+                                <p>商品名稱</p>                        
+                            </td>
+                            <td>
+                                <p>售價</p>
+                            </td>
+                            <td>
+                                <p>購買數量</p>
+                            </td>
+                            <td>
+                                <p>變更</p>
+                            </td>
+                        </tr>';
+                        echo '<br><p style="color: rgb(0,0,0)">你的購物車</p>';
+                        $sql = 'SELECT PID, Name,Price FROM cart,users u,product p WHERE MID = u.ID AND p.ID = PID  AND Email = "' . $_SESSION['email'] . '" ';
+                        // echo $sql;
+                        $result = mysqli_query($conn, $sql);
+                        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                            $pid = 1;
+                            $pid = $row['PID'] / 1; //被0補滿會找不到圖片
+                            echo '<tr>
+                                        <td>
+                                            <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                                        </td>
+                                        <td>
+                                            <div style="width: 350px">
+                                                <a class = "link" href=".\product.php?pid=' . $pid . ' ">' . $row['Name'] . '</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p>' . $row['Price'] . 'NT</p>
+                                        </td>
+                                        <td>
+                                            <input type="text" value="1" name="' . $pid . '_amount" maxlength="3" style="width:50px;"></p>
+                                        </td>
+                                        <td>
+                                            <form action="?delid=' . $pid . '" method = "post">
+                                                <input type="submit" value="清除商品" class="btn btn-primary">
+                                            </form>
+                                        </td>
+                                    </tr>';
+                        }
+                    } else {
+                        echo '<script language="javascript">';
+                        echo 'alert("請先登入");';
+                        echo '</script>';
+                    }
+                    ?>
+                </table>
+                <div style="margin-top: 30px; text-align: right;">
+                    <input type="submit" value="確認購買" class="btn btn-primary">
+                </div>
+            </form>
         </div>
     </div>
 </body>
