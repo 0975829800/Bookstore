@@ -44,13 +44,14 @@
                 $total_records = $result->rowCount();
                 // echo "資料筆數: $total_records 筆<br/>";
                 if ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                    //成功登入, 指定Session變數
-                    echo '<script language="javascript">';
-                    echo 'alert("登入成功");';
-                    echo '</script>';
-                    $_SESSION["login_session"] = true;
-                    $_SESSION["email"] = $Email;
-                    header("Location: index.php");
+                    if($row['Flag'] == 1){  //成功登入, 指定Session變數
+                        echo '<script language="javascript">';
+                        echo 'alert("登入成功");';
+                        echo '</script>';
+                        $_SESSION["login_session"] = true;
+                        $_SESSION["email"] = $Email;
+                        header("Location: index.php");
+                    }
                     else {
                         echo '<script language="javascript">';
                         echo 'alert("使用者帳號或密碼錯誤哦~~~");';
