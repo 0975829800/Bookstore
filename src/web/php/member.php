@@ -104,7 +104,7 @@
         </script>';
         echo '<script>
             function del(){
-                var r = confirm("確認刪除帳戶");
+                var r = confirm("確認刪除帳戶\n注意! 刪除後此帳戶ID將不再能使用");
                 if(r == true){
                     var del = 1;
                     location.href="index.php?del= "+del; 

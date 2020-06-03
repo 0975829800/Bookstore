@@ -37,35 +37,28 @@
         $mid = 0;
         $result = mysqli_query($conn, $sql);
         if ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $mid = $row['ID'];
+            $mid = $row['ID']/1;
         }
+        $sql = "UPDATE users SET Flag = 0 WHERE Email='$email'";
+        mysqli_query($conn, $sql);
+        $_SESSION["login_session"] = false;
+        // header("Location: index.php");
+        // $sql = "DELETE FROM cart WHERE MID=$mid;";
+        // mysqli_query($conn, $sql);
         
-        $sql = "DELETE FROM cart WHERE MID=$mid;";
-        if (mysqli_query($conn, $sql)){
-            echo '<script language="javascript">';
-            echo 'alert("已刪除購物資料");';
-            echo '</script>';
-            $_SESSION["login_session"] = false;
-            header("Location: index.php");
-        }
-        else{
-            echo '<script language="javascript">';
-            echo 'alert("刪除失敗");';
-            echo '</script>';
-        }
-        $sql = "DELETE FROM users WHERE Email='$email';";
-        if (mysqli_query($conn, $sql)){
-            echo '<script language="javascript">';
-            echo 'alert("已刪除帳戶");';
-            echo '</script>';
-            $_SESSION["login_session"] = false;
-            header("Location: index.php");
-        }
-        else{
-            echo '<script language="javascript">';
-            echo 'alert("刪除失敗");';
-            echo '</script>';
-        }
+        // $sql = "DELETE FROM users WHERE Email='$email';";
+        // if (mysqli_query($conn, $sql)){
+        //     echo '<script language="javascript">';
+        //     echo 'comfirm("已刪除帳戶");';
+        //     echo '</script>';
+        //     $_SESSION["login_session"] = false;
+        //     header("Location: index.php");
+        // }
+        // else{
+        //     echo '<script language="javascript">';
+        //     echo 'alert("刪除失敗");';
+        //     echo '</script>';
+        // }
         
     }
     function addcart()
