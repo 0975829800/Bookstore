@@ -10,6 +10,51 @@
 </head>
 
 <body>
+    <?php
+    session_start();
+    function delcart()
+    {
+        if (isset($_SESSION["login_session"])) {
+            $servername = "220.132.211.121";
+            $username = "ZYS";
+            $pass = "qwe12345";
+            $dbname = "bookstore";
+            $conn = mysqli_connect($servername, $username, $pass);
+            if (empty($conn)) {
+                print mysqli_error($conn);
+                die("無法連結資料庫");
+                exit;
+            }
+            if (!mysqli_select_db($conn, $dbname)) {
+                die("無法選擇資料庫");
+            }
+            // 設定連線編碼
+            mysqli_query($conn, "SET NAMES 'utf8'");
+            // 检测连接
+            if ($conn->connect_error) {
+                die("連接失敗: " . $conn->connect_error);
+            }
+            $delid = $_GET['delid'];
+            $email = $_SESSION['email'];
+            $sql = "SELECT * FROM users WHERE Email='$email'";
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $mid = $row['ID'];
+            }
+            $sql = "DELETE FROM cart WHERE PID=$delid AND MID=$mid";
+            if ($conn->query($sql) === TRUE) {
+            } else {
+            }
+        } else {
+            echo '<script language="javascript">';
+            echo 'alert("請登入後再點擊");';
+            echo '</script>';
+        }
+    }
+    if (isset($_GET['delid'])) {
+        delcart();
+    }
+    ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -36,7 +81,6 @@
                 </li>
             </ul>
             <?php
-            session_start();
             if (isset($_SESSION["login_session"])) {
                 if ($_SESSION["login_session"]) {
                     echo '<a href="member.php" style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</a>';
@@ -131,13 +175,16 @@
                                         <input type="text" value="1" maxlength="3" style="width:50px;"></p>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary">我沒錢</button>
+                                        <form action="?delid=' . $pid . '" method = "post">
+                                            <input type="submit" value="清除商品" class="btn btn-primary">
+                                        </form>
                                     </td>
                                 </tr>';
                     }
-                }
-                else{
-                    echo "<br><div align= 'center'>請先登入</div>";
+                } else {
+                    echo '<script language="javascript">';
+                    echo 'alert("請先登入");';
+                    echo '</script>';
                 }
                 ?>
             </table>
