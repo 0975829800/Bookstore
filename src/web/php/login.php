@@ -42,7 +42,7 @@
                 // echo "<br/><b>帳戶資料:</b><hr/>";  // 顯示查詢結果
                 // // 取得記錄數
                 $total_records = $result->rowCount();
-                echo "資料筆數: $total_records 筆<br/>";
+                // echo "資料筆數: $total_records 筆<br/>";
                 if ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     //成功登入, 指定Session變數
                     echo '<script language="javascript">';
@@ -62,27 +62,6 @@
             echo "連接失敗: " . $e->getMessage();
         }
         $link = null;
-        //    $link = mysqli_connect("220.132.211.121","ZYS",
-        //                           "qwe12345","bookmarket")
-        //         or die("無法開啟MySQL資料庫連接!<br/>");
-        //    //送出UTF8編碼的MySQL指令
-        //    mysqli_query($link, 'SET NAMES utf8mb4_unicode_ci'); 
-        //    // 建立SQL指令字串
-        //    $sql = "SELECT * FROM users WHERE Password = '$password' AND Email='$Email'";
-        // //    echo $sql;
-        //    // 執行SQL查詢
-        //    $result = mysqli_query($link, $sql);
-        //    $total_records = mysqli_num_rows($result);
-        //    // 是否有查詢到使用者記錄
-        //    if ( $total_records > 0 ) {
-        //       
-        //    } else {  // 登入失敗
-        //       echo '<script language="javascript">';
-        //       echo 'alert("使用者帳號或密碼錯誤哦~~~");';
-        //       echo '</script>';
-        //       $_SESSION["login_session"] = false;
-        //    }
-        //    mysqli_close($link);  // 關閉資料庫連接  
     }
     ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

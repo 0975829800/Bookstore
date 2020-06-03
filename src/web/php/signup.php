@@ -33,7 +33,7 @@
         )
             or die("無法開啟MySQL資料庫連接!<br/>");
         // echo "資料庫bookstore開啟成功!<br/>";
-        mysqli_query($link, 'SET NAMES utf8mb4_unicode_ci');
+        mysqli_query($link, 'SET NAMES utf8');
         $sql = "INSERT INTO users(ID,Flag,Email,Password,Address) VALUES ($ID,1,'$Email','$password','$address')"; // 指定SQL字串        echo "SQL字串: $sql <br/>";
         // echo $sql;
 
@@ -126,7 +126,7 @@
             <br>
             <br>
             <label for="id"">輸入ID(數字0~9999999999) :</label>
-    <input type=" value" name="ID" id="ID">
+            <input type=" value" name="ID" id="ID">
                 <br>
                 <input type="submit" value="註冊" />
         </div>

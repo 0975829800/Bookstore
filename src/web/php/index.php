@@ -12,6 +12,52 @@
 <body>
     <?php
     session_start();
+    if(isset($_GET['del'])){
+        $servername = "220.132.211.121";
+        $username = "ZYS";
+        $pass = "qwe12345";
+        $dbname = "bookstore";
+        $conn = mysqli_connect($servername, $username, $pass);
+        if (empty($conn)) {
+            print mysqli_error($conn);
+            die("無法連結資料庫");
+            exit;
+        }
+        if (!mysqli_select_db($conn, $dbname)) {
+            die("無法選擇資料庫");
+        }
+        // 設定連線編碼
+        mysqli_query($conn, "SET NAMES 'utf8'");
+        // 检测连接
+        if ($conn->connect_error) {
+            die("連接失敗: " . $conn->connect_error);
+        }
+        $email = $_SESSION['email'];
+        $sql = "SELECT * FROM users WHERE Email='$email'";
+        $result = mysqli_query($conn, $sql);
+        if ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $mid = $row['ID'];
+        }
+
+
+
+        
+        $sql = "DELETE FROM cart WHERE MID='$mid';";
+        echo $sql .= "DELETE FROM users WHERE Email='$email';";
+        if (mysqli_query($conn, $sql)){
+            echo '<script language="javascript">';
+            echo 'alert("已刪除帳戶");';
+            echo '</script>';
+            $_SESSION["login_session"] = false;
+            header("Location: index.php");
+        }
+        else{
+            echo '<script language="javascript">';
+            echo 'alert("刪除失敗");';
+            echo '</script>';
+        }
+        
+    }
     function addcart()
     {
         if (isset($_SESSION["login_session"])){
@@ -41,7 +87,7 @@
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $mid = $row['ID'];
             }
-            $sql = "INSERT INTO cart (MID,PID) VALUES ($mid,$cartid)";
+            $sql = "INSERT INTO cart (MID,PID,Amount) VALUES ($mid,$cartid,1)";
             if ($conn->query($sql) === TRUE) {
                 echo '<script language="javascript">';
                 echo 'alert("加入購物車");';

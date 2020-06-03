@@ -90,7 +90,8 @@
                 }
                 // 設定連線編碼
                 mysqli_query($conn, "SET NAMES 'utf8'");
-                echo '<tr>
+                if (isset($_SESSION["login_session"])) {
+                    echo '<tr>
                         <td>
                             <p>商品圖</p>
                         </td>
@@ -107,8 +108,7 @@
                             <p>變更</p>
                         </td>
                     </tr>';
-                if (isset($_SESSION["login_session"])) {
-                    echo '<br><p style="color: rgb(255,255,255)">你的購物車</p>';
+                    echo '<br><p style="color: rgb(0,0,0)">你的購物車</p>';
                     $sql = 'SELECT PID, Name,Price FROM cart,users u,product p WHERE MID = u.ID AND p.ID = PID  AND Email = "' . $_SESSION['email'] . '" ';
                     // echo $sql;
                     $result = mysqli_query($conn, $sql);
@@ -135,6 +135,9 @@
                                     </td>
                                 </tr>';
                     }
+                }
+                else{
+                    echo "<br><div align= 'center'>請先登入</div>";
                 }
                 ?>
             </table>

@@ -41,7 +41,7 @@
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $mid = $row['ID'];
             }
-            $sql = "INSERT INTO cart (MID,PID) VALUES ($mid,$cartid)";
+            $sql = "INSERT INTO cart (MID,PID,Amount) VALUES ($mid,$cartid,1)";
             if ($conn->query($sql) === TRUE) {
                 echo '<script language="javascript">';
                 echo 'alert("加入購物車");';

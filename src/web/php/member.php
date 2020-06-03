@@ -87,6 +87,30 @@
         //送出UTF8編碼的MySQL指令
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        echo '<script>
+        function update() {
+            var r = confirm("確認更改資料");
+            if (r == true) {
+                // var password = prompt("請輸入密碼", "");
+                // if (password != '.$row['Password'].') {
+                //      document.getElementById("demo").innerHTML =
+                //     "Hello " + person + "! How are you today?";
+                // }
+
+            } else {
+                
+            }
+        }
+        </script>';
+        echo '<script>
+            function del(){
+                var r = confirm("確認刪除帳戶");
+                if(r == true){
+                    var del = 1;
+                    location.href="index.php?del= "+del; 
+                }
+            }
+        </script>';
         echo '<div align="center" style="padding:10px;margin-bottom:5px;">
             <h1 style=font-weight:bold;> 會員專區 </h1>
             <br>
@@ -105,8 +129,8 @@
             <label for="id"">ID :</label>
             <a>'.$row['ID'].'</a>
             <br>
-            <input type="submit" value="更新會員帳戶" />
-            <input type="submit" value="刪除帳戶" />
+            <input type="submit" onclick="update()" value="更新會員帳戶" method="post" />
+            <input type="submit" onclick="del()" value="刪除帳戶" />
         </div>';
 
     ?>
