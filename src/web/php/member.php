@@ -90,16 +90,10 @@
         echo '<script>
         function update() {
             var r = confirm("確認更改資料");
-            if (r == true) {
-                // var password = prompt("請輸入密碼", "");
-                // if (password != '.$row['Password'].') {
-                //      document.getElementById("demo").innerHTML =
-                //     "Hello " + person + "! How are you today?";
-                // }
-
-            } else {
-                
-            }
+                if(r == true){
+                    var update = 1;
+                    location.href="index.php?update= "+update; 
+                }
         }
         </script>';
         echo '<script>
@@ -130,7 +124,7 @@
             <a>'.$row['ID'].'</a>
             <br>
             <input type="submit" onclick="update()" value="更新會員帳戶" method="post" />
-            <input type="submit" onclick="del()" value="刪除帳戶" />
+            <!-- <input type="submit" onclick="del()" value="刪除帳戶" /> -->
         </div>';
 
     ?>
