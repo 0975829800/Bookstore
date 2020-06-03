@@ -51,7 +51,8 @@
             echo '</script>';
         }
     }
-    function buy(){
+    function buy()
+    {
         if (isset($_SESSION["login_session"])) {
             $servername = "220.132.211.121";
             $username = "ZYS";
@@ -79,9 +80,9 @@
                 $mid = $row['ID'];
             }
             $sum = 0;
-            for($i=1;$i<=20;$i++) {
+            for ($i = 1; $i <= 20; $i++) {
                 if (isset($_POST[$i . '_amount'])) {
-                    $amount = $_POST[$i.'_amount'];
+                    $amount = $_POST[$i . '_amount'];
                 } else {
                     $amount = 0;
                 }
@@ -92,7 +93,7 @@
                 }
             }
             echo '<script language="javascript">';
-            echo 'var check = confirm("總共為'. $sum .'元\n是否確認購買?");';
+            echo 'var check = confirm("總共為' . $sum . '元\n是否確認購買?");';
             echo 'if (check){
                         location.href = "http://localhost/bookstore/src/web/php/cart.php?confirm=true"
                     }';
@@ -103,7 +104,8 @@
             echo '</script>';
         }
     }
-    function confirm(){
+    function confirm()
+    {
         if (isset($_SESSION["login_session"])) {
             $servername = "220.132.211.121";
             $username = "ZYS";
@@ -146,7 +148,7 @@
     if (isset($_GET['delid'])) {
         delcart();
     }
-    if(isset($_GET['buy'])){
+    if (isset($_GET['buy'])) {
         buy();
     }
     if (isset($_GET['confirm'])) {
@@ -274,9 +276,7 @@
                                             <input type="text" value="1" name="' . $pid . '_amount" maxlength="3" style="width:50px;"></p>
                                         </td>
                                         <td>
-                                            <form action="?delid=' . $pid . '" method = "post">
-                                                <input type="submit" value="清除商品" class="btn btn-primary">
-                                            </form>
+                                            <a href="?delid='. $pid . '" class="btn btn-primary" role="button">清除商品</a>
                                         </td>
                                     </tr>';
                         }
