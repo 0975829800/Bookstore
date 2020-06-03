@@ -12,26 +12,26 @@
 <body>
     <?php
     session_start();
+    $servername = "220.132.211.121";
+    $username = "ZYS";
+    $pass = "qwe12345";
+    $dbname = "bookstore";
+    $conn = mysqli_connect($servername, $username, $pass);
+    if (empty($conn)) {
+        print mysqli_error($conn);
+        die("無法連結資料庫");
+        exit;
+    }
+    if (!mysqli_select_db($conn, $dbname)) {
+        die("無法選擇資料庫");
+    }
+    // 設定連線編碼
+    // 检测连接
+    if ($conn->connect_error) {
+        die("連接失敗: " . $conn->connect_error);
+    }
+    mysqli_query($conn, "SET NAMES 'utf8'");
     if(isset($_GET['del'])){
-        $servername = "220.132.211.121";
-        $username = "ZYS";
-        $pass = "qwe12345";
-        $dbname = "bookstore";
-        $conn = mysqli_connect($servername, $username, $pass);
-        if (empty($conn)) {
-            print mysqli_error($conn);
-            die("無法連結資料庫");
-            exit;
-        }
-        if (!mysqli_select_db($conn, $dbname)) {
-            die("無法選擇資料庫");
-        }
-        // 設定連線編碼
-        // 检测连接
-        if ($conn->connect_error) {
-            die("連接失敗: " . $conn->connect_error);
-        }
-        mysqli_query($conn, "SET NAMES 'utf8'");
         $email = $_SESSION['email'];
         $sql = "SELECT * FROM users WHERE Email='$email'";
         $mid = 0;
