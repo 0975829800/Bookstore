@@ -27,23 +27,33 @@
             die("無法選擇資料庫");
         }
         // 設定連線編碼
-        mysqli_query($conn, "SET NAMES 'utf8'");
         // 检测连接
         if ($conn->connect_error) {
             die("連接失敗: " . $conn->connect_error);
         }
+        mysqli_query($conn, "SET NAMES 'utf8'");
         $email = $_SESSION['email'];
         $sql = "SELECT * FROM users WHERE Email='$email'";
+        $mid = 0;
         $result = mysqli_query($conn, $sql);
         if ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             $mid = $row['ID'];
         }
-
-
-
         
-        $sql = "DELETE FROM cart WHERE MID='$mid';";
-        echo $sql .= "DELETE FROM users WHERE Email='$email';";
+        $sql = "DELETE FROM cart WHERE MID=$mid;";
+        if (mysqli_query($conn, $sql)){
+            echo '<script language="javascript">';
+            echo 'alert("已刪除購物資料");';
+            echo '</script>';
+            $_SESSION["login_session"] = false;
+            header("Location: index.php");
+        }
+        else{
+            echo '<script language="javascript">';
+            echo 'alert("刪除失敗");';
+            echo '</script>';
+        }
+        $sql = "DELETE FROM users WHERE Email='$email';";
         if (mysqli_query($conn, $sql)){
             echo '<script language="javascript">';
             echo 'alert("已刪除帳戶");';
