@@ -87,46 +87,48 @@
         //送出UTF8編碼的MySQL指令
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        echo '<script>
-        function update() {
-            var r = confirm("確認更改資料");
-                if(r == true){
-                    var update = 1;
-                    location.href="index.php?update= "+update; 
-                }
+        $oldpass = $row['Password'];
+        $newpass = "";
+        $oldadd = $row['Address'];
+        $newadd = "";
+        $Email = $_SESSION['email'];
+        if (isset($_POST["password"]))
+            $newpass = $_POST["password"];
+        if (isset($_POST["address"]))
+            $newadd = $_POST["address"];
+        
+        if($newadd != ""&& $newpass != ""&& ($newadd != $oldadd || $newpass != $oldpass) ){    //update account
+            $sql = "UPDATE users SET users.Password = '$newpass', users.Address = '$newadd' WHERE Email = '$Email'";
+            mysqli_query($conn, $sql);
+            echo '<script>
+                var r = alert("已更改資料");
+                location.href="member.php"; 
+            </script>'; //useless
+            // header("Location: member.php");
         }
-        </script>';
-        echo '<script>
-            function del(){
-                var r = confirm("確認刪除帳戶\n注意! 刪除後此帳戶ID將不再能使用");
-                if(r == true){
-                    var del = 1;
-                    location.href="index.php?del= "+del; 
-                }
-            }
-        </script>';
-        echo '<div align="center" style="padding:10px;margin-bottom:5px;">
-            <h1 style=font-weight:bold;> 會員專區 </h1>
-            <br>
-            <label for="Email">Email:</label>
-            <a>'.$row['Email'].'</a>
-            <br>
-            <br>
-            <label for="password">密碼:</label>
-            <input type="password" name="password" id="password" value="'.$row['Password'].'" required />
-            <br>
-            <br>
-            <label for="address">地址:</label>
-            <input type="text"" name=" address" id="address" value="'.$row['Address'].'" required />
-            <br>
-            <br>
-            <label for="id"">ID :</label>
-            <a>'.$row['ID'].'</a>
-            <br>
-            <input type="submit" onclick="update()" value="更新會員帳戶" method="post" />
-            <!-- <input type="submit" onclick="del()" value="刪除帳戶" /> -->
-        </div>';
-
+        echo '
+        <form action="member.php" method="post">
+            <div align="center" style="padding:10px;margin-bottom:5px;">
+                <h1 style=font-weight:bold;> 會員專區 </h1>
+                <br>
+                <label for="Email">Email:</label>
+                <a>'.$row['Email'].'</a>
+                <br>
+                <br>
+                <label for="password">密碼:</label>
+                <input type="password" name="password" id="password" value="'.$row['Password'].'" required />
+                <br>
+                <br>
+                <label for="address">地址:</label>
+                <input type="text"" name=" address" id="address" value="'.$row['Address'].'" required />
+                <br>
+                <br>
+                <label for="id"">ID :</label>
+                <a>'.$row['ID'].'</a>
+                <br>
+                <input type="submit" onclick="update()" value="更新會員帳戶" method="post" />
+            </div>
+        </form>';
     ?>
 </body>
 

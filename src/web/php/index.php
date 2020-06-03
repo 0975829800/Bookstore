@@ -31,36 +31,6 @@
         die("連接失敗: " . $conn->connect_error);
     }
     mysqli_query($conn, "SET NAMES 'utf8'");
-    if(isset($_GET['del'])){
-        $email = $_SESSION['email'];
-        $sql = "SELECT * FROM users WHERE Email='$email'";
-        $mid = 0;
-        $result = mysqli_query($conn, $sql);
-        if ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $mid = $row['ID']/1;
-        }
-        $sql = "UPDATE users SET Flag = 0 WHERE Email='$email'";
-        mysqli_query($conn, $sql);
-        $_SESSION["login_session"] = false;
-        // header("Location: index.php");
-        // $sql = "DELETE FROM cart WHERE MID=$mid;";
-        // mysqli_query($conn, $sql);
-        
-        // $sql = "DELETE FROM users WHERE Email='$email';";
-        // if (mysqli_query($conn, $sql)){
-        //     echo '<script language="javascript">';
-        //     echo 'comfirm("已刪除帳戶");';
-        //     echo '</script>';
-        //     $_SESSION["login_session"] = false;
-        //     header("Location: index.php");
-        // }
-        // else{
-        //     echo '<script language="javascript">';
-        //     echo 'alert("刪除失敗");';
-        //     echo '</script>';
-        // }
-        
-    }
 
     function addcart()
     {
