@@ -134,7 +134,6 @@
             }
             $newpassword = $_POST['password'];
             $newaddress = $_POST['address'];
-            echo $newpassword.$newaddress;
             $email = $_SESSION['email'];
             $sql = "SELECT * FROM users WHERE Email='$email'";
             $result = mysqli_query($conn, $sql);
@@ -142,7 +141,6 @@
                 $mid = $row['ID'];
             }
             $sql = "UPDATE users SET Password = '$newpassword' , Address = '$newaddress' WHERE ID=$mid";
-            echo '<br>'.$sql;
             $result = mysqli_query($conn, $sql);
             if($result){
                 echo '<script language="javascript">';
