@@ -95,13 +95,21 @@
                 }
             }
             // echo $comfirm_page;
-
-            echo '<script language="javascript">';
-            echo 'var check = confirm("總共為' . $sum . '元\n是否確認購買?");';
-            echo 'if (check){
+            if($sum != 0){
+                echo '<script language="javascript">';
+                echo 'var check = confirm("總共為' . $sum . '元\n是否確認購買?");';
+                echo 'if (check){
                         location.href = "'.$comfirm_page.'"
                     }';
-            echo '</script>';
+                echo '</script>';
+            }
+            else{
+                echo '<script language="javascript">';
+                echo 'var check = alert("購物車內無商品，快去血拼吧!");';
+                echo 'location.href = "index.php";';    
+                echo '</script>';
+            }
+            
         } else {
             echo '<script language="javascript">';
             echo 'alert("請登入後再點擊");';

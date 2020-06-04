@@ -163,14 +163,14 @@
                 // 設定連線編碼
                 mysqli_query($conn, "SET NAMES 'utf8'");
                 $keyword = '%' . $search . '%';
-                $sql = "SELECT Name, PID, Price FROM book, product WHERE PID = ID AND Name LIKE '$keyword'";
+                $sql = "SELECT Name, ID, Price FROM product WHERE Name LIKE '$keyword'";
                 $result = mysqli_query($conn, $sql);
                 if (!$result) {
-                    echo ("搜尋無此關鍵字");
+                    echo "搜尋無此關鍵字";
                     exit();
                 }
                 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                    $pid = intval($row['PID']);
+                    $pid = intval($row['ID']);
                     $destination = '?kw=' . $search . '&cartid=' . $pid;
                     echo '<tr>
                                 <td>

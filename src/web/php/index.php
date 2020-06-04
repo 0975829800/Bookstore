@@ -240,7 +240,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p>' . $row['Price'] . 'NT</p>
+                                        <p>NT'. $row['Price'] . '</p>
                                     </td>
                                     <td>
                                         <form action="?cartid=' . $pid . '" method = "post">

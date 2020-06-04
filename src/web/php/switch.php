@@ -43,7 +43,7 @@
                 }
                 ?>
                 <li>
-                    <form class="form-inline" action="search.php" method="GET">
+                    <form class="form-inline" action="search.php" method="get">
                         <input class="form-control mr-sm-2" type="text" id="kw" name="kw" placeholder="Search" required>
                         <input type="submit" value="搜尋" class="btn btn-outline-success my-2 my-sm-0">
                     </form>

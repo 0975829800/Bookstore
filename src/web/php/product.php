@@ -115,12 +115,13 @@
                 $bookname = $row['Name'];
                 $bookprice = $row['Price'];
                 $introduction = $row['Introduction'];
+                $reserve = $row['Reserve'];
             }
             $ISBN = NULL;
             $P_house = NULL;
             $P_date = NULL;
             $Category = NULL;
-            $auther = NULL;
+            $author = NULL;
             $sql = "SELECT * FROM book WHERE PID = $PID";
             $result = mysqli_query($conn, $sql);
             if (!$result) {
@@ -132,22 +133,23 @@
                 $P_house = $row['P_house'];
                 $P_date = $row['P_date'];
                 $Category = $row['Category'];
+
             }
             if ($ISBN) {
                 $sql = "SELECT * FROM author WHERE ISBN = $ISBN";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                    $auther = $row['Author'];
+                    $author = $row['Author'];
                 }
             }
             echo '<div id="sidebar_left" class="col-2">
-                    <img align="center" src="../product_img/' . $PID . '.jpg" height = "300"></a>
+                    <img align="center" src="../product_img/' . $PID . '.jpg" width="400" height = "500"></a>
                 </div>';
             echo '<div id="content" class="col-7">
                     <p>名稱 :  ' . $bookname . '</p>
                     <p>價格 :  ' . $bookprice . '</p>';
-            if ($auther != NULL) {
-                echo '<p>作者:  ' . $auther . '</p>';
+            if ($author != NULL) {
+                echo '<p>作者:  ' . $author . '</p>';
             }
             if ($ISBN != NULL) {
                 echo '<p>類別:  ' . $Category . '</p>';
@@ -155,8 +157,9 @@
                 echo "<p>出版日期: " . $P_date . "</p>";
                 echo "<p>ISBN: " . $ISBN . "</p>";
             }
+            echo "<p>庫存數量: " . $reserve . "</p>";
             echo '</div>';
-            echo "<br><b>產品介紹 : </b><br>";  // 顯示查詢結果
+            echo "<br><br><br><br><b>產品介紹 : </b><br>";  // 顯示查詢結果
             echo $introduction;
             ?>
         </div>
