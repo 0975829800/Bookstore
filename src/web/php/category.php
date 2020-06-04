@@ -73,12 +73,26 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li>
+                <li class="nav-item active">
                     <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                <li>
+                    <a class="nav-link" href=".\category.php"> 商品列表 <span class="sr-only">(current)</span></a>
                 </li>
+                <?php
+                if (isset($_SESSION['login_session'])) {
+                    echo
+                        '<li class="nav-item active">
+                        <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\donation.php"> 捐贈書籍 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\switch.php"> 以書換書 <span class="sr-only">(current)</span></a>
+                    </li>';
+                }
+                ?>
                 <li>
                     <form class="form-inline" action="search.php" method="GET">
                         <input class="form-control mr-sm-2" type="text" id="kw" name="kw" placeholder="Search" required>
@@ -132,7 +146,11 @@
         <div class="col-8">
             <table class="table" style="text-align:center;">
                 <?php
-                $type = $_GET['type'];
+                if (isset($_GET['type'])) {
+                    $type = $_GET['type'];
+                } else {
+                    $type = 0;
+                }
                 $servername = "220.132.211.121";
                 $username = "ZYS";
                 $pass = "qwe12345";

@@ -192,9 +192,23 @@
                 <li class="nav-item active">
                     <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
-                <li>
-                    <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                <li class="nav-item active">
+                    <a class="nav-link" href=".\category.php"> 商品列表 <span class="sr-only">(current)</span></a>
                 </li>
+                <?php
+                if (isset($_SESSION['login_session'])) {
+                    echo
+                    '<li>
+                        <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\donation.php"> 捐贈書籍 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\switch.php"> 以書換書 <span class="sr-only">(current)</span></a>
+                    </li>';
+                }
+                ?>
                 <li>
                     <form class="form-inline" action="search.php" method="GET">
                         <input class="form-control mr-sm-2" type="text" id="kw" name="kw" placeholder="Search" required>
@@ -298,7 +312,7 @@
                                             <input type="text" value="1" name="' . $pid . '_amount" maxlength="3" style="width:50px;"></p>
                                         </td>
                                         <td>
-                                            <a href="?delid='. $pid . '" class="btn btn-primary" role="button">清除商品</a>
+                                            <a href="?delid=' . $pid . '" class="btn btn-primary" role="button">清除商品</a>
                                         </td>
                                     </tr>';
                         }

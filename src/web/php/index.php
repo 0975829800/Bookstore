@@ -31,13 +31,13 @@
         die("連接失敗: " . $conn->connect_error);
     }
     mysqli_query($conn, "SET NAMES 'utf8'");
-    if(isset($_GET['del'])){
+    if (isset($_GET['del'])) {
         $email = $_SESSION['email'];
         $sql = "SELECT * FROM users WHERE Email='$email'";
         $mid = 0;
         $result = mysqli_query($conn, $sql);
         if ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $mid = $row['ID']/1;
+            $mid = $row['ID'] / 1;
         }
         $sql = "UPDATE users SET Flag = 0 WHERE Email='$email'";
         mysqli_query($conn, $sql);
@@ -45,7 +45,7 @@
         // header("Location: index.php");
         // $sql = "DELETE FROM cart WHERE MID=$mid;";
         // mysqli_query($conn, $sql);
-        
+
         // $sql = "DELETE FROM users WHERE Email='$email';";
         // if (mysqli_query($conn, $sql)){
         //     echo '<script language="javascript">';
@@ -59,11 +59,11 @@
         //     echo 'alert("刪除失敗");';
         //     echo '</script>';
         // }
-        
+
     }
     function addcart()
     {
-        if (isset($_SESSION["login_session"])){
+        if (isset($_SESSION["login_session"])) {
             $servername = "220.132.211.121";
             $username = "ZYS";
             $pass = "qwe12345";
@@ -100,8 +100,7 @@
                 echo 'alert("已經加入購物車");';
                 echo '</script>';
             }
-        }
-        else{
+        } else {
             echo '<script language="javascript">';
             echo 'alert("請登入後再點擊");';
             echo '</script>';
@@ -127,8 +126,22 @@
                     <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href=".\category.php"> 商品列表 <span class="sr-only">(current)</span></a>
                 </li>
+                <?php 
+                if(isset($_SESSION['login_session'])){
+                    echo
+                    '<li class="nav-item active">
+                        <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\donation.php"> 捐贈書籍 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\switch.php"> 以書換書 <span class="sr-only">(current)</span></a>
+                    </li>';
+                }
+                ?>
                 <li>
                     <form class="form-inline" action="search.php" method="GET">
                         <input class="form-control mr-sm-2" type="text" id="kw" name="kw" placeholder="Search" required>
@@ -147,7 +160,7 @@
             if (isset($_GET['logout'])) {
                 logout();
             }
-            if(isset($_SESSION["login_session"])){
+            if (isset($_SESSION["login_session"])) {
                 if ($_SESSION["login_session"]) {
                     echo '<a href="member.php" style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</a>';
                     echo '<form class="form-inline mt-2 mt-md-0">
@@ -164,7 +177,6 @@
                             登入</a>
                     </form>';
                 }
-                
             } else {
                 echo '<form class="form-inline mt-2 mt-md-0">
                     <a class="btn btn-outline-success my-2 my-sm-0" href=".\signup.php" role="button">
