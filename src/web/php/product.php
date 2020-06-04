@@ -143,21 +143,21 @@
                 }
             }
             echo '<div id="sidebar_left" class="col-2">
-                    <img align="center" src="../product_img/' . $PID . '.jpg" width="400" height = "500"></a>
+                    <img align="center" src="../product_img/' . $PID . '.jpg" height = "400"></a>
                 </div>';
             echo '<div id="content" class="col-7">
-                    <p>名稱 :  ' . $bookname . '</p>
-                    <p>價格 :  ' . $bookprice . '</p>';
+                    名稱 :  ' . $bookname . '
+                    <br>價格 :  ' . $bookprice . '';
             if ($author != NULL) {
-                echo '<p>作者:  ' . $author . '</p>';
+                echo '<p>作者:  ' . $author . '';
             }
             if ($ISBN != NULL) {
-                echo '<p>類別:  ' . $Category . '</p>';
-                echo "<p>出版社: " . $P_house . "</p>";
-                echo "<p>出版日期: " . $P_date . "</p>";
-                echo "<p>ISBN: " . $ISBN . "</p>";
+                echo '<br>類別:  ' . $Category . '';
+                echo "<br>出版社: " . $P_house . "";
+                echo "<br>出版日期: " . $P_date . "";
+                echo "<br>ISBN: " . $ISBN . "";
             }
-            echo "<p>庫存數量: " . $reserve . "</p>";
+            echo "<br>庫存數量: " . $reserve . "";
             echo '</div>';
             echo "<br><br><br><br><b>產品介紹 : </b><br>";  // 顯示查詢結果
             echo $introduction;
