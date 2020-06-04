@@ -80,9 +80,11 @@
                 $mid = $row['ID'];
             }
             $sum = 0;
+            $comfirm_page = "cart.php?confirm=true";
             for ($i = 1; $i <= 20; $i++) {
                 if (isset($_POST[$i . '_amount'])) {
                     $amount = $_POST[$i . '_amount'];
+                    $comfirm_page .= '&'.$i.'_amount = '.$amount.'';
                 } else {
                     $amount = 0;
                 }
@@ -92,10 +94,12 @@
                     $sum += $amount * $row['Price'];
                 }
             }
+            // echo $comfirm_page;
+
             echo '<script language="javascript">';
             echo 'var check = confirm("總共為' . $sum . '元\n是否確認購買?");';
             echo 'if (check){
-                        location.href = "http://localhost/bookstore/src/web/php/cart.php?confirm=true"
+                        location.href = "'.$comfirm_page.'"
                     }';
             echo '</script>';
         } else {
@@ -132,14 +136,32 @@
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $mid = $row['ID'];
             }
+            date_default_timezone_set ("ASIA/Taipei");
+            $date = date("Y-m-d");
+            for ($i = 1; $i <= 20; $i++) {
+                if (isset($_GET[$i . '_amount'])) {
+                    echo $_GET[$i . '_amount']; // get不到
+                } else {
+                    
+                }
+                // $sql = "INSERT INTO purchase VALUES() MID=$mid";
+                // $result = mysqli_query($conn, $sql);
+                // while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    
+                // }
+            }            
+            
+            
             $sql = "DELETE FROM cart WHERE MID=$mid";
-            if ($conn->query($sql) === TRUE) {
-                echo '<script language="javascript">';
-                echo 'alert("購買成功");';
-                echo '</script>';
-            } else {
-            }
-        } else {
+            // if ($conn->query($sql) === TRUE) {
+            //     echo '<script language="javascript">';
+            //     echo 'alert("購買成功");';
+            //     echo '</script>';
+            // } 
+            // else {
+            // }
+        } 
+        else {
             echo '<script language="javascript">';
             echo 'alert("請登入後再點擊");';
             echo '</script>';
@@ -283,6 +305,7 @@
                     } else {
                         echo '<script language="javascript">';
                         echo 'alert("請先登入");';
+                        echo 'location.href="login.php"; ';
                         echo '</script>';
                     }
                     ?>
