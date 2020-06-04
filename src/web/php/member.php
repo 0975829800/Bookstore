@@ -96,51 +96,37 @@
         die("無法選擇資料庫");
     }
     mysqli_query($conn, "SET NAMES 'utf8'");
-    $sql = 'SELECT * FROM users WHERE "' . $_SESSION['email'] . '" = Email';
+    $email = $_SESSION['email'];
+    $sql = "SELECT * FROM users WHERE Email = '$email'";
 
     //送出UTF8編碼的MySQL指令
     $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $oldpass = $row['Password'];
-    $newpass = "";
-    $oldadd = $row['Address'];
-    $newadd = "";
-    $Email = $_SESSION['email'];
-    if (isset($_POST["password"]))
-        $newpass = $_POST["password"];
-    if (isset($_POST["address"]))
-        $newadd = $_POST["address"];
-
-    if ($newadd != "" && $newpass != "" && ($newadd != $oldadd || $newpass != $oldpass)) {    //update account
-        $sql = "UPDATE users SET users.Password = '$newpass', users.Address = '$newadd' WHERE Email = '$Email'";
-        mysqli_query($conn, $sql);
-        echo '<script>
-                var r = alert("已更改資料");
-                location.href="member.php"; 
-            </script>'; //useless
-        // header("Location: member.php");
+    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $id = $row['ID'];
+        $password = $row['Password'];
+        $address = $row['Address'];
     }
     echo '
-        <form action="member.php" method="post">
+        <form action="index.php?change_information=true" method="post">
             <div align="center" style="padding:10px;margin-bottom:5px;">
                 <h1 style=font-weight:bold;> 會員專區 </h1>
                 <br>
                 <label for="Email">Email:</label>
-                <a>' . $row['Email'] . '</a>
+                <a>' . $email . '</a>
                 <br>
                 <br>
-                <label for="password">密碼:</label>
-                <input type="password" name="password" id="password" value="' . $row['Password'] . '" required />
+                <label for="password">新密碼:</label>
+                <input type="password" name="password" id="password" value="' . $password . '">
                 <br>
                 <br>
                 <label for="address">地址:</label>
-                <input type="text"" name=" address" id="address" value="' . $row['Address'] . '" required />
+                <input type="text"" name=" address" id="address" value="' . $address . '">
                 <br>
                 <br>
                 <label for="id"">ID :</label>
-                <a>' . $row['ID'] . '</a>
+                <a>' . $id . '</a>
                 <br>
-                <input type="submit" onclick="update()" value="更新會員帳戶" method="post" />
+                <input type="submit" value="更新會員帳戶">
             </div>
         </form>';
     ?>

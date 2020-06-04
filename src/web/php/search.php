@@ -73,7 +73,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li>
+                <li class="nav-item active">
                     <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
