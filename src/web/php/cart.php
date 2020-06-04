@@ -84,7 +84,7 @@
             for ($i = 1; $i <= 20; $i++) {
                 if (isset($_POST[$i . '_amount'])) {
                     $amount = $_POST[$i . '_amount'];
-                    $comfirm_page .= '&'.$i.'_amount = '.$amount.'';
+                    $comfirm_page .= '&'.$i.'_amount='.$amount.'';
                 } else {
                     $amount = 0;
                 }
@@ -140,26 +140,25 @@
             $date = date("Y-m-d");
             for ($i = 1; $i <= 20; $i++) {
                 if (isset($_GET[$i . '_amount'])) {
-                    echo $_GET[$i . '_amount']; // get不到
-                } else {
+                    $amount = $_GET[$i . '_amount'];
+                    $rand = rand(1,9999999999);
+                    $sql = "INSERT INTO purchase VALUES($rand,$amount,'$date',$mid,$i);";
+                    while(!($conn->query($sql) === TRUE)) {
+                        $rand = rand(1,9999999999);
+                        $sql = "INSERT INTO purchase VALUES($rand,$amount,'$date',$mid,$i);";
+                    } 
                     
                 }
-                // $sql = "INSERT INTO purchase VALUES() MID=$mid";
-                // $result = mysqli_query($conn, $sql);
-                // while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                    
-                // }
             }            
-            
-            
+               
             $sql = "DELETE FROM cart WHERE MID=$mid";
-            // if ($conn->query($sql) === TRUE) {
-            //     echo '<script language="javascript">';
-            //     echo 'alert("購買成功");';
-            //     echo '</script>';
-            // } 
-            // else {
-            // }
+            if ($conn->query($sql) === TRUE) {
+                echo '<script language="javascript">';
+                echo 'alert("購買成功");';
+                echo '</script>';
+            } 
+            else {
+            }
         } 
         else {
             echo '<script language="javascript">';
