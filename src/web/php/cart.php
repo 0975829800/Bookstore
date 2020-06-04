@@ -176,7 +176,7 @@
                 <?php
                 if (isset($_SESSION['login_session'])) {
                     echo
-                        '<li class="nav-item active">
+                    '<li>
                         <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">

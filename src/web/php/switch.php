@@ -37,7 +37,7 @@
                     <li class="nav-item active">
                         <a class="nav-link" href=".\donation.php"> 捐贈書籍 <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item active">
+                    <li>
                         <a class="nav-link" href=".\switch.php"> 以書換書 <span class="sr-only">(current)</span></a>
                     </li>';
                 }
