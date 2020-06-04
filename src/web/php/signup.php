@@ -34,7 +34,7 @@
             or die("無法開啟MySQL資料庫連接!<br/>");
         // echo "資料庫bookstore開啟成功!<br/>";
         mysqli_query($link, 'SET NAMES utf8');
-        $sql = "INSERT INTO users(ID,Flag,Email,Password,Address) VALUES ($ID,1,'$Email','$password','$address')"; // 指定SQL字串        echo "SQL字串: $sql <br/>";
+        $sql = "INSERT INTO users(ID,Flag,Email,Password,Address,Reward_points) VALUES ($ID,1,'$Email','$password','$address',0)"; // 指定SQL字串        echo "SQL字串: $sql <br/>";
         // echo $sql;
 
         //送出UTF8編碼的MySQL指令
