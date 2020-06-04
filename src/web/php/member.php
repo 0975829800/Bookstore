@@ -103,7 +103,7 @@
             echo '<script>
                 var r = alert("已更改資料");
                 location.href="member.php"; 
-            </script>'; //useless
+            </script>'; 
             // header("Location: member.php");
         }
         echo '
