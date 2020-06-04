@@ -44,21 +44,19 @@
                 $total_records = $result->rowCount();
                 // echo "資料筆數: $total_records 筆<br/>";
                 if ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                    if($row['Flag'] == 1){  //成功登入, 指定Session變數
+                    if ($row['Flag'] == 1) {  //成功登入, 指定Session變數
                         echo '<script language="javascript">';
                         echo 'alert("登入成功");';
                         echo '</script>';
                         $_SESSION["login_session"] = true;
                         $_SESSION["email"] = $Email;
                         header("Location: index.php");
-                    }
-                    else {
+                    } else {
                         echo '<script language="javascript">';
                         echo 'alert("使用者帳號或密碼錯誤哦~~~");';
                         echo '</script>';
                         $_SESSION["login_session"] = false;
                     }
-                    
                 } else {
                     echo '<script language="javascript">';
                     echo 'alert("使用者帳號或密碼錯誤哦~~~");';
@@ -88,8 +86,22 @@
                     <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href=".\category.php"> 商品列表 <span class="sr-only">(current)</span></a>
                 </li>
+                <?php
+                if (isset($_SESSION['login_session'])) {
+                    echo
+                        '<li class="nav-item active">
+                        <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\donation.php"> 捐贈書籍 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\switch.php"> 以書換書 <span class="sr-only">(current)</span></a>
+                    </li>';
+                }
+                ?>
                 <li>
                     <form class="form-inline" action="search.php" method="GET">
                         <input class="form-control mr-sm-2" type="text" id="kw" name="kw" placeholder="Search" required>
