@@ -111,58 +111,11 @@
             echo '</script>';
         }
     }
-    function change_information(){
-        if (isset($_SESSION["login_session"])) {
-            $servername = "220.132.211.121";
-            $username = "ZYS";
-            $pass = "qwe12345";
-            $dbname = "bookstore";
-            $conn = mysqli_connect($servername, $username, $pass);
-            if (empty($conn)) {
-                print mysqli_error($conn);
-                die("無法連結資料庫");
-                exit;
-            }
-            if (!mysqli_select_db($conn, $dbname)) {
-                die("無法選擇資料庫");
-            }
-            // 設定連線編碼
-            mysqli_query($conn, "SET NAMES 'utf8'");
-            // 检测连接
-            if ($conn->connect_error) {
-                die("連接失敗: " . $conn->connect_error);
-            }
-            $newpassword = $_POST['password'];
-            $newaddress = $_POST['address'];
-            $email = $_SESSION['email'];
-            $sql = "SELECT * FROM users WHERE Email='$email'";
-            $result = mysqli_query($conn, $sql);
-            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $mid = $row['ID'];
-            }
-            $sql = "UPDATE users SET Password = '$newpassword' , Address = '$newaddress' WHERE ID=$mid";
-            $result = mysqli_query($conn, $sql);
-            if($result){
-                echo '<script language="javascript">';
-                echo 'alert("客戶資料修改成功\n請重新登入");';
-                echo '</script>';
-            } else {
-                echo '<script language="javascript">';
-                echo 'alert("客戶資料修改失敗");';
-                echo '</script>';
-            }
-            unset($_SESSION["login_session"]);
-            unset($_SESSION["email"]);
-        }
-    }
     if (isset($_GET['logout'])) {
         logout();
     }
     if (isset($_GET['cartid'])) {
         addcart();
-    }
-    if (isset($_GET['change_information'])) {
-        change_information();
     }
     ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
