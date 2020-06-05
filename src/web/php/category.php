@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>書福</title>
+    <title>產品列表</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">

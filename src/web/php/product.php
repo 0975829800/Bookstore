@@ -3,7 +3,61 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>書福</title>
+    <title><?php
+    // 建立MySQL的資料庫連接 
+    $servername = "220.132.211.121";
+    $username = "ZYS";
+    $pass = "qwe12345";
+    $dbname = "bookstore";
+    $conn = mysqli_connect($servername, $username, $pass);
+    if (empty($conn)) {
+        print mysqli_error($conn);
+        die("無法連結資料庫");
+        exit;
+    }
+    if (!mysqli_select_db($conn, $dbname)) {
+        die("無法選擇資料庫");
+    }
+    mysqli_query($conn, "SET NAMES 'utf8'");
+    $PID = $_GET['pid'];
+    $sql = "SELECT * FROM product WHERE ID = $PID";
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $bookname = $row['Name'];
+        $bookprice = $row['Price'];
+        $introduction = $row['Introduction'];
+        $reserve = $row['Reserve'];
+    }
+    $ISBN = NULL;
+    $P_house = NULL;
+    $P_date = NULL;
+    $Category = NULL;
+    $author = NULL;
+    $sql = "SELECT * FROM book WHERE PID = $PID";
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+        echo ("Error: " . mysqli_error($connect));
+        exit();
+    }
+    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $ISBN = $row['ISBN'];
+        $P_house = $row['P_house'];
+        $P_date = $row['P_date'];
+        $Category = $row['Category'];
+
+    }
+    if ($ISBN) {
+        $sql = "SELECT * FROM author WHERE ISBN = $ISBN";
+        $result = mysqli_query($conn, $sql);
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $author = $row['Author'];
+        }
+    }
+    // echo "bookname";
+    if($bookname!= ""){
+        echo $bookname;
+    }
+    ?></title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
@@ -93,55 +147,55 @@
     <div class="container pt-4">
         <div id="sitebody">
             <?php
-            // 建立MySQL的資料庫連接 
-            $servername = "220.132.211.121";
-            $username = "ZYS";
-            $pass = "qwe12345";
-            $dbname = "bookstore";
-            $conn = mysqli_connect($servername, $username, $pass);
-            if (empty($conn)) {
-                print mysqli_error($conn);
-                die("無法連結資料庫");
-                exit;
-            }
-            if (!mysqli_select_db($conn, $dbname)) {
-                die("無法選擇資料庫");
-            }
-            mysqli_query($conn, "SET NAMES 'utf8'");
-            $PID = $_GET['pid'];
-            $sql = "SELECT * FROM product WHERE ID = $PID";
-            $result = mysqli_query($conn, $sql);
-            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $bookname = $row['Name'];
-                $bookprice = $row['Price'];
-                $introduction = $row['Introduction'];
-                $reserve = $row['Reserve'];
-            }
-            $ISBN = NULL;
-            $P_house = NULL;
-            $P_date = NULL;
-            $Category = NULL;
-            $author = NULL;
-            $sql = "SELECT * FROM book WHERE PID = $PID";
-            $result = mysqli_query($conn, $sql);
-            if (!$result) {
-                echo ("Error: " . mysqli_error($connect));
-                exit();
-            }
-            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $ISBN = $row['ISBN'];
-                $P_house = $row['P_house'];
-                $P_date = $row['P_date'];
-                $Category = $row['Category'];
+            // // 建立MySQL的資料庫連接 
+            // $servername = "220.132.211.121";
+            // $username = "ZYS";
+            // $pass = "qwe12345";
+            // $dbname = "bookstore";
+            // $conn = mysqli_connect($servername, $username, $pass);
+            // if (empty($conn)) {
+            //     print mysqli_error($conn);
+            //     die("無法連結資料庫");
+            //     exit;
+            // }
+            // if (!mysqli_select_db($conn, $dbname)) {
+            //     die("無法選擇資料庫");
+            // }
+            // mysqli_query($conn, "SET NAMES 'utf8'");
+            // $PID = $_GET['pid'];
+            // $sql = "SELECT * FROM product WHERE ID = $PID";
+            // $result = mysqli_query($conn, $sql);
+            // while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            //     $bookname = $row['Name'];
+            //     $bookprice = $row['Price'];
+            //     $introduction = $row['Introduction'];
+            //     $reserve = $row['Reserve'];
+            // }
+            // $ISBN = NULL;
+            // $P_house = NULL;
+            // $P_date = NULL;
+            // $Category = NULL;
+            // $author = NULL;
+            // $sql = "SELECT * FROM book WHERE PID = $PID";
+            // $result = mysqli_query($conn, $sql);
+            // if (!$result) {
+            //     echo ("Error: " . mysqli_error($connect));
+            //     exit();
+            // }
+            // while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            //     $ISBN = $row['ISBN'];
+            //     $P_house = $row['P_house'];
+            //     $P_date = $row['P_date'];
+            //     $Category = $row['Category'];
 
-            }
-            if ($ISBN) {
-                $sql = "SELECT * FROM author WHERE ISBN = $ISBN";
-                $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                    $author = $row['Author'];
-                }
-            }
+            // }
+            // if ($ISBN) {
+            //     $sql = "SELECT * FROM author WHERE ISBN = $ISBN";
+            //     $result = mysqli_query($conn, $sql);
+            //     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            //         $author = $row['Author'];
+            //     }
+            // }
             echo '<div id="sidebar_left" class="col-2">
                     <img align="center" src="../product_img/' . $PID . '.jpg" height = "400"></a>
                 </div>';
