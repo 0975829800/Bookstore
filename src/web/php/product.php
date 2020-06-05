@@ -199,7 +199,7 @@
             echo '<div id="sidebar_left" class="col-2">
                     <img align="center" src="../product_img/' . $PID . '.jpg" height = "400"></a>
                 </div>';
-            echo '<div id="content" class="col-7">
+            echo '<div style="width: 500px; margin-left: 400px;" id="content" class="col-7">
                     名稱 :  ' . $bookname . '
                     <br>價格 :  ' . $bookprice . '';
             if ($author != NULL) {
