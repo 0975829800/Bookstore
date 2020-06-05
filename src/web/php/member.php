@@ -26,17 +26,31 @@
                     <a class="nav-link" href=".\index.php">首頁 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href=".\category.php"> 商品列表 <span class="sr-only">(current)</span></a>
                 </li>
+                <?php
+                session_start();
+                if (isset($_SESSION['login_session'])) {
+                    echo
+                        '<li class="nav-item active">
+                        <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\donation.php"> 捐贈書籍 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href=".\switch.php"> 以書換書 <span class="sr-only">(current)</span></a>
+                    </li>';
+                }
+                ?>
                 <li>
-                    <form class="form-inline" action="search.php" method="GET">
+                    <form class="form-inline" action="search.php" method="get">
                         <input class="form-control mr-sm-2" type="text" id="kw" name="kw" placeholder="Search" required>
                         <input type="submit" value="搜尋" class="btn btn-outline-success my-2 my-sm-0">
                     </form>
                 </li>
             </ul>
             <?php
-            session_start();
             if (isset($_SESSION["login_session"])) {
                 if ($_SESSION["login_session"]) {
                     echo '<a href="member.php" style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</a>';
@@ -122,6 +136,9 @@
                 <label for="address">地址:</label>
                 <input type="text"" name=" address" id="address" value="'.$row['Address'].'" required />
                 <br>
+                <br>
+                <label for="id"">點數 :</label>
+                <a>'.$row['Reward_points'].'(可換書)</a>
                 <br>
                 <label for="id"">ID :</label>
                 <a>'.$row['ID'].'</a>

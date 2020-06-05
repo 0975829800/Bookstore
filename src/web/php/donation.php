@@ -108,12 +108,13 @@
                 die("無法選擇資料庫");
             }
             mysqli_query($conn, "SET NAMES 'utf8'");
-            echo $sql = 'SELECT * FROM users WHERE Email = "'.$_SESSION['email'].'";';
+            $sql = 'SELECT * FROM users WHERE Email = "'.$_SESSION['email'].'";';
             //送出UTF8編碼的MySQL指令
             $result = mysqli_query($conn, $sql);
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            echo $mid = $row['ID']/1;
-
+            $mid = $row['ID']/1;
+            $reward_points = $row['Reward_points'];
+            $Email = $row['Email'];
 
             /*insert used_book*/
             $sql = "INSERT INTO used_book VALUES ('$title','$ISBN','$category',$amount);";
@@ -150,6 +151,7 @@
                 $amount += $row['Amount'];
                 $sql = "UPDATE donor SET donor.Amount = $amount WHERE MID = $mid AND ISBN = '$ISBN';";
                 $result = mysqli_query($conn, $sql);
+                $amount -= $row['Amount'];
                 // echo '<script>
                 // var r = alert("再加入donor"); 
                 // </script>';
@@ -159,6 +161,8 @@
                 // var r = alert("加入donor"); 
                 // </script>'; 
             }
+            echo $sql = "UPDATE users SET users.Reward_points =  users.Reward_points + $amount WHERE Email = '$Email';";
+            echo $result = mysqli_query($conn, $sql);
         }
     ?>
     <form action="donation.php" method="post">
