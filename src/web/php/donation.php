@@ -171,7 +171,7 @@
             <br>
             <h6> 請輸入書的各項資料 </h6>
             <label for="Title">標題:</label>
-            <input type="text"" name="Title" id="Title" required autofocus />
+            <input type="text" name="Title" id="Title" required autofocus />
             <br>
             <label for="ISBN">ISBN:</label>
             <input type="text" name="ISBN" id="ISBN" required />
@@ -179,8 +179,8 @@
             <label for="Category">類別:</label>
             <input type="text" name="Category" id="Category" required />
             <br>
-            <label for="Amount"">數量:</label>
-            <input type="text" value="1" name="Amount" maxlength="3"">
+            <label for="Amount">數量:</label>
+            <input type="text" value="1" name="Amount" maxlength="3">
             <br>
             <input type="submit" value="捐贈" />
         </div>
