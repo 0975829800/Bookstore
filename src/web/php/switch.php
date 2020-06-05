@@ -89,6 +89,92 @@
             ?>
         </div>
     </nav>
+    <?php
+        $servername = "220.132.211.121";
+        $username = "ZYS";
+        $pass = "qwe12345";
+        $dbname = "bookstore";
+        $conn = mysqli_connect($servername, $username, $pass);
+        if (empty($conn)) {
+            print mysqli_error($conn);
+            die("無法連結資料庫");
+            exit;
+        }
+        if (!mysqli_select_db($conn, $dbname)) {
+            die("無法選擇資料庫");
+        }
+        mysqli_query($conn, "SET NAMES 'utf8'");
+        $sql = 'SELECT * FROM users WHERE "'.$_SESSION['email'].'" = Email';
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $mid = $row['ID']/1;
+        if($row['Reward_points'] == 0){
+            echo '<script language="javascript">';
+            echo 'alert("需要有點數才能換書哦!\n快去拿家中不需要的書來捐贈吧!");';
+            echo '</script>';
+        }
+        else{
+            $points = $row['Reward_points'];
+            echo '
+            <h1 align="center" style=font-weight:bold; >以書換書</h1>
+            <br><br>
+            <h6 align="center" style=font-weight:bold; >點數共計 : '.$points.'</h6>
+            <div align="center" style="padding:10px;margin-bottom:5px;>
+                <br>
+                <div class="dropdown ">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    選擇想交換的類別
+                    </button>
+                    <div class="dropdown-menu">
+                        ';
+                        $sql = "SELECT DISTINCT Category FROM used_book;";
+                        $result = mysqli_query($conn, $sql);
+                        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                           echo '<a class="dropdown-item" href="?chose='.$row['Category'].'">'.$row['Category'].'</a>';
+                        }
+                        echo'
+                    </div>
+                </div>
+            </div>';
+        }
+        $chose = "";
+        if(isset($_GET['chose'])){
+            $chose = $_GET['chose'];
+        }
+        if($chose != "" && !isset($_GET['confirm'])){
+            echo '<script language="javascript">';
+            echo 'var check = confirm("確定要換' . $chose . '的書?\n將隨機出書");';
+            echo 'if (check){
+                    location.href = "switch.php?chose=' . $chose . '&confirm=true";
+                }
+                else{
+                    location.href = "switch.php";
+                }
+                ';
+                
+            echo '</script>';
+        }
+        else if($chose != "" && isset($_GET['confirm'])){   //comfirm for 
+            $date = date("Y-m-d");
+            $ID = rand(1,9999999999);
+            $sql = "SELECT ISBN FROM used_book WHERE Category = '$chose' ORDER BY RAND() LIMIT 1;";//random
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $ISBN = $row['ISBN'];
+            
+            $sql = "INSERT INTO switch VALUES($ID,$mid,'$ISBN',1,$date);";
+            while(!($conn->query($sql) === TRUE)) {
+                $ID = rand(1,9999999999);
+                $sql = "INSERT INTO switch VALUES($ID,$mid,'$ISBN',1,$date);";
+            } 
+            echo '<script language="javascript">';
+            echo 'var check = alert("交換完成");';
+            echo '</script>';
+            
+        }
+        
+    ?>
+
 </body>
 
 </html>
