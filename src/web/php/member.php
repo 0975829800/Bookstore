@@ -106,7 +106,7 @@
             die("無法選擇資料庫");
         }
         mysqli_query($conn, "SET NAMES 'utf8'");
-        if(isset($_GET['update'])){
+        if(isset($_GET['update']) || (!isset($_GET['update'])&&!isset($_GET['purchase'])&&!isset($_GET['switch']))){
             $sql = 'SELECT * FROM users WHERE "'.$_SESSION['email'].'" = Email';
 
             //送出UTF8編碼的MySQL指令
@@ -158,29 +158,64 @@
             </form>';
         }
         else if(isset($_GET['purchase'])){
-            $MID = $_SESSION['ID'];
-            $sql = "SELECT * FROM purchase WHERE MID = $MID";
+            $email = $_SESSION['email'];
+            $sql = "SELECT * FROM users WHERE Email = '$email'";
             $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $MID = $row['ID'];
+            }
+            $sql = "SELECT * FROM purchase WHERE MID = $MID ORDER BY Date DESC";
+            $result = mysqli_query($conn, $sql);
+            echo '<div align="center">';
+            echo '<table class="table" style="text-align:center;">';
+            echo '<tr>
+                        <td>購買ID</td>
+                        <td>商品預覽圖</td>
+                        <td>商品名稱</td>
+                        <td>購買日期</td>
+                        <td>數量</td>
+                    </tr>';
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $ID = $row['ID'];
                 $Amount = $row['Amount'];
                 $Date = $row['Date'];
-                $PID = $row['PID']/1;
-                
+                $PID = $row['PID'];
+                $pid = intval($PID);
                 $sql = "SELECT * FROM product WHERE ID = $PID";
                 $r = mysqli_query($conn, $sql);
                 $tuple = mysqli_fetch_array($r, MYSQLI_ASSOC);
                 $Pname = $tuple['Name'];
-                echo '<br> 格式還沒處理<br  >';
-                echo $ID.' '.$Amount.' '.$Date.' '.$PID.' '.$Pname;
+                echo '<tr>
+                        <td>' . $ID . '</td>
+                        <td><a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a></td>
+                        <td>' . $Pname . '</td>
+                        <td>' . $Date . '</td>
+                        <td>' . $Amount . '</td>
+                    </tr>';
+                    
             }
+            echo '</table>';
+            echo '</div>';
             
         }
         else if(isset($_GET['switch'])){
-            echo '<br> 格式還沒處理 <br>';
-            $MID = $_SESSION['ID'];
-            $sql = "SELECT * FROM switch WHERE MID = $MID";
+            $email = $_SESSION['email'];
+            $sql = "SELECT * FROM users WHERE Email = '$email'";
             $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $MID = $row['ID'];
+            }
+            $sql = "SELECT * FROM switch WHERE MID = $MID ORDER BY Date DESC";
+            $result = mysqli_query($conn, $sql);
+            echo '<div align="center">';
+            echo '<table class="table" style="text-align:center;">';
+            echo '<tr>
+                        <td>兌換ID</td>
+                        <td>商品名稱</td>
+                        <td>購買日期</td>
+                        <td>ISBN</td>
+                        <td>數量</td>
+                    </tr>';
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $ID = $row['ID'];
                 $Amount = $row['Amount'];
@@ -191,9 +226,16 @@
                 $r = mysqli_query($conn, $sql);
                 $tuple = mysqli_fetch_array($r, MYSQLI_ASSOC);
                 $Title = $tuple['Title'];
-                echo $ID.' '.$Amount.' '.$Date.' '.$ISBN.' '.$Title.'<br>';
-            
+                echo '<tr>
+                        <td>' . $ID . '</td>
+                        <td>' . $Title . '</td>
+                        <td>' . $Date . '</td>
+                        <td>'. $ISBN .'</td>
+                        <td>' . $Amount . '</td>
+                    </tr>';
             }
+            echo '</table>';
+            echo '</div>';
         }
     ?>
 </body>
