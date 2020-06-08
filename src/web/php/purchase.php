@@ -2,11 +2,10 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>會員專區</title>
+    <meta charset="utf-8" />
+    <title>購買紀錄</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 
 <body>
@@ -32,7 +31,7 @@
                 session_start();
                 if (isset($_SESSION['login_session'])) {
                     echo
-                        '<li class="nav-item active">
+                    '<li class="nav-item active">
                         <a class="nav-link" href=".\cart.php"> 購物車 <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
@@ -82,72 +81,7 @@
             ?>
         </div>
     </nav>
-    <?php
-        $servername = "220.132.211.121";
-        $username = "ZYS";
-        $pass = "qwe12345";
-        $dbname = "bookstore";
-        $conn = mysqli_connect($servername, $username, $pass);
-        if (empty($conn)) {
-            print mysqli_error($conn);
-            die("無法連結資料庫");
-            exit;
-        }
-        if (!mysqli_select_db($conn, $dbname)) {
-            die("無法選擇資料庫");
-        }
-        mysqli_query($conn, "SET NAMES 'utf8'");
-        $sql = 'SELECT * FROM users WHERE "'.$_SESSION['email'].'" = Email';
-
-        //送出UTF8編碼的MySQL指令
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        $oldpass = $row['Password'];
-        $newpass = "";
-        $oldadd = $row['Address'];
-        $newadd = "";
-        $Email = $_SESSION['email'];
-        if (isset($_POST["password"]))
-            $newpass = $_POST["password"];
-        if (isset($_POST["address"]))
-            $newadd = $_POST["address"];
-        
-        if($newadd != ""&& $newpass != ""&& ($newadd != $oldadd || $newpass != $oldpass) ){    //update account
-            $sql = "UPDATE users SET users.Password = '$newpass', users.Address = '$newadd' WHERE Email = '$Email'";
-            mysqli_query($conn, $sql);
-            echo '<script>
-                var r = alert("已更改資料");
-                location.href="member.php"; 
-            </script>'; 
-            // header("Location: member.php");
-        }
-        echo '
-        <form action="member.php" method="post">
-            <div align="center" style="padding:10px;margin-bottom:5px;">
-                <h1 style=font-weight:bold;> 會員專區 </h1>
-                <br>
-                <label for="Email">Email:</label>
-                <a>'.$row['Email'].'</a>
-                <br>
-                <br>
-                <label for="password">密碼:</label>
-                <input type="password" name="password" id="password" value="'.$row['Password'].'" required />
-                <br>
-                <br>
-                <label for="address">地址:</label>
-                <input type="text"" name=" address" id="address" value="'.$row['Address'].'" required />
-                <br>
-                <br>
-                <label for="id"">點數 :</label>
-                <a>'.$row['Reward_points'].'(可換書)</a>
-                <br>
-                <label for="id"">ID :</label>
-                <a>'.$row['ID'].'</a>
-                <br>
-                <input type="submit" onclick="update()" value="更新會員帳戶" method="post" />
-            </div>
-        </form>';
-    ?>
+    
 </body>
 
 </html>
