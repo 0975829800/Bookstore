@@ -80,6 +80,7 @@
                 $mid = $row['ID'];
             }
             $sum = 0;
+            $amount = 0;
             $comfirm_page = "cart.php?confirm=true";
             for ($i = 1; $i <= 20; $i++) {
                 if (isset($_POST[$i . '_amount'])) {
@@ -88,10 +89,19 @@
                 } else {
                     $amount = 0;
                 }
-                $sql = "SELECT Price FROM product WHERE ID=$i";
-                $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                    $sum += $amount * $row['Price'];
+                if($amount > 0){
+                    $sql = "SELECT * FROM product WHERE ID=$i";
+                    $result = mysqli_query($conn, $sql);
+                    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        $reserve = $row['Reserve'];
+                        if($amount != 0&&$reserve < $amount){
+                            echo '<script language="javascript">';
+                            echo 'alert("很抱歉 '.$row['Name'].'的庫存量只剩'.$reserve.'件\n請重新選擇");';
+                            echo 'location.href = "cart.php";';
+                            echo '</script>';
+                        }
+                        $sum += $amount * $row['Price'];
+                    }
                 }
             }
             // echo $comfirm_page;

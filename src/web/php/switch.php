@@ -175,7 +175,7 @@
                 $sql = "INSERT INTO switch VALUES($ID,$mid,'$ISBN',1,$date);";
             } 
             echo '<script language="javascript">';
-            echo 'var check = alert("交換完成");';
+            echo 'alert("交換完成");';
             echo '</script>';
 
             $sql = "UPDATE used_book SET Amount = Amount - 1 WHERE ISBN = '$ISBN';";
