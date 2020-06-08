@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>捐贈</title>
+    <title>書福</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
@@ -53,7 +53,6 @@
             if (isset($_SESSION["login_session"])) {
                 if ($_SESSION["login_session"]) {
                     echo '<a href="member.php" style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</a>';
-                    echo '<a class="btn btn-outline-success my-2 my-sm-0" href=".\purchase.php"> 購買紀錄 <span class="sr-only">(current)</span></a>';
                     echo '<form class="form-inline mt-2 mt-md-0">
                         <a class="btn btn-outline-success my-2 my-sm-0" href="index.php?logout=true" role="button">
                             登出</a>
@@ -109,13 +108,12 @@
                 die("無法選擇資料庫");
             }
             mysqli_query($conn, "SET NAMES 'utf8'");
-            $sql = 'SELECT * FROM users WHERE Email = "'.$_SESSION['email'].'";';
+            echo $sql = 'SELECT * FROM users WHERE Email = "'.$_SESSION['email'].'";';
             //送出UTF8編碼的MySQL指令
             $result = mysqli_query($conn, $sql);
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $mid = $row['ID']/1;
-            $reward_points = $row['Reward_points'];
-            $Email = $row['Email'];
+            echo $mid = $row['ID']/1;
+
 
             /*insert used_book*/
             $sql = "INSERT INTO used_book VALUES ('$title','$ISBN','$category',$amount);";
@@ -152,7 +150,6 @@
                 $amount += $row['Amount'];
                 $sql = "UPDATE donor SET donor.Amount = $amount WHERE MID = $mid AND ISBN = '$ISBN';";
                 $result = mysqli_query($conn, $sql);
-                $amount -= $row['Amount'];
                 // echo '<script>
                 // var r = alert("再加入donor"); 
                 // </script>';
@@ -162,8 +159,6 @@
                 // var r = alert("加入donor"); 
                 // </script>'; 
             }
-            $sql = "UPDATE users SET users.Reward_points =  users.Reward_points + $amount WHERE Email = '$Email';";
-            $result = mysqli_query($conn, $sql);
         }
     ?>
     <form action="donation.php" method="post">

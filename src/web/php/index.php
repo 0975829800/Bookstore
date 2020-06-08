@@ -162,7 +162,6 @@
             if (isset($_SESSION["login_session"])) {
                 if ($_SESSION["login_session"]) {
                     echo '<a href="member.php" style="color: rgb(255,255,255)">' . $_SESSION["email"] . '</a>';
-                    echo '<a class="btn btn-outline-success my-2 my-sm-0" href=".\purchase.php"> 購買紀錄 <span class="sr-only">(current)</span></a>';
                     echo '<form class="form-inline mt-2 mt-md-0">
                         <a class="btn btn-outline-success my-2 my-sm-0" href="index.php?logout=true" role="button">
                             登出</a>
