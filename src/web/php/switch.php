@@ -111,6 +111,7 @@
         if($row['Reward_points'] == 0){
             echo '<script language="javascript">';
             echo 'alert("需要有點數才能換書哦!\n快去拿家中不需要的書來捐贈吧!");';
+            echo 'location.href = "donation.php";'; 
             echo '</script>';
         }
         else{
@@ -127,10 +128,16 @@
                     </button>
                     <div class="dropdown-menu">
                         ';
-                        $sql = "SELECT DISTINCT Category FROM used_book;";
+                        
+                        $sql = "SELECT DISTINCT Category, sum(Amount) as amount FROM used_book GROUP BY Category;";
                         $result = mysqli_query($conn, $sql);
                         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                           echo '<a class="dropdown-item" href="?chose='.$row['Category'].'">'.$row['Category'].'</a>';
+                            if($row['amount'] > 0){
+                                echo '<a class="dropdown-item" href="?chose='.$row['Category'].'">'.$row['Category'].'</a>';
+                            }
+                            else{
+                                echo '<a class="dropdown-item disabled" href="?chose='.$row['Category'].'">'.$row['Category'].'(現無庫存)</a>';
+                            }
                         }
                         echo'
                     </div>
@@ -170,7 +177,24 @@
             echo '<script language="javascript">';
             echo 'var check = alert("交換完成");';
             echo '</script>';
-            
+
+            $sql = "UPDATE used_book SET Amount = Amount - 1 WHERE ISBN = '$ISBN';";
+            if($conn->query($sql) === TRUE){
+                // echo '<script language="javascript">';
+                // echo 'var check = alert("庫存-1");';
+                // echo '</script>';
+            }
+
+            $sql = "UPDATE users SET Reward_points = Reward_points - 1 WHERE ID = $mid;";
+            if($conn->query($sql) === TRUE){
+                // echo '<script language="javascript">';
+                // echo 'var check = alert("points -1");';
+                // echo '</script>';
+            }
+            echo '<script language="javascript">';
+            echo 'location.href = "index.php";';
+            echo '</script>';
+
         }
         
     ?>

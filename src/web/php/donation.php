@@ -161,8 +161,8 @@
                 // var r = alert("加入donor"); 
                 // </script>'; 
             }
-            echo $sql = "UPDATE users SET users.Reward_points =  users.Reward_points + $amount WHERE Email = '$Email';";
-            echo $result = mysqli_query($conn, $sql);
+            $sql = "UPDATE users SET users.Reward_points =  users.Reward_points + $amount WHERE Email = '$Email';";
+            $result = mysqli_query($conn, $sql);
         }
     ?>
     <form action="donation.php" method="post">
