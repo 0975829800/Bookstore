@@ -81,6 +81,16 @@
             ?>
         </div>
     </nav>
+        <br>
+        <div align="center">
+            <h1 style=font-weight:bold;> 會員專區 </h1>
+        </div>
+        
+    <div class="row ">
+        <div align="center" class="col" style="background-color:rgb(75,81,78); "><a style="color: rgb(255, 255, 255);" href="member.php?update=true">更改會員資料</a></div>
+        <div align="center" class="col" style="background-color:rgb(75,81,78); "><a style="color: rgb(255, 255, 255);" href="member.php?purchase=true">購買紀錄</a></div>
+        <div align="center" class="col" style="background-color:rgb(75,81,78);"><a style="color: rgb(255, 255, 255);" href="member.php?switch=true">換書紀錄</a></div>
+    </div>
     <?php
         $servername = "220.132.211.121";
         $username = "ZYS";
@@ -96,56 +106,95 @@
             die("無法選擇資料庫");
         }
         mysqli_query($conn, "SET NAMES 'utf8'");
-        $sql = 'SELECT * FROM users WHERE "'.$_SESSION['email'].'" = Email';
+        if(isset($_GET['update'])){
+            $sql = 'SELECT * FROM users WHERE "'.$_SESSION['email'].'" = Email';
 
-        //送出UTF8編碼的MySQL指令
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        $oldpass = $row['Password'];
-        $newpass = "";
-        $oldadd = $row['Address'];
-        $newadd = "";
-        $Email = $_SESSION['email'];
-        if (isset($_POST["password"]))
-            $newpass = $_POST["password"];
-        if (isset($_POST["address"]))
-            $newadd = $_POST["address"];
-        
-        if($newadd != ""&& $newpass != ""&& ($newadd != $oldadd || $newpass != $oldpass) ){    //update account
-            $sql = "UPDATE users SET users.Password = '$newpass', users.Address = '$newadd' WHERE Email = '$Email'";
-            mysqli_query($conn, $sql);
-            echo '<script>
-                var r = alert("已更改資料");
-                location.href="member.php"; 
-            </script>'; 
-            // header("Location: member.php");
+            //送出UTF8編碼的MySQL指令
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $oldpass = $row['Password'];
+            $newpass = "";
+            $oldadd = $row['Address'];
+            $newadd = "";
+            $Email = $_SESSION['email'];
+            if (isset($_POST["password"]))
+                $newpass = $_POST["password"];
+            if (isset($_POST["address"]))
+                $newadd = $_POST["address"];
+            
+            if($newadd != ""&& $newpass != ""&& ($newadd != $oldadd || $newpass != $oldpass) ){    //update account
+                $sql = "UPDATE users SET users.Password = '$newpass', users.Address = '$newadd' WHERE Email = '$Email'";
+                mysqli_query($conn, $sql);
+                echo '<script>
+                    var r = alert("已更改資料");
+                    location.href="member.php"; 
+                </script>'; 
+                // header("Location: member.php");
+            }
+            echo '
+            <form action="member.php" method="post">
+                <div align="center" style="padding:10px;margin-bottom:5px;">
+                    <br>
+                    <label for="Email">Email:</label>
+                    <a>'.$row['Email'].'</a>
+                    <br>
+                    <br>
+                    <label for="password">密碼:</label>
+                    <input type="password" name="password" id="password" value="'.$row['Password'].'" required />
+                    <br>
+                    <br>
+                    <label for="address">地址:</label>
+                    <input type="text"" name=" address" id="address" value="'.$row['Address'].'" required />
+                    <br>
+                    <br>
+                    <label for="id"">點數 :</label>
+                    <a>'.$row['Reward_points'].'(可換書)</a>
+                    <br>
+                    <label for="id"">ID :</label>
+                    <a>'.$row['ID'].'</a>
+                    <br>
+                    <input type="submit" onclick="update()" value="更改會員帳戶" method="post" />
+                </div>
+            </form>';
         }
-        echo '
-        <form action="member.php" method="post">
-            <div align="center" style="padding:10px;margin-bottom:5px;">
-                <h1 style=font-weight:bold;> 會員專區 </h1>
-                <br>
-                <label for="Email">Email:</label>
-                <a>'.$row['Email'].'</a>
-                <br>
-                <br>
-                <label for="password">密碼:</label>
-                <input type="password" name="password" id="password" value="'.$row['Password'].'" required />
-                <br>
-                <br>
-                <label for="address">地址:</label>
-                <input type="text"" name=" address" id="address" value="'.$row['Address'].'" required />
-                <br>
-                <br>
-                <label for="id"">點數 :</label>
-                <a>'.$row['Reward_points'].'(可換書)</a>
-                <br>
-                <label for="id"">ID :</label>
-                <a>'.$row['ID'].'</a>
-                <br>
-                <input type="submit" onclick="update()" value="更新會員帳戶" method="post" />
-            </div>
-        </form>';
+        else if(isset($_GET['purchase'])){
+            $MID = $_SESSION['ID'];
+            $sql = "SELECT * FROM purchase WHERE MID = $MID";
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $ID = $row['ID'];
+                $Amount = $row['Amount'];
+                $Date = $row['Date'];
+                $PID = $row['PID']/1;
+                
+                $sql = "SELECT * FROM product WHERE ID = $PID";
+                $r = mysqli_query($conn, $sql);
+                $tuple = mysqli_fetch_array($r, MYSQLI_ASSOC);
+                $Pname = $tuple['Name'];
+                echo '<br> 格式還沒處理<br  >';
+                echo $ID.' '.$Amount.' '.$Date.' '.$PID.' '.$Pname;
+            }
+            
+        }
+        else if(isset($_GET['switch'])){
+            echo '<br> 格式還沒處理 <br>';
+            $MID = $_SESSION['ID'];
+            $sql = "SELECT * FROM switch WHERE MID = $MID";
+            $result = mysqli_query($conn, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $ID = $row['ID'];
+                $Amount = $row['Amount'];
+                $Date = $row['Date'];
+                $ISBN = $row['ISBN'];
+                
+                $sql = "SELECT * FROM used_book WHERE ISBN = '$ISBN'";
+                $r = mysqli_query($conn, $sql);
+                $tuple = mysqli_fetch_array($r, MYSQLI_ASSOC);
+                $Title = $tuple['Title'];
+                echo $ID.' '.$Amount.' '.$Date.' '.$ISBN.' '.$Title.'<br>';
+            
+            }
+        }
     ?>
 </body>
 

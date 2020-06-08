@@ -50,6 +50,7 @@
                         echo '</script>';
                         $_SESSION["login_session"] = true;
                         $_SESSION["email"] = $Email;
+                        $_SESSION["ID"] = $row['ID'];
                         header("Location: index.php");
                     } else {
                         echo '<script language="javascript">';
