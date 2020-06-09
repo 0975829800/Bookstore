@@ -57,7 +57,8 @@
     if($bookname!= ""){
         echo $bookname;
     }
-    ?></title>
+    ?>
+    </title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -148,6 +149,25 @@
     <div class="container pt-4">
         <div id="sitebody">
             <?php
+            $comment = "";
+            $score="";
+            if(isset($_POST['comment'])){
+                $comment = $_POST['comment'];
+            }
+            if(isset($_POST['score'])){
+                $score = $_POST['score'];
+            }
+            if($score != ""&& $comment != ""){
+                $mid = $_SESSION['ID'];
+                $sql = "INSERT INTO review VALUES ($PID,$mid,$score,$comment)";
+                $result = mysqli_query($conn, $sql);
+                if($result){
+                    echo '<script language="javascript">';
+                    echo 'alert("已新增評論");';
+                    // echo 'location.href=".\product.php?pid='.$pid .'"';
+                    echo '</script>';
+                }
+            }
             echo '<div id="sidebar_left" class="col-2">
                     <img align="center" src="../product_img/' . $PID . '.jpg" height = "400"></a>
                 </div>';
@@ -181,6 +201,7 @@
                 <td>評論</td>
                 <td>用戶</td>
             </tr>';
+            $flag = 1;//if he can add review
             $sql = "SELECT * FROM review WHERE PID = $PID";
             $result = mysqli_query($conn, $sql);
             if($result){
@@ -195,18 +216,46 @@
                     echo '<tr>
                         <td>' . $Score . '</td>
                         <td style="font-size:24px">' . $Comment . '</td>
-                        <td>' . $Email . '</td>
-                    </tr>';
+                        <td>' . $Email . '</td>';
+                    if($mid == $_SESSION['ID']){
+                        $flag = 0;
+                        echo '<td><button class="btn btn-info">更改評論</button></td>';
+                    }
+                    echo'</tr>';
                 }
+                echo '</table>';
+                echo '</div>';
             }
             else{
                 echo '還沒有人評論<br>';    //無用
             }
-            
+            if($flag){
+                echo'<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">我要寫評論<i class="fas fa-edit"></i></button>
+                <div id="demo" class="collapse form-group">
+                    <label for="score">評分 1(差) ~ 5(好): </label>
+                    <div>
+                        <select class="form-control" form="review" id="score" name="score">
+                            <option>1</option>   
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <textarea form="review" required placeholder="對此商品的評論" class="form-control text" rows="5" name="comment" id="comment"></textarea>
+                    <form name="review" id="review" method="post">
+                        <button type="submit" class="btn btn-info">提交評論</button>
+                    </form>
+                </div>';
+                
+            }
+            else{
+                echo'<button disabled type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">我要寫評論<i class="fas fa-edit"></i></button>';
+            }
         ?>
-        <button style='font-size:24px'>我要寫評論 <i class='fas fa-edit'></i></button>
+        
     </div>
-    
+    <br>
 </body>
 
 </html>
