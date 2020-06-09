@@ -59,6 +59,7 @@
     }
     ?></title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 
@@ -147,55 +148,6 @@
     <div class="container pt-4">
         <div id="sitebody">
             <?php
-            // // 建立MySQL的資料庫連接 
-            // $servername = "220.132.211.121";
-            // $username = "ZYS";
-            // $pass = "qwe12345";
-            // $dbname = "bookstore";
-            // $conn = mysqli_connect($servername, $username, $pass);
-            // if (empty($conn)) {
-            //     print mysqli_error($conn);
-            //     die("無法連結資料庫");
-            //     exit;
-            // }
-            // if (!mysqli_select_db($conn, $dbname)) {
-            //     die("無法選擇資料庫");
-            // }
-            // mysqli_query($conn, "SET NAMES 'utf8'");
-            // $PID = $_GET['pid'];
-            // $sql = "SELECT * FROM product WHERE ID = $PID";
-            // $result = mysqli_query($conn, $sql);
-            // while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            //     $bookname = $row['Name'];
-            //     $bookprice = $row['Price'];
-            //     $introduction = $row['Introduction'];
-            //     $reserve = $row['Reserve'];
-            // }
-            // $ISBN = NULL;
-            // $P_house = NULL;
-            // $P_date = NULL;
-            // $Category = NULL;
-            // $author = NULL;
-            // $sql = "SELECT * FROM book WHERE PID = $PID";
-            // $result = mysqli_query($conn, $sql);
-            // if (!$result) {
-            //     echo ("Error: " . mysqli_error($connect));
-            //     exit();
-            // }
-            // while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            //     $ISBN = $row['ISBN'];
-            //     $P_house = $row['P_house'];
-            //     $P_date = $row['P_date'];
-            //     $Category = $row['Category'];
-
-            // }
-            // if ($ISBN) {
-            //     $sql = "SELECT * FROM author WHERE ISBN = $ISBN";
-            //     $result = mysqli_query($conn, $sql);
-            //     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            //         $author = $row['Author'];
-            //     }
-            // }
             echo '<div id="sidebar_left" class="col-2">
                     <img align="center" src="../product_img/' . $PID . '.jpg" height = "400"></a>
                 </div>';
@@ -213,12 +165,48 @@
             }
             echo "<br>庫存數量: " . $reserve . "";
             echo '</div>';
-            echo "<br><br><br><br><b>產品介紹 : </b><br>";  // 顯示查詢結果
+            echo '<br><br><br><br><b><font size="5">產品介紹 : </font></b><br>';  // 顯示查詢結果
             echo $introduction;
             ?>
+            <br><br>
+            <b><font size="5">評論 :</font></b>
         </div>
     </div>
-
+    <div class="mx-auto" style="width: 900px;">
+        <?php
+            echo '<div align="center">';
+            echo '<table class="table" style="text-align:center;">';
+            echo '<tr>
+                <td width="200px">評分</td>
+                <td>評論</td>
+                <td>用戶</td>
+            </tr>';
+            $sql = "SELECT * FROM review WHERE PID = $PID";
+            $result = mysqli_query($conn, $sql);
+            if($result){
+                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    $Score = $row['Score'];
+                    $Comment = $row['Comment'];
+                    $mid = $row['MID']/1;
+                    $sql = "SELECT * FROM users WHERE ID = $mid";
+                    $r = mysqli_query($conn, $sql);
+                    $tuple = mysqli_fetch_array($r, MYSQLI_ASSOC);
+                    $Email = $tuple['Email'];
+                    echo '<tr>
+                        <td>' . $Score . '</td>
+                        <td style="font-size:24px">' . $Comment . '</td>
+                        <td>' . $Email . '</td>
+                    </tr>';
+                }
+            }
+            else{
+                echo '還沒有人評論<br>';    //無用
+            }
+            
+        ?>
+        <button style='font-size:24px'>我要寫評論 <i class='fas fa-edit'></i></button>
+    </div>
+    
 </body>
 
 </html>

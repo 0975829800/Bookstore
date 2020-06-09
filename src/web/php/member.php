@@ -188,7 +188,7 @@
                 echo '<tr>
                         <td>' . $ID . '</td>
                         <td><a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a></td>
-                        <td>' . $Pname . '</td>
+                        <td><a class="link" href=".\product.php?pid=' . $pid . '">' . $Pname . '</a></td>
                         <td>' . $Date . '</td>
                         <td>' . $Amount . '</td>
                     </tr>';
@@ -212,7 +212,7 @@
             echo '<tr>
                         <td>兌換ID</td>
                         <td>商品名稱</td>
-                        <td>購買日期</td>
+                        <td>交換日期</td>
                         <td>ISBN</td>
                         <td>數量</td>
                     </tr>';
