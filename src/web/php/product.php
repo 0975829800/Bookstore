@@ -159,7 +159,7 @@
             }
             if($score != ""&& $comment != ""){
                 $mid = $_SESSION['ID'];
-                $sql = "INSERT INTO review VALUES ($PID,$mid,$score,$comment)";
+                $sql = "INSERT INTO review VALUES ($PID,$mid,$score,'$comment')";
                 $result = mysqli_query($conn, $sql);
                 if($result){
                     echo '<script language="javascript">';
@@ -219,7 +219,11 @@
                         <td>' . $Email . '</td>';
                     if($mid == $_SESSION['ID']){
                         $flag = 0;
-                        echo '<td><button class="btn btn-info">更改評論</button></td>';
+                        echo '<td>
+                        <form action="product.php?pid='.$PID.'&del=true" method="post">
+                            <button type="submit" class="btn btn-info">刪除評論</button>
+                        </form>
+                        </td>';
                     }
                     echo'</tr>';
                 }
@@ -252,6 +256,29 @@
             else{
                 echo'<button disabled type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">我要寫評論<i class="fas fa-edit"></i></button>';
             }
+
+            if(isset($_GET['del'])){
+                echo '<script language="javascript">';
+                echo 'var check = confirm("確定要刪除評論嗎?");';
+                echo 'if (check){
+                        location.href = "product.php?pid='.$PID.'&confirm=true";
+                    }
+                    ';
+                    
+                echo '</script>';
+            }
+            if(isset($_GET['confirm'])){
+                $MID = $_SESSION['ID'];
+                $sql = "DELETE FROM review WHERE PID = $PID AND MID = $MID";
+                $result = mysqli_query($conn, $sql);
+                if($result){
+                    echo '<script language="javascript">';
+                    echo 'alert("刪除成功");';
+                    echo 'location.href = "product.php?pid='.$PID.'"';
+                    echo '</script>';
+                }
+            }
+
         ?>
         
     </div>
