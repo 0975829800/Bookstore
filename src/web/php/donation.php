@@ -108,11 +108,11 @@
                 die("無法選擇資料庫");
             }
             mysqli_query($conn, "SET NAMES 'utf8'");
-            echo $sql = 'SELECT * FROM users WHERE Email = "'.$_SESSION['email'].'";';
+            $sql = 'SELECT * FROM users WHERE Email = "'.$_SESSION['email'].'";';
             //送出UTF8編碼的MySQL指令
             $result = mysqli_query($conn, $sql);
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            echo $mid = $row['ID']/1;
+            $mid = $row['ID']/1;
 
 
             /*insert used_book*/
