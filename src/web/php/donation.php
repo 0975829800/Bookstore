@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>書福</title>
+    <title>捐贈書籍</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
@@ -167,7 +167,7 @@
     ?>
     <form action="donation.php" method="post">
         <div align="center" style="padding:10px;margin-bottom:5px;">
-            <h1 style=font-weight:bold;> 書籍捐贈 </h1>
+            <h1 style=font-weight:bold;> 捐贈書籍 </h1>
             <br>
             <h6> 請輸入書的各項資料 </h6>
             <label for="Title">標題:</label>
