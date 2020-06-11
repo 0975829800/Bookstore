@@ -151,6 +151,7 @@
                 $amount += $row['Amount'];
                 $sql = "UPDATE donor SET donor.Amount = $amount WHERE MID = $mid AND ISBN = '$ISBN';";
                 $result = mysqli_query($conn, $sql);
+                $amount -= $row['Amount'];
                 // echo '<script>
                 // var r = alert("再加入donor"); 
                 // </script>';
