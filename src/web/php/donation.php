@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>書福</title>
+    <title>捐贈書籍</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
@@ -108,6 +108,7 @@
                 die("無法選擇資料庫");
             }
             mysqli_query($conn, "SET NAMES 'utf8'");
+            $Email = $_SESSION['email'];
             $sql = 'SELECT * FROM users WHERE Email = "'.$_SESSION['email'].'";';
             //送出UTF8編碼的MySQL指令
             $result = mysqli_query($conn, $sql);
@@ -150,6 +151,7 @@
                 $amount += $row['Amount'];
                 $sql = "UPDATE donor SET donor.Amount = $amount WHERE MID = $mid AND ISBN = '$ISBN';";
                 $result = mysqli_query($conn, $sql);
+                $amount -= $row['Amount'];
                 // echo '<script>
                 // var r = alert("再加入donor"); 
                 // </script>';
@@ -159,11 +161,13 @@
                 // var r = alert("加入donor"); 
                 // </script>'; 
             }
+            $sql = "UPDATE users SET users.Reward_points =  users.Reward_points + $amount WHERE Email = '$Email';";
+            $result = mysqli_query($conn, $sql);
         }
     ?>
     <form action="donation.php" method="post">
         <div align="center" style="padding:10px;margin-bottom:5px;">
-            <h1 style=font-weight:bold;> 書籍捐贈 </h1>
+            <h1 style=font-weight:bold;> 捐贈書籍 </h1>
             <br>
             <h6> 請輸入書的各項資料 </h6>
             <label for="Title">標題:</label>

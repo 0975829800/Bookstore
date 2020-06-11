@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <title><?php
+    <title>
+    <?php
     // 建立MySQL的資料庫連接 
     $servername = "220.132.211.121";
     $username = "ZYS";
@@ -106,6 +107,7 @@
                 </li>
             </ul>
             <?php
+            $destination = '?pid='.$PID.'&cartid=' . $PID;
             function logout()
             {
                 unset($_SESSION["login_session"]);
@@ -149,6 +151,50 @@
     <div class="container pt-4">
         <div id="sitebody">
             <?php
+            function addcart()
+            {
+                $servername = "220.132.211.121";
+                $username = "ZYS";
+                $pass = "qwe12345";
+                $dbname = "bookstore";
+                $conn = mysqli_connect($servername, $username, $pass);
+                if (empty($conn)) {
+                    print mysqli_error($conn);
+                    die("無法連結資料庫");
+                    exit;
+                }
+                if (!mysqli_select_db($conn, $dbname)) {
+                    die("無法選擇資料庫");
+                }
+                mysqli_query($conn, "SET NAMES 'utf8'");
+                if (isset($_SESSION["login_session"])) {
+                    $cartid = $_GET['cartid'];
+                    $email = $_SESSION['email'];
+                    $mid = 0;
+                    $sql = "SELECT * FROM users WHERE Email='$email'";
+                    $result = mysqli_query($conn, $sql);
+                    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        $mid = $row['ID'];
+                    }
+                    $sql = "INSERT INTO cart (MID,PID,Amount) VALUES ($mid,$cartid,1)";
+                    if ($conn->query($sql) === TRUE) {
+                        echo '<script language="javascript">';
+                        echo 'alert("加入購物車");';
+                        echo '</script>';
+                    } else {
+                        echo '<script language="javascript">';
+                        echo 'alert("已經加入購物車");';
+                        echo '</script>';
+                    }
+                } else {
+                    echo '<script language="javascript">';
+                    echo 'alert("請登入後再點擊");';
+                    echo '</script>';
+                }
+            }
+            if (isset($_GET['cartid'])) {
+                addcart();
+            }
             $comment = "";
             $score="";
             if(isset($_POST['comment'])){
@@ -168,8 +214,9 @@
                     echo '</script>';
                 }
             }
+            echo $PID.'.jpg';
             echo '<div id="sidebar_left" class="col-2">
-                    <img align="center" src="../product_img/' . $PID . '.jpg" height = "400"></a>
+                    <img align="center" src="../product_img/'.$PID.'.jpg" height = "400"></a>
                 </div>';
             echo '<div style="width: 500px; margin-left: 400px;" id="content" class="col-7">
                     名稱 :  ' . $bookname . '
@@ -184,6 +231,9 @@
                 echo "<br>ISBN: " . $ISBN . "";
             }
             echo "<br>庫存數量: " . $reserve . "";
+            echo '<form action="' . $destination . '" method = "post">
+                    <input type="submit" value="加入購物車" class="btn btn-primary">
+            </form>';
             echo '</div>';
             echo '<br><br><br><br><b><font size="5">產品介紹 : </font></b><br>';  // 顯示查詢結果
             echo $introduction;

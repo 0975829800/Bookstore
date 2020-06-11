@@ -169,7 +169,7 @@
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
             $ISBN = $row['ISBN'];
             
-            $sql = "INSERT INTO switch VALUES($ID,$mid,'$ISBN',1,$date);";
+            $sql = "INSERT INTO switch VALUES($ID,$mid,'$ISBN',1,'$date');";
             while(!($conn->query($sql) === TRUE)) {
                 $ID = rand(1,9999999999);
                 $sql = "INSERT INTO switch VALUES($ID,$mid,'$ISBN',1,$date);";
@@ -192,7 +192,7 @@
                 // echo '</script>';
             }
             echo '<script language="javascript">';
-            echo 'location.href = "index.php";';
+            // echo 'location.href = "index.php";';
             echo '</script>';
 
         }
