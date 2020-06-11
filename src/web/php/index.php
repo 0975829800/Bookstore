@@ -196,20 +196,20 @@
                     <ul class="carousel-indicators">
                         <li data-target="#demo" data-slide-to="0" class="active"></li>
                         <li data-target="#demo" data-slide-to="1"></li>
-                        <li data-target="#demo" data-slide-to="2"></li>
+                        <!-- <li data-target="#demo" data-slide-to="2"></li> -->
                     </ul>
 
                     <!-- The slideshow -->
                     <div class="carousel-inner" >
                         <div class="carousel-item active">
-                            <img style="width: 100%;" src="../image/001.jpg">
+                            <img style="width: 100%;" src="../image/黑.png">
                         </div>
                         <div class="carousel-item">
-                            <img style="width: 100%;" src="../image/001.jpg">
+                            <img style="width: 100%;" src="../image/書.jpg">
                         </div>
-                        <div class="carousel-item">
-                            <img style="width: 100%;" src="../image/001.jpg">
-                        </div>
+                        <!-- <div class="carousel-item"> -->
+                            <!-- <img style="width: 100%;" src="../image/首.png"> -->
+                        <!-- </div> -->
                     </div>
 
                     <!-- Left and right controls -->
