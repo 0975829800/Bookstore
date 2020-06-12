@@ -203,7 +203,7 @@
             if(isset($_POST['score'])){
                 $score = $_POST['score'];
             }
-            if($score != ""&& $comment != ""){
+            if($score != "" && $comment != "" && isset($_SESSION['ID'])){
                 $mid = $_SESSION['ID'];
                 $sql = "INSERT INTO review VALUES ($PID,$mid,$score,'$comment')";
                 $result = mysqli_query($conn, $sql);
@@ -267,13 +267,16 @@
                         <td>' . $Score . '</td>
                         <td style="font-size:24px">' . $Comment . '</td>
                         <td>' . $Email . '</td>';
-                    if($mid == $_SESSION['ID']){
+                    if(isset($_SESSION['ID']) && $mid == $_SESSION['ID']){
                         $flag = 0;
                         echo '<td>
                         <form action="product.php?pid='.$PID.'&del=true" method="post">
                             <button type="submit" class="btn btn-info">刪除評論</button>
                         </form>
                         </td>';
+                    }
+                    else if (!isset($_SESSION['ID'])) {
+                        $flag = 0;
                     }
                     echo'</tr>';
                 }

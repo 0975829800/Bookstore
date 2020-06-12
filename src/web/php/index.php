@@ -65,6 +65,7 @@
     {
         unset($_SESSION["login_session"]);
         unset($_SESSION["email"]);
+        unset($_SESSION["ID"]);
     }
     function addcart()
     {
