@@ -166,37 +166,45 @@
             }
             $sql = "SELECT * FROM purchase WHERE MID = $MID ORDER BY Date DESC";
             $result = mysqli_query($conn, $sql);
-            echo '<div align="center">';
-            echo '<table class="table" style="text-align:center;">';
-            echo '<tr>
+            $nums = mysqli_num_rows($result);
+            if($nums > 0){
+                echo '<div align="center">';
+                echo '<table class="table" style="text-align:center;">';
+                echo '<tr>
                         <td>購買ID</td>
                         <td>商品預覽圖</td>
                         <td>商品名稱</td>
                         <td>購買日期</td>
                         <td>數量</td>
                     </tr>';
-            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $ID = $row['ID'];
-                $Amount = $row['Amount'];
-                $Date = $row['Date'];
-                $PID = $row['PID'];
-                $pid = intval($PID);
-                $sql = "SELECT * FROM product WHERE ID = $PID";
-                $r = mysqli_query($conn, $sql);
-                $tuple = mysqli_fetch_array($r, MYSQLI_ASSOC);
-                $Pname = $tuple['Name'];
-                echo '<tr>
-                        <td>' . $ID . '</td>
-                        <td><a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a></td>
-                        <td><a class="link" href=".\product.php?pid=' . $pid . '">' . $Pname . '</a></td>
-                        <td>' . $Date . '</td>
-                        <td>' . $Amount . '</td>
-                    </tr>';
-                    
+                
+                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    $ID = $row['ID'];
+                    $Amount = $row['Amount'];
+                    $Date = $row['Date'];
+                    $PID = $row['PID'];
+                    $pid = intval($PID);
+                    $sql = "SELECT * FROM product WHERE ID = $PID";
+                    $r = mysqli_query($conn, $sql);
+                    $tuple = mysqli_fetch_array($r, MYSQLI_ASSOC);
+                    $Pname = $tuple['Name'];
+                    echo '<tr>
+                            <td>' . $ID . '</td>
+                            <td><a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a></td>
+                            <td><a class="link" href=".\product.php?pid=' . $pid . '">' . $Pname . '</a></td>
+                            <td>' . $Date . '</td>
+                            <td>' . $Amount . '</td>
+                        </tr>';
+                }
+                echo '</table>';
+                echo '</div>';
             }
-            echo '</table>';
-            echo '</div>';
-            
+            else{
+                echo '<script>
+                    alert("您還沒有購買紀錄哦");
+                    location.href = "member.php";
+                    </script>'; 
+            }
         }
         else if(isset($_GET['switch'])){
             $email = $_SESSION['email'];
@@ -207,35 +215,44 @@
             }
             $sql = "SELECT * FROM switch WHERE MID = $MID ORDER BY Date DESC";
             $result = mysqli_query($conn, $sql);
-            echo '<div align="center">';
-            echo '<table class="table" style="text-align:center;">';
-            echo '<tr>
-                        <td>兌換ID</td>
-                        <td>商品名稱</td>
-                        <td>交換日期</td>
-                        <td>ISBN</td>
-                        <td>數量</td>
-                    </tr>';
-            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $ID = $row['ID'];
-                $Amount = $row['Amount'];
-                $Date = $row['Date'];
-                $ISBN = $row['ISBN'];
-                
-                $sql = "SELECT * FROM used_book WHERE ISBN = '$ISBN'";
-                $r = mysqli_query($conn, $sql);
-                $tuple = mysqli_fetch_array($r, MYSQLI_ASSOC);
-                $Title = $tuple['Title'];
+            $nums = mysqli_num_rows($result);
+            if($nums > 0){
+                echo '<div align="center">';
+                echo '<table class="table" style="text-align:center;">';
                 echo '<tr>
-                        <td>' . $ID . '</td>
-                        <td>' . $Title . '</td>
-                        <td>' . $Date . '</td>
-                        <td>'. $ISBN .'</td>
-                        <td>' . $Amount . '</td>
-                    </tr>';
+                            <td>兌換ID</td>
+                            <td>商品名稱</td>
+                            <td>交換日期</td>
+                            <td>ISBN</td>
+                            <td>數量</td>
+                        </tr>';
+                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    $ID = $row['ID'];
+                    $Amount = $row['Amount'];
+                    $Date = $row['Date'];
+                    $ISBN = $row['ISBN'];
+                    
+                    $sql = "SELECT * FROM used_book WHERE ISBN = '$ISBN'";
+                    $r = mysqli_query($conn, $sql);
+                    $tuple = mysqli_fetch_array($r, MYSQLI_ASSOC);
+                    $Title = $tuple['Title'];
+                    echo '<tr>
+                            <td>' . $ID . '</td>
+                            <td>' . $Title . '</td>
+                            <td>' . $Date . '</td>
+                            <td>'. $ISBN .'</td>
+                            <td>' . $Amount . '</td>
+                        </tr>';
+                }
+                echo '</table>';
+                echo '</div>';
             }
-            echo '</table>';
-            echo '</div>';
+            else{
+                echo '<script>
+                    alert("您還沒有換書紀錄哦");
+                    location.href = "member.php";
+                    </script>'; 
+            }
         }
     ?>
 </body>
