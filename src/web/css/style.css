@@ -45,3 +45,9 @@ body {
   background-color: transparent;
   text-decoration: none;
 }
+
+.carousel-inner img {
+  width:100%;
+  display:flex ;
+  align-items:center;
+}

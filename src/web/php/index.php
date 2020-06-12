@@ -65,6 +65,7 @@
     {
         unset($_SESSION["login_session"]);
         unset($_SESSION["email"]);
+        unset($_SESSION["ID"]);
     }
     function addcart()
     {
@@ -189,9 +190,42 @@
             ?>
         </div>
     </nav>
-    <br><br>
-    <div class="row">
-        <div class="col-1" style="margin-left: 80px; background-color: rgb(161, 161, 161); height: 500px;">
+
+    <div class="container" style="width:70%">
+    <div id="demo" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ul class="carousel-indicators">
+                        <li data-target="#demo" data-slide-to="0" class="active"></li>
+                        <li data-target="#demo" data-slide-to="1"></li>
+                        <!-- <li data-target="#demo" data-slide-to="2"></li> -->
+                    </ul>
+
+                    <!-- The slideshow -->
+                    <div class="carousel-inner" >
+                        <div class="carousel-item active">
+                            <img style="width: 100%;" src="../image/黑.png">
+                        </div>
+                        <div class="carousel-item">
+                            <img style="width: 100%;" src="../image/書.jpg">
+                        </div>
+                        <!-- <div class="carousel-item"> -->
+                            <!-- <img style="width: 100%;" src="../image/首.png"> -->
+                        <!-- </div> -->
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+
+        </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <!-- <div class="col-1" style="margin-left: 80px; background-color: rgb(161, 161, 161); height: 500px;">
             <h3>類別</h3><br>
             <a class="link" href="category.php?type=0">推薦</a><br>
             <a class="link" href="category.php?type=1">輕小說</a><br>
@@ -200,7 +234,7 @@
             <a class="link" href="category.php?type=4">歐美科幻</a><br>
             <a class="link" href="category.php?type=5">人文史地</a><br>
             <a class="link" href="category.php?type=6">健康</a><br>
-        </div>
+        </div> -->
         <div class="col-8">
             <table class="table" style="text-align:center;">
                 <?php
@@ -219,36 +253,66 @@
                 }
                 // 設定連線編碼
                 mysqli_query($conn, "SET NAMES 'utf8'");
-                $numbers = range(1, 20);
-                //shuffle 將陣列順序隨即打亂
-                shuffle($numbers);
-                //array_slice 取該陣列中的某一段
-                $num = 6;
-                $arr = array_slice($numbers, 0, $num);
-                for ($i = 0; $i < 5; $i++) {
-                    $pid = $arr[$i];
-                    $sql = "SELECT * FROM product WHERE ID = $pid";
-                    $result = mysqli_query($conn, $sql);
-                    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                        echo '<tr>
-                                    <td>
-                                        <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
-                                    </td>
-                                    <td>
-                                        <div style="width: 350px">
-                                            <a class = "link" href=".\product.php?pid=' . $pid . ' ">' . $row['Name'] . '</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p>NT'. $row['Price'] . '</p>
-                                    </td>
-                                    <td>
-                                        <form action="?cartid=' . $pid . '" method = "post">
-                                            <input type="submit" value="加入購物車" class="btn btn-primary">
-                                        </form>
-                                    </td>
-                                </tr>';
-                    }
+                // $numbers = range(1, 20);
+                // //shuffle 將陣列順序隨即打亂
+                // shuffle($numbers);
+                // //array_slice 取該陣列中的某一段
+                // $num = 6;
+                // $arr = array_slice($numbers, 0, $num);
+                // for ($i = 0; $i < 5; $i++) {
+                //     $pid = $arr[$i];
+                //     $sql = "SELECT * FROM product WHERE ID = $pid";
+                //     $result = mysqli_query($conn, $sql);
+                //     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                //         echo '<tr>
+                //                     <td>
+                //                         <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                //                     </td>
+                //                     <td>
+                //                         <div style="width: 350px">
+                //                             <a class = "link" href=".\product.php?pid=' . $pid . ' ">' . $row['Name'] . '</a>
+                //                         </div>
+                //                     </td>
+                //                     <td>
+                //                         <p>NT'. $row['Price'] . '</p>
+                //                     </td>
+                //                     <td>
+                //                         <form action="?cartid=' . $pid . '" method = "post">
+                //                             <input type="submit" value="加入購物車" class="btn btn-primary">
+                //                         </form>
+                //                     </td>
+                //                 </tr>';
+                //     }
+                // }
+                ?>
+                <?php
+                echo '<div align="center" class="border">';
+                echo '<h3>大家最愛買</h3>';
+                echo '</div>';
+                /*用庫存排列*/ 
+                $sql = "SELECT * FROM product ORDER BY Reserve DESC";
+                $result = mysqli_query($conn, $sql);
+                $count = 0;
+                while (($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) && $count++ < 5) {
+                    $pid = $row['ID']/1;
+                    echo '<tr>
+                            <td>
+                                <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
+                            </td>
+                            <td>
+                                <div style="width: 350px">
+                                    <a class = "link" href=".\product.php?pid=' . $pid . ' ">' . $row['Name'] . '</a>
+                                </div>
+                            </td>
+                            <td>
+                                <p>NT'. $row['Price'] . '</p>
+                            </td>
+                            <td>
+                                <form action="?cartid=' . $pid . '" method = "post">
+                                    <input type="submit" value="加入購物車" class="btn btn-primary">
+                                </form>
+                            </td>
+                        </tr>';
                 }
                 ?>
             </table>
