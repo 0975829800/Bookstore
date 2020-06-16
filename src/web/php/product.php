@@ -237,24 +237,38 @@
             echo '</div>';
             echo '<br><br><br><br><b><font size="5">產品介紹 : </font></b><br>';  // 顯示查詢結果
             echo $introduction;
-            ?>
-            <br><br>
+            echo '<br><br>
             <b><font size="5">評論 :</font></b>
+            
+            ';
+            ?>
+            
         </div>
     </div>
     <div class="mx-auto" style="width: 900px;">
         <?php
-            echo '<div align="center">';
-            echo '<table class="table" style="text-align:center;">';
-            echo '<tr>
-                <td width="200px">評分</td>
-                <td>評論</td>
-                <td>用戶</td>
-            </tr>';
             $flag = 1;//if he can add review
             $sql = "SELECT * FROM review WHERE PID = $PID";
             $result = mysqli_query($conn, $sql);
-            if($result){
+            $nums = mysqli_num_rows($result);
+            if($nums > 0){
+                echo '<div align="center">';
+                echo '<table class="table" style="text-align:center;">';
+                echo '<tr>
+                    <td width="200px">評分</td>
+                    <td>評論</td>
+                    <td>用戶</td>
+                </tr>';
+                $sql = "SELECT AVG(Score) FROM review WHERE PID = $PID GROUP BY PID";
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                $avg = $row['AVG(Score)'];
+                if($avg){
+                    echo '綜合評分 : ';
+                    echo number_format($avg, 2, '.', '');
+                }
+                $sql = "SELECT * FROM review WHERE PID = $PID";
+                $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                     $Score = $row['Score'];
                     $Comment = $row['Comment'];
@@ -284,9 +298,9 @@
                 echo '</div>';
             }
             else{
-                echo '還沒有人評論<br>';    //無用
+                echo '<br>還沒有人評論<br>';    //無用
             }
-            if($flag){
+            if($flag && isset($_SESSION['ID'])){
                 echo'<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">我要寫評論<i class="fas fa-edit"></i></button>
                 <div id="demo" class="collapse form-group">
                     <label for="score">評分 1(差) ~ 5(好): </label>
