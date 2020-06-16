@@ -198,6 +198,7 @@
             if ($conn->query($sql) === TRUE) {
                 echo '<script language="javascript">';
                 echo 'alert("購買成功");';
+                echo 'location . href = "index.php";';
                 echo '</script>';
             } 
             else {
