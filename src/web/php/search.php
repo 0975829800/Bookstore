@@ -165,14 +165,19 @@
                 $keyword = '%' . $search . '%';
                 $sql = "SELECT Name, ID, Price FROM product WHERE Name LIKE '$keyword'";
                 $result = mysqli_query($conn, $sql);
-                if (!$result) {
-                    echo "搜尋無此關鍵字";
+                $nums = mysqli_num_rows($result);
+                if ($nums <= 0) {
+                    echo '<div align="center">
+                        <h1><b>搜尋無此關鍵字</b></h1>
+                    </div>';
+                        
                     exit();
                 }
-                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                    $pid = intval($row['ID']);
-                    $destination = '?kw=' . $search . '&cartid=' . $pid;
-                    echo '<tr>
+                else{
+                    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        $pid = intval($row['ID']);
+                        $destination = '?kw=' . $search . '&cartid=' . $pid;
+                        echo '<tr>
                                 <td>
                                     <a href=".\product.php?pid=' . $pid . '"><img align="center" src="../product_img/' . $pid . '.jpg" height = "100px"></a>
                                 </td>
@@ -188,6 +193,7 @@
                                     </form>
                                 </td>
                             </tr>';
+                    }
                 }
                 ?>
             </table>
