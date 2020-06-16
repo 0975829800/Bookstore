@@ -176,6 +176,7 @@
             } 
             echo '<script language="javascript">';
             echo 'alert("交換完成");';
+            echo 'location.href = "switch.php";';
             echo '</script>';
 
             $sql = "UPDATE used_book SET Amount = Amount - 1 WHERE ISBN = '$ISBN';";
