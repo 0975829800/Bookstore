@@ -117,7 +117,7 @@
 
 
             /*insert used_book*/
-            echo $sql = "INSERT INTO used_book VALUES ('$title','$ISBN','$category',$amount);";
+            $sql = "INSERT INTO used_book VALUES ('$title','$ISBN','$category',$amount);";
             $result = mysqli_query($conn, $sql);
             if(!$result){   //already have same book
                 /*get used_book*/ 
