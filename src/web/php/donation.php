@@ -85,6 +85,16 @@
         $category = "";
         $ISBN = "";
         $amount = 0;
+        
+        if(isset($_GET['Title']))
+            $title = $_GET['Title'];
+        if(isset($_GET['Category']))
+            $category = $_GET['Category'];
+        if(isset($_GET['ISBN']))
+            $ISBN = $_GET['ISBN'];
+        if(isset($_GET['Amount']))
+            $amount = $_GET['Amount'];
+
         if(isset($_POST['Title']))
             $title = $_POST['Title'];
         if(isset($_POST['Category']))
@@ -108,61 +118,83 @@
                 die("無法選擇資料庫");
             }
             mysqli_query($conn, "SET NAMES 'utf8'");
-            $Email = $_SESSION['email'];
-            $sql = 'SELECT * FROM users WHERE Email = "'.$_SESSION['email'].'";';
-            //送出UTF8編碼的MySQL指令
-            $result = mysqli_query($conn, $sql);
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $mid = $row['ID']/1;
 
-
-            /*insert used_book*/
-            $sql = "INSERT INTO used_book VALUES ('$title','$ISBN','$category',$amount);";
-            $result = mysqli_query($conn, $sql);
-            if(!$result){   //already have same book
-                /*get used_book*/ 
-                $sql = "SELECT * FROM used_book WHERE ISBN = '$ISBN';";
-                $result = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-                $amount += $row['Amount'];
-                $sql = "UPDATE used_book SET used_book.Amount = $amount WHERE ISBN = '$ISBN';";
-                $result = mysqli_query($conn, $sql);
-                $amount -= $row['Amount'];
+            if(strcmp($category,"沒有我要的") == 0){
+                $comfirm_page = '&ISBN='.$ISBN.'';
+                $comfirm_page .= '&Title='.$title.'';
+                $comfirm_page .= '&Amount='.$amount.'';
                 echo '<script>
-                var r = alert("非常感謝您的捐贈"); 
+                var category = prompt("請輸入書本類別 : ");
+                if (category != null) {
+                    var location = "donation.php?Category=" + category + "'.$comfirm_page.'";
+                    document.getElementById("demo").innerHTML =
+                    location;
+                    location.href = location;
+                }
+                else{
+                    alert("捐贈失敗，請輸入完整資料後再試一次");
+                }
                 </script>';
             }
             else{
-                echo '<script>
-                var r = alert("非常感謝您的捐贈"); 
-                </script>'; 
-            }
-
-            /*insert donor*/
-            $sql = "INSERT INTO donor VALUES ($mid,'$ISBN',$amount);";
-            $result = mysqli_query($conn, $sql);
-            if(!$result){
-                /*get used_book*/ 
-                $sql = "SELECT * FROM donor WHERE MID = $mid;";
+                $Email = $_SESSION['email'];
+                $sql = 'SELECT * FROM users WHERE Email = "'.$_SESSION['email'].'";';
+                //送出UTF8編碼的MySQL指令
                 $result = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                $mid = $row['ID']/1;
 
-                $amount += $row['Amount'];
-                $sql = "UPDATE donor SET donor.Amount = $amount WHERE MID = $mid AND ISBN = '$ISBN';";
+
+                /*insert used_book*/
+                $sql = "INSERT INTO used_book VALUES ('$title','$ISBN','$category',$amount);";
                 $result = mysqli_query($conn, $sql);
-                $amount -= $row['Amount'];
-                // echo '<script>
-                // var r = alert("再加入donor"); 
-                // </script>';
+                if(!$result){   //already have same book
+                    /*get used_book*/ 
+                    $sql = "SELECT * FROM used_book WHERE ISBN = '$ISBN';";
+                    $result = mysqli_query($conn, $sql);
+                    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+                    $amount += $row['Amount'];
+                    $sql = "UPDATE used_book SET used_book.Amount = $amount WHERE ISBN = '$ISBN';";
+                    $result = mysqli_query($conn, $sql);
+                    $amount -= $row['Amount'];
+                    echo '<script>
+                    var r = alert("非常感謝您的捐贈"); 
+                    location.href = "donation.php";
+                    </script>';
+                }
+                else{
+                    echo '<script>
+                    var r = alert("非常感謝您的捐贈"); 
+                    location.href = "donation.php";
+                    </script>'; 
+                }
+
+                /*insert donor*/
+                $sql = "INSERT INTO donor VALUES ($mid,'$ISBN',$amount);";
+                $result = mysqli_query($conn, $sql);
+                if(!$result){
+                    /*get used_book*/ 
+                    $sql = "SELECT * FROM donor WHERE MID = $mid;";
+                    $result = mysqli_query($conn, $sql);
+                    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+                    $amount += $row['Amount'];
+                    $sql = "UPDATE donor SET donor.Amount = $amount WHERE MID = $mid AND ISBN = '$ISBN';";
+                    $result = mysqli_query($conn, $sql);
+                    $amount -= $row['Amount'];
+                    // echo '<script>
+                    // var r = alert("再加入donor"); 
+                    // </script>';
+                }
+                else{
+                    // echo '<script>
+                    // var r = alert("加入donor"); 
+                    // </script>'; 
+                }
+                $sql = "UPDATE users SET users.Reward_points =  users.Reward_points + $amount WHERE Email = '$Email';";
+                $result = mysqli_query($conn, $sql);
             }
-            else{
-                // echo '<script>
-                // var r = alert("加入donor"); 
-                // </script>'; 
-            }
-            $sql = "UPDATE users SET users.Reward_points =  users.Reward_points + $amount WHERE Email = '$Email';";
-            $result = mysqli_query($conn, $sql);
         }
     ?>
     <form action="donation.php" method="post">
@@ -177,7 +209,36 @@
             <input type="text" name="ISBN" id="ISBN" required />
             <br>
             <label for="Category">類別:</label>
-            <input type="text" name="Category" id="Category" required />
+            <?php
+            $servername = "220.132.211.121";
+            $username = "ZYS";
+            $pass = "qwe12345";
+            $dbname = "bookstore";
+            $conn = mysqli_connect($servername, $username, $pass);
+            if (empty($conn)) {
+                print mysqli_error($conn);
+                die("無法連結資料庫");
+                exit;
+            }
+            if (!mysqli_select_db($conn, $dbname)) {
+                die("無法選擇資料庫");
+            }
+            mysqli_query($conn, "SET NAMES 'utf8'");
+            echo'
+            <select name="Category" id="Category">
+            '
+            ;
+                        
+            $sql = "SELECT DISTINCT Category, sum(Amount) as amount FROM used_book GROUP BY Category;";
+            $result = mysqli_query($conn, $sql);
+            while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                echo '<option value="'.$row['Category'].'">'.$row['Category'].'</option>';
+            }
+            echo '<option value="沒有我要的">沒有我要的</option>
+            </select>
+            ';
+            ?>
+            <!-- <input type="text" name="Category" id="Category" required /> -->
             <br>
             <label for="Amount">數量:</label>
             <input type="text" value="1" name="Amount" maxlength="3">

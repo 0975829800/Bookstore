@@ -136,7 +136,7 @@
                 echo '<script language="javascript">';
                 echo 'var check = confirm("總共為' . $sum . '元\n是否確認購買?");';
                 echo 'if (check){
-                        location.href = "'.$comfirm_page.'"
+                        location.href = "'.$comfirm_page.'";
                     }';
                 echo '</script>';
             }
