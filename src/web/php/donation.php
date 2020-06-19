@@ -119,7 +119,7 @@
             }
             mysqli_query($conn, "SET NAMES 'utf8'");
 
-            if(strcmp($category,"沒有我要的") == 0){
+            if(strcmp($category,"其他") == 0){
                 $comfirm_page = '&ISBN='.$ISBN.'';
                 $comfirm_page .= '&Title='.$title.'';
                 $comfirm_page .= '&Amount='.$amount.'';
@@ -234,7 +234,7 @@
             while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
                 echo '<option value="'.$row['Category'].'">'.$row['Category'].'</option>';
             }
-            echo '<option value="沒有我要的">沒有我要的</option>
+            echo '<option value="其他">其他</option>
             </select>
             ';
             ?>

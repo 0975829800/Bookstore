@@ -185,7 +185,7 @@
                                     <a class = "link" href=".\product.php?pid=' . $pid . '">' . $row['Name'] . '</a>
                                 </td>
                                 <td>
-                                    <p>' . $row['Price'] . '</p>
+                                    <p>NT' . $row['Price'] . '</p>
                                 </td>
                                 <td>
                                     <form action="' . $destination . '" method = "post">
