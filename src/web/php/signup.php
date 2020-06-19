@@ -21,32 +21,47 @@
         $password = $_POST["password"];
     if (isset($_POST["address"]))
         $address = $_POST["address"];
-    if (isset($_POST["ID"]))
-        $ID = $_POST["ID"];
 
-    if ($Email != "" && $password != "" && $address != "" && $ID != -1) {
-        $link = mysqli_connect(
-            "220.132.211.121",
-            "ZYS",
-            "qwe12345",
-            "bookstore"
-        )
-            or die("無法開啟MySQL資料庫連接!<br/>");
-        // echo "資料庫bookstore開啟成功!<br/>";
-        mysqli_query($link, 'SET NAMES utf8');
-        $sql = "INSERT INTO users(ID,Flag,Email,Password,Address,Reward_points) VALUES ($ID,1,'$Email','$password','$address',0)"; // 指定SQL字串        echo "SQL字串: $sql <br/>";
-        // echo $sql;
-
-        //送出UTF8編碼的MySQL指令
-        if (mysqli_query($link, $sql)) {
+    if ($Email != "" && $password != "" && $address != "") {
+        $servername = "220.132.211.121";
+        $username = "ZYS";
+        $pass = "qwe12345";
+        $dbname = "bookstore";
+        $conn = mysqli_connect($servername, $username, $pass);
+        if (empty($conn)) {
+            print mysqli_error($conn);
+            die("無法連結資料庫");
+            exit;
+        }
+        if (!mysqli_select_db($conn, $dbname)) {
+            die("無法選擇資料庫");
+        }
+        // 設定連線編碼
+        mysqli_query($conn, "SET NAMES 'utf8'");
+        if ($conn->connect_error) {
+            die("連接失敗: " . $conn->connect_error);
+        }
+        $sql = "SELECT * FROM users WHERE Email = '$Email'";
+        $result = mysqli_query($conn, $sql);
+        $nums = mysqli_num_rows($result);
+        if(!$nums){ //not have same email
+            $rand = rand(1,9999999999);
+            $sql = "INSERT INTO users(ID,Flag,Email,Password,Address,Reward_points) VALUES ($rand,1,'$Email','$password','$address',0)";
+            while(!($conn->query($sql) === TRUE)) {
+                $rand = rand(1,9999999999);
+                $sql = "INSERT INTO users(ID,Flag,Email,Password,Address,Reward_points) VALUES ($rand,1,'$Email','$password','$address',0)";
+            } 
             echo '<script language="javascript">';
-            echo 'alert("註冊成功，請再次登入");';
-            echo '</script>';
-        } else {
-            echo '<script language="javascript">';
-            echo 'alert("註冊失敗，請檢查輸入有無錯誤\n或帳號、ID已被註冊");';
+            echo 'alert("註冊成功，請再去登入");';
             echo '</script>';
         }
+        else{
+            echo '<script language="javascript">';
+            echo 'alert("註冊失敗，帳號已被註冊");';
+            echo '</script>';
+        }
+        //送出UTF8編碼的MySQL指令
+        
     }
 
     // 建立MySQL的資料庫連接 
@@ -138,11 +153,8 @@
             <label for="address">地址:</label>
             <input type="text"" name=" address" id="address" required />
             <br>
-            <br>
-            <label for="id"">輸入ID(數字0~9999999999) :</label>
-            <input type=" value" name="ID" id="ID">
-                <br>
-                <input type="submit" value="註冊" />
+
+            <input type="submit" value="註冊" />
         </div>
     </form>
 </body>
